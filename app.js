@@ -1,8 +1,16 @@
 const   express         = require('express'),
+        app             = express(), 
         mongoose        = require('mongoose'),
         bodyParser      = require('body-parser');  
 
-const   app = express(); 
+//REQUIRE ROUTE FILES:
+const   exerciseRoutes  = require('./routes/exercises'), 
+        commentRoutes   = require('./routes/comments'),
+        indexRoutes     = require('./routes/index'); 
+
+app.use('/', indexRoutes); 
+app.use('/exercises', exerciseRoutes); 
+app.use('/exercises/:slug/comments', commentRoutes);
 
 //CONFIGURATION OF mongoose, bodyParser, ejs and setting the use of public folders for CSS; 
 mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }); 
@@ -11,14 +19,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); 
 
 //CONFIGURE PASSPORT: 
-
-app.get("/", (req, res)=>{
-    res.send("CONNECTED"); 
-});
-
-app.get("/:dog", (req, res)=>{
-    res.send("My favourite dog is " + req.params.dog); 
-}); 
+ 
 
 //SET UP PORT: 
 app.listen(3000, ()=>{
