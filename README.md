@@ -1,6 +1,6 @@
 # kinetic
 
-kinetic is an open-source exercise-sharing platform for rehabilitaition professionals.
+kinetic is an open-source exercise-sharing platform for rehabilitation professionals.
 
 The goals of this application are: 
 <ul>
