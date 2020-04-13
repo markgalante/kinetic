@@ -1,4 +1,5 @@
 const   mongoose    = require('mongoose'), 
+        User        = require('./user');
 
 const exerciseSchema = new mongoose.Schema({
     name: { type: String, required: "This field cannot be left blank"}, 
