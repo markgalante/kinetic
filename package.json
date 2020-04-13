@@ -1,0 +1,19 @@
+{
+  "name": "kinetic",
+  "version": "1.0.0",
+  "description": "An open-source exercise-sharing platform for rehabilitation professionals. ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markgalante/kinetic.git"
+  },
+  "author": "Mark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/markgalante/kinetic/issues"
+  },
+  "homepage": "https://github.com/markgalante/kinetic#readme"
+}
