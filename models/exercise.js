@@ -27,9 +27,21 @@ const exerciseSchema = new mongoose.Schema({
     recommends: [
         {
             type: mongoose.Schema.Types.ObjectId, 
-            ref: User
+            ref: "User"
         }
-    ]
+    ], 
+    reference: {
+        authors:[{
+            firstNames: String,
+            surnames: String, 
+            year: Date, 
+            title: String, 
+            journal: String, 
+            edition: String, 
+            pageStart: Number,
+            pageEnd: Number
+        }]
+    }
 });
 
 var Exercise = mongoose.model("Exercise", exerciseSchema); 
