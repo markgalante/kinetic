@@ -12,7 +12,11 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     bio: String,
-    graduated: Date
+    graduated: Date, 
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }]
 }); 
 
 module.exports = mongoose.model("User", UserSchema); 
