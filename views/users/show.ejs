@@ -1,0 +1,31 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="card mx-auto my-2" style="width: 18rem;">
+                <img src="<%=user.image%>" class="card-img-top" id="profilePic" alt="image of <%= user.name %>">
+                <div class="card-body">
+                    <div class="mx-4">
+                        <h6 style="display: inline;">Profession:</h6>
+                        <p class="text-justify d-inline card-text"><%= user.profession %></p>
+                    </div>
+                    <div class="mx-4">
+                        <h6 style="display: inline;">Graduated:</h6>
+                        <p class="text-justify d-inline card-text"><%= user.graduated %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 my-lg-5 my-2">
+            <h1 class="text-center"><%= user.firstName %> <%= user.lastName%></h1>
+            <h3 class="text-center text-muted"><%= user.username %></h3>
+            <div class="mx-4">
+                <h4>About:</h4>
+                <p class="text-justify" id="bio"><%= user.bio %></p>
+            </div>
+        </div>  
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

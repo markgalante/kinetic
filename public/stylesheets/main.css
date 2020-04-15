@@ -16,3 +16,11 @@
 .hideAlert{
     display: none;
 }
+
+#profilePic{
+    width: 100%;
+}
+
+#bio{
+    font-size: 1.2em;
+}
