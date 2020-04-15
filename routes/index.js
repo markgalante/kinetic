@@ -66,9 +66,8 @@ router.get('/:username', (req, res)=>{
         if(err){
             console.log(err.message); 
             res.render('/register'); 
-        } else{
-            res.send(foundUser); 
-            // res.render('show', {user:foundUser}); 
+        } else{ 
+            res.render('./users/show', {user:foundUser}); 
         }
     })
 }); 
