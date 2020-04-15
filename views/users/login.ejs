@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+
+<h1 class="text-center">Login</h1>
+<div class="row">
+    <form class="w-75 m-auto" action="/login" method="POST">
+        <div class="form-group">
+            <label>Username:</label>
+            <input class="form-control" type="text" name="username">
+        </div>
+        <div class="form-group">
+            <label>Password:</label>
+            <input class="form-control" type="password" name="password">
+        </div>
+        <div class="form-group">    
+            <input class="btn btn-primary w-100" type="submit" value="Login">
+        </div>
+    </form> 
+</div>
+
+<div>
+    <hr class="w-75">
+    <p class="d-block text-center">Not registered? Why wait?! Click <a href="/register">here</a>!</p>
+    <hr class="w-75">
+    <p class="d-block text-center">Forgot your login details? Click <a href="#">here</a>.</p>
+</div>
+
+<%- include("../partials/footer") %>
