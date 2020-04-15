@@ -33,7 +33,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="qualified">Qualified Since</label>
-                <select class="form-control" id="qualified" name="register[qualified]">
+                <select class="form-control" id="qualified" name="register[graduated]">
                     <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
                     <% for(year=current; year >= start; year--){ %> 
                         <option><%= year %></option>
@@ -57,10 +57,24 @@
             <label for="password2">Re-enter Password</label>
             <input type="password" class="form-control" id="password2" name="register[password2]" required>
         </div>
+         
         <div class="form-group">    
             <input class="btn btn-primary w-100" type="submit" value="Register">
         </div>
     </form> 
 </div>
+
+<script>
+    const password2 = document.querySelector("#password2");  
+    const password = document.querySelector("#password"); 
+    const submitButton;
+    password2.addEventListener("change", ()=>{ 
+        if(password2.value === password.value){ 
+            submitButton= "btn btn-primary w-100 disabled"; 
+        } else{
+            submitButton = "btn btn-primary w-100" 
+        } 
+}); 
+</script>
 
 <%- include("../partials/footer") %>
