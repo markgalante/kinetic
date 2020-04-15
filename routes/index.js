@@ -63,7 +63,7 @@ router.post('/register', upload.single('image'), (req, res)=>{
 
 router.get('/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
-        if(err || !foundUser){
+        if(err){
             console.log(err.message); 
             res.render('/register'); 
         } else{
