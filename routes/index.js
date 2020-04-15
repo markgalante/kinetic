@@ -3,8 +3,8 @@ const   express     = require('express'),
         Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment');
 
-router.get('/', (req, res)=>{
-    res.send('USER ROUTE WORKING!'); 
+router.get('/register', (req, res)=>{
+    res.render('users/register'); 
 }); 
 
 module.exports = router; 
