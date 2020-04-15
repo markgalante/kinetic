@@ -59,20 +59,24 @@
         </div>
          
         <div class="form-group">    
-            <input class="btn btn-primary w-100" type="submit" value="Register">
+            <button class="btn btn-secondary w-100 disabled" id="registerButton" type="submit" value="Register" disabled>Register</button>
         </div>
     </form> 
 </div>
 
+<script src="ejs.min.js"></script>
 <script>
+    console.log("WORKING")
     const password2 = document.querySelector("#password2");  
     const password = document.querySelector("#password"); 
-    const submitButton;
-    password2.addEventListener("change", ()=>{ 
+    password2.addEventListener("input", ()=>{ 
         if(password2.value === password.value){ 
-            submitButton= "btn btn-primary w-100 disabled"; 
+            document.querySelector("#registerButton").className="btn btn-primary w-100"
+            document.querySelector("#registerButton").disabled=false;
         } else{
-            submitButton = "btn btn-primary w-100" 
+            document.querySelector("#registerButton").className="btn btn-secondary w-100 disabled"
+            document.querySelector("#registerButton").disabled=true; 
+            consoe.log("not similar")
         } 
 }); 
 </script>
