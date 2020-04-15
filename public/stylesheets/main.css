@@ -1,0 +1,18 @@
+.showAlert{
+    display: block;
+    border: 1px solid darkred ;
+    border-radius: 5px; 
+    margin: 10px 0;
+    background-color: rgb(250, 215, 215);
+}
+
+.alertText{
+    font-weight: 600;
+    color: red;
+    margin: 7px auto;
+    text-align: center;
+}
+
+.hideAlert{
+    display: none;
+}
