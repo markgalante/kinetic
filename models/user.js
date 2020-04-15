@@ -3,7 +3,7 @@ const   mongoose                = require('mongoose'),
 
 const UserSchema = new mongoose.Schema({
     username: {type: String, unique: true}, 
-    password: String, 
+    // password: String, 
     firstName: String, 
     lastName: String,
     image: String, 
@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     bio: String,
-    graduated: Date, 
+    graduated: Number, 
     followers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
