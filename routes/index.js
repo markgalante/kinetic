@@ -35,7 +35,7 @@ cloudinary.config({
 
 //GET: REGISTER PAGE
 router.get('/register', (req, res)=>{
-    res.render('users/register'); 
+    res.render('users/register', {page:'register'}); 
 }); 
 
 //POST: REGISTER USER 
@@ -54,14 +54,14 @@ router.post('/register', upload.single('image'), (req, res)=>{
                 return res.redirect('back');
             }
             passport.authenticate('local')(req, res, ()=>{
-                res.redirect('/' + user.username); 
+                res.redirect('/'); 
             });
             console.log(user);  
         });
     });     
 }); 
 
-router.get('/:username', (req, res)=>{
+router.get('/profile/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
         if(err){
             console.log(err.message); 
@@ -70,6 +70,22 @@ router.get('/:username', (req, res)=>{
             res.render('./users/show', {user:foundUser}); 
         }
     })
+}); 
+
+router.get('/login', (req, res)=>{
+    res.render('./users/login', {page: 'login'}); 
+});  
+
+router.post("/login", passport.authenticate("local", { //uses middleware from passport.authenticate
+	successRedirect: "/campgrounds",
+	failureRedirect: "/register"
+	}), (req, res)=>{ 	
+
+});
+
+router.get('/logout', (req, res)=>{
+    req.logout(); 
+    res.redirect('/')
 }); 
 
 module.exports = router; 
