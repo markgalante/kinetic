@@ -2,6 +2,63 @@
 
 <h1 class="text-center">New exercise</h1>
 
+
+<div class="row">
+    <form class="w-75 m-auto"action="/" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" type="text" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="image">Images</label>
+            <input type="file" name="image" id="image" accept="image/*"> 
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
+        </div>
+        <div class="form-group">
+            <label for="muscle">Primary muscle targeted</label>
+            <select class="form-control" name="muscle" id="muscle">
+                <option>Soleus</option>
+                <option>Gastrocnemius</option>
+                <option>Tibialis Anterior</option>
+                <option>Sartorius</option>
+            </select>
+        </div>
+            <div class="reference group">
+                <label>Add Author</label>
+                <div class="form-group">
+                    <input type="text" name="reference[authors]" placeholder="Author: Surname, Initials" class="form-control authorName">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="reference[title]" placeholder="Title of Article" class="form-control">
+                </div>
+                <div class="form-group">   
+                    <input type="text" name="reference[journal]" placeholder="Journal" class="form-control">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <input type="text" name="reference[year]" placeholder="Year" class="form-control">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="number" name="reference[edition]" placeholder="Edition" class="form-control">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="number" name="reference[pageStart]" placeholder="Start Page" class="form-control"> 
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="number" name="reference[pageEnd]" placeholder="End Page" class="form-control">
+                    </div>
+                </div>
+            </div>
+        <div class="form-group">    
+            <button class="btn btn-secondary w-100" id="submitExercise" type="submit">Submit</button>
+        </div>
+    </form> 
+</div>
+
+
 <a href="/exercises">Go back</a>
 
 <%- include("../partials/footer") %>
