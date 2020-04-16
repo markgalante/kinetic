@@ -30,18 +30,16 @@ const exerciseSchema = new mongoose.Schema({
             ref: "User"
         }
     ], 
-    reference: {
-        authors:[{
-            firstNames: String,
-            surnames: String, 
-            year: Date, 
-            title: String, 
-            journal: String, 
-            edition: String, 
-            pageStart: Number,
-            pageEnd: Number
-        }]
-    }
+    reference:[{
+        authors:Array,  
+        year: String, 
+        title: String, 
+        journal: String, 
+        edition: String, 
+        pageStart: Number,
+        pageEnd: Number
+    }], 
+    muscle: String
 });
 
 var Exercise = mongoose.model("Exercise", exerciseSchema); 
