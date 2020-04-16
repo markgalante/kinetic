@@ -5,26 +5,26 @@
     <form class="w-75 m-auto"action="/register" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="username">Username</label>
-            <input class="form-control" id="username" type="text" name="register[username]" required>
+            <input class="form-control" id="username" type="text" name="username" required>
         </div>
         <div class="form-row">
            <div class="form-group col-md-6">
                 <label for="firstName">First Name</label>
-                <input class="form-control" id="firstName" type="text" name="register[firstName]" required>
+                <input class="form-control" id="firstName" type="text" name="firstName" required>
            </div>
            <div class="form-group col-md-6">
                 <label for="lastName">Surname</label>
-                <input class="form-control" id="lastName" type="text" name="register[lastName]" required>
+                <input class="form-control" id="lastName" type="text" name="lastName" required>
             </div>
         </div>
         <div class="form-group">
             <label for="email">Email address:</label>
-            <input class="form-control" id="email" type="email" name="register[email]" placeholder="john@example.com" required>
+            <input class="form-control" id="email" type="email" name="email" placeholder="john@example.com" required>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="profession">Profession</label>
-                <select class="form-control" name="register[profession]" id="profession">
+                <select class="form-control" name="profession" id="profession">
                     <option>Physiotherapist/Physical Therapist</option>
                     <option>Occupational Therapist</option>
                     <option>Biokineticist</option>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="qualified">Qualified Since</label>
-                <select class="form-control" id="qualified" name="register[graduated]">
+                <select class="form-control" id="qualified" name="graduated">
                     <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
                     <% for(year=current; year >= start; year--){ %> 
                         <option><%= year %></option>
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label for="bio">About Yourself</label>
-            <textarea id="bio" class="form-control" name="register[bio]" rows=5></textarea>
+            <textarea id="bio" class="form-control" name="bio" rows=5></textarea>
         </div>
         <div class="form-group">
             <label for="image">Profile Picture</label>
@@ -51,11 +51,11 @@
         </div>
         <div class="form-group">
             <label for="password">Enter Password</label>
-            <input type="password" class="form-control" id="password" name="register[password]" required>
+            <input type="password" class="form-control" id="password" name="password">
         </div>
         <div class="form-group">
             <label for="password2">Re-enter Password</label>
-            <input type="password" class="form-control" id="password2" name="register[password2]" required>
+            <input type="password" class="form-control" id="password2">
         </div>
         <div class="hideAlert">
             <p class="alertText">Passwords do not match</p>
