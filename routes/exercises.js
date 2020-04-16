@@ -4,7 +4,12 @@ const   express     = require('express'),
         Comment     = require('../models/comment');
 
 router.get('/', (req, res)=>{
-    res.send('EXERCISE ROUTE WORKING!'); 
+    Exercise.find({}, (err, exercise)=>{
+        if(err){
+            console.log(err); 
+        }
+        res.render('./exercises/index', {exercise:exercise}); 
+    }); 
 }); 
 
 module.exports = router; 
