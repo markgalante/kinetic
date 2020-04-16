@@ -45,21 +45,42 @@ router.post('/register', upload.single('image'), (req, res)=>{
             console.log(err.message); 
             res.redirect('back'); 
         } 
-        req.body.register.image = result.secure_url; 
-        req.body.register.imageId = result.public_id; 
+        req.body.image = result.secure_url; 
+        req.body.imageId = result.public_id; 
 
-        User.register(req.body.register, req.body.register.password, (err, user)=>{
+        const newUser = new User({
+            username: req.body.username, 
+            firstName: req.body.firstName, 
+            lastName: req.body.lastName, 
+            image: req.body.image, 
+            imageId: req.body.imageId, 
+            bio: req.body.bio, 
+            profession: req.body.profession, 
+            graduated: req.body.graduated,
+            email: req.body.email,  
+        }); 
+
+        User.register(newUser, req.body.password, (err, user)=>{
             if(err){
                 console.log(err.message); 
                 return res.redirect('back');
             }
-            passport.authenticate('local')(req, res, ()=>{
-                res.redirect('/'); 
+            passport.authenticate('local')(req, res, (err, auth)=>{
+                console.log("TaKE NOTE WITH PASSPORT AUTHENTICATE:" + err, auth)
+                res.redirect('/')
             });
-            console.log(user);  
+            console.log(user); 
         });
     });     
 }); 
+
+router.get('/login', (req, res)=>{
+    res.render('./users/login', {page: 'login'}); 
+});  
+
+router.post('/login',
+passport.authenticate('local', { successRedirect: '/success',
+                                 failureRedirect: '/fail' }));
 
 router.get('/profile/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
@@ -72,20 +93,18 @@ router.get('/profile/:username', (req, res)=>{
     })
 }); 
 
-router.get('/login', (req, res)=>{
-    res.render('./users/login', {page: 'login'}); 
-});  
-
-router.post("/login", passport.authenticate("local", { //uses middleware from passport.authenticate
-	successRedirect: "/campgrounds",
-	failureRedirect: "/register"
-	}), (req, res)=>{ 	
-
+router.get('/fail', (req, res)=>{
+    res.send("Login fails"); 
+});
+router.get('/success', (req, res)=>{
+    res.send("Login success"); 
 });
 
+//LOGOUT
 router.get('/logout', (req, res)=>{
     req.logout(); 
     res.redirect('/')
+    console.log("logged out")
 }); 
 
 module.exports = router; 
