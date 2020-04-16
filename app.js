@@ -40,6 +40,7 @@ app.use((req, res, next)=>{
     next()
 });
 
+//MUST BE BELOW PASSPORT CONFIGURATION! 
 app.use('/', indexRoutes); 
 app.use('/exercises', exerciseRoutes); 
 app.use('/exercises/:slug/comments', commentRoutes);
@@ -47,4 +48,4 @@ app.use('/exercises/:slug/comments', commentRoutes);
 //SET UP PORT: 
 app.listen(3000, ()=>{
     console.log("Connected to kinetic!")
-})
+});
