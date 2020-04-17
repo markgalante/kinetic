@@ -31,7 +31,7 @@ const exerciseSchema = new mongoose.Schema({
         }
     ], 
     reference:[{
-        authors:Array,  
+        authors:String,  
         year: String, 
         title: String, 
         journal: String, 
