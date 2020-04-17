@@ -26,39 +26,55 @@
                 <option>Sartorius</option>
             </select>
         </div>
-            <div class="reference group">
-                <label>Add Author</label>
-                <div class="form-group">
-                    <input type="text" name="reference[authors]" placeholder="Author: Surname, Initials" class="form-control authorName">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="reference[title]" placeholder="Title of Article" class="form-control">
-                </div>
-                <div class="form-group">   
-                    <input type="text" name="reference[journal]" placeholder="Journal" class="form-control">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <input type="text" name="reference[year]" placeholder="Year" class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <input type="number" name="reference[edition]" placeholder="Edition" class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <input type="number" name="reference[pageStart]" placeholder="Start Page" class="form-control"> 
-                    </div>
-                    <div class="form-group col-md-3">
-                        <input type="number" name="reference[pageEnd]" placeholder="End Page" class="form-control">
-                    </div>
-                </div>
+            <div id="references">
+                
             </div>
+            <a class="btn btn-secondary btn-sm newRef">Add Reference</a>
         <div class="form-group">    
-            <button class="btn btn-secondary w-100" id="submitExercise" type="submit">Submit</button>
+            <input class="btn btn-primary w-100" id="submitExercise" type="submit" value="Submit">
         </div>
     </form> 
 </div>
 
 
 <a href="/exercises">Go back</a>
+
+
+
+<script>
+    var newRefButton = document.querySelector('.newRef');
+    var references  = document.querySelector('#references');
+    var ref = document.querySelector('.reference-group');  
+        
+    newRefButton.addEventListener('click', ()=>{
+        var div = document.createElement('div');
+        div.innerHTML = `
+            <div class="form-group">
+                <input type="text" name="reference[authors]" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
+            </div>
+            <div class="form-group">
+                <input type="text" name="reference[title]" placeholder="Title of Article" class="form-control">
+            </div>
+            <div class="form-group">   
+                <input type="text" name="reference[journal]" placeholder="Journal" class="form-control">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="reference[year]" placeholder="Year" class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="number" name="reference[edition]" placeholder="Edition" class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="number" name="reference[pageStart]" placeholder="Start Page" class="form-control"> 
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="number" name="reference[pageEnd]" placeholder="End Page" class="form-control">
+                </div>
+            </div>
+        `; 
+        references.appendChild(div); 
+    }); 
+</script>
 
 <%- include("../partials/footer") %>
