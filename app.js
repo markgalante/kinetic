@@ -2,8 +2,7 @@ const   express         = require('express'),
         app             = express(), 
         mongoose        = require('mongoose'),
         bodyParser      = require('body-parser'),
-        passport        = require('passport'), 
-        passportLocalMongoose = require('passport-local-mongoose'), 
+        passport        = require('passport'),  
         LocalStrategy   = require('passport-local'),    
         User            = require('./models/user');
 
