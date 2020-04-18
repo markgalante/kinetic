@@ -4,10 +4,10 @@
 
 
 <div class="row">
-    <form class="w-75 m-auto"action="/exercises" method="POST" enctype="multipart/form-data">
+    <form class="w-75 m-auto" action="/exercises" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label>Name</label>
-            <input class="form-control" type="text" name="name" required>
+            <input class="form-control" type="text" name="exercise[name]">
         </div>
         <div class="form-group">
             <label for="image">Images</label>
@@ -15,11 +15,11 @@
         </div>
         <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
+            <textarea class="form-control" name="exercise[description]" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
         </div>
         <div class="form-group">
             <label for="muscle">Primary muscle targeted</label>
-            <select class="form-control" name="muscle" id="muscle">
+            <select class="form-control" name="exercise[muscle]" id="muscle">
                 <option>Soleus</option>
                 <option>Gastrocnemius</option>
                 <option>Tibialis Anterior</option>
@@ -27,7 +27,7 @@
             </select>
         </div>
             <div id="references">
-                
+                <!-- References will go here -->
             </div>
             <a class="newRef" href="#">Add Reference</a>
         <div class="form-group">    
@@ -45,35 +45,36 @@
     var newRefButton = document.querySelector('.newRef');
     var references  = document.querySelector('#references');
     var ref = document.querySelector('.reference-group');  
-        
+    var list = 0    
     newRefButton.addEventListener('click', ()=>{
         var div = document.createElement('div');
         div.innerHTML = `
             <div class="form-group">
-                <input type="text" name="reference[authors]" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
+                <input type="text" name="exercise[reference][${list}][authors]" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
             </div>
             <div class="form-group">
-                <input type="text" name="reference[title]" placeholder="Title of Article" class="form-control">
+                <input type="text" name="exercise[reference][${list}][title]" placeholder="Title of Article" class="form-control">
             </div>
             <div class="form-group">   
-                <input type="text" name="reference[journal]" placeholder="Journal" class="form-control">
+                <input type="text" name="exercise[reference][${list}][journal]" placeholder="Journal" class="form-control">
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <input type="text" name="reference[year]" placeholder="Year" class="form-control">
+                    <input type="text" name="exercise[reference][${list}][year]" placeholder="Year" class="form-control">
                 </div>
                 <div class="form-group col-md-3">
-                    <input type="number" name="reference[edition]" placeholder="Edition" class="form-control">
+                    <input type="number" name="exercise[reference][${list}][edition]" placeholder="Edition" class="form-control">
                 </div>
                 <div class="form-group col-md-3">
-                    <input type="number" name="reference[pageStart]" placeholder="Start Page" class="form-control"> 
+                    <input type="number" name="exercise[reference][${list}][pageStart]" placeholder="Start Page" class="form-control"> 
                 </div>
                 <div class="form-group col-md-3">
-                    <input type="number" name="reference[pageEnd]" placeholder="End Page" class="form-control">
+                    <input type="number" name="exercise[reference][${list}][pageEnd]" placeholder="End Page" class="form-control">
                 </div>
             </div>
         `; 
-        references.appendChild(div); 
+        references.appendChild(div);
+        list++ 
     }); 
 </script>
 
