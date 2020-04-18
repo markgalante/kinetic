@@ -18,4 +18,17 @@ router.get('/new', (req, res)=>{
     res.render('./exercises/new'); 
 }); 
 
+// NEW EXERCISE POST ROUTE 
+router.post('/', (req, res)=>{
+    Exercise.create(req.body.exercise, (err, newlyCreate)=>{
+        if(err){
+            console.log("EXERCISE CREATE ERROR MESSAGE: " + err);
+            console.log("REQ.BODY.EXERCISE: " + req.body.exercise); 
+            return res.redirect("back");  
+        }
+        console.log(newlyCreate); 
+        res.redirect("/exercises"); 
+    }); 
+}); 
+
 module.exports = router; 
