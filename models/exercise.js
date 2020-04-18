@@ -2,7 +2,10 @@ const   mongoose    = require('mongoose'),
         User        = require('./user');
 
 const exerciseSchema = new mongoose.Schema({
-    name: { type: String, required: "This field cannot be left blank"}, 
+    name: { 
+        type: String, 
+        required: "This field cannot be left blank"
+    }, 
     image: String, 
     imageId: String, 
     description: String, 
@@ -42,8 +45,6 @@ const exerciseSchema = new mongoose.Schema({
     muscle: String
 });
 
-var Exercise = mongoose.model("Exercise", exerciseSchema); 
-
 exerciseSchema.pre('save', async function(next){
     try{
         if(this.isNew || this.wasNew){
@@ -53,7 +54,10 @@ exerciseSchema.pre('save', async function(next){
     } catch(err){
         console.log(err.message); 
     }
-}); 
+});
+
+var Exercise = mongoose.model("Exercise", exerciseSchema); 
+module.exports = Exercise; 
 
 async function generateUniqueSlug(id, exerciseName, slug){
     try{
