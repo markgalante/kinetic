@@ -1,5 +1,6 @@
 const   express     = require('express'), 
         router      = express.Router(), 
+        multer      = require('multer'),
         Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment');
 
@@ -22,7 +23,11 @@ router.get('/new', (req, res)=>{
 
 // NEW EXERCISE POST ROUTE 
 router.post('/', (req, res)=>{
-    Exercise.create(req.body.exercise, (err, newlyCreate)=>{
+    const exercise = new Exercise({
+        name: req.body.name, 
+    }); 
+    console.log("REQ BODY NAME BEFORE CREATE" + req.body.name)
+    Exercise.create(exercise, (err, newlyCreate)=>{
         if(err){
             console.log("EXERCISE CREATE ERROR MESSAGE: " + err);
             console.log("REQ.BODY.EXERCISE: " + req.body.exercise); 
