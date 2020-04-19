@@ -20,10 +20,12 @@
         <div class="form-group">
             <label for="muscle">Primary muscle targeted</label>
             <select class="form-control" name="exercise[muscle]" id="muscle">
-                <option>Soleus</option>
-                <option>Gastrocnemius</option>
-                <option>Tibialis Anterior</option>
-                <option>Sartorius</option>
+                <option></option>
+                <%var muscleList = muscles.sort((a,b)=>a.name.localeCompare(b.name))%>
+                <% muscleList.forEach(muscle=>{ %> 
+                    <option><%=muscle.name%></option>
+                <% }) %>  
+                
             </select>
         </div>
             <div id="references">

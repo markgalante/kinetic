@@ -3,6 +3,8 @@ const   express     = require('express'),
         Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment');
 
+const muscles = require ('../public/muscles.json'); 
+
 // EXERCISE INDEX ROUTE 
 router.get('/', (req, res)=>{
     Exercise.find({}, (err, exercise)=>{
@@ -15,7 +17,7 @@ router.get('/', (req, res)=>{
 
 // NEW EXERCISE ROUTE
 router.get('/new', (req, res)=>{
-    res.render('./exercises/new'); 
+    res.render('./exercises/new', {muscles: muscles}); 
 }); 
 
 // NEW EXERCISE POST ROUTE 
