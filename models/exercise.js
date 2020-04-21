@@ -1,4 +1,5 @@
 const   mongoose    = require('mongoose'), 
+        Reference   = require('./reference'), 
         User        = require('./user');
 
 const exerciseSchema = new mongoose.Schema({
@@ -33,15 +34,12 @@ const exerciseSchema = new mongoose.Schema({
             ref: "User"
         }
     ], 
-    reference:[{
-        authors:String,  
-        year: String, 
-        title: String, 
-        journal: String, 
-        edition: String, 
-        pageStart: Number,
-        pageEnd: Number
-    }], 
+    reference:[
+        {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "Reference"
+        }
+    ], 
     muscle: String
 });
 
