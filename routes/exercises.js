@@ -44,21 +44,11 @@ router.get('/new', (req, res)=>{
 
 // NEW EXERCISE POST ROUTE 
 router.post('/', upload.single('image'), (req, res)=>{
-    const ref= {
-        authors: req.body.authors,  
-        year: req.body.year, 
-        title: req.body.title, 
-        journal: req.body.journal, 
-        edition: req.body.edition, 
-        pageStart: req.body.pageStart,
-        pageEnd: req.body.pageEnd
-    }
 
     const exercise = new Exercise({
         name: req.body.name,
         description: req.body.description,
-        muscle: req.body.muscle,
-        reference: {$push: {$each: ref}}
+        muscle: req.body.muscle
     }); 
     Exercise.create(exercise, (err, newlyCreate)=>{
         if(err){
