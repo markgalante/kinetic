@@ -3,4 +3,79 @@
 <p>Exercise show page.</p>
 <button><a href="/exercises/new">New Exercise</a></button>
 
+<form action="/exercises" method="POST" enctype="multipart/form-data">
+    <input type="text" name="name">
+    <input type="file" name="image" id="image" accept="image/*"> 
+    <textarea class="form-control" name="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
+    <select class="form-control" name="muscle" id="muscle">
+        <option></option>
+        <%var muscleList = muscles.sort((a,b)=>a.name.localeCompare(b.name))%>
+        <% muscleList.forEach(muscle=>{ %> 
+            <option><%=muscle.name%></option>
+        <% }) %>      
+    </select>
+    <div id="references">
+        <!-- References will go here -->
+    </div>
+    <a class="newRef" href="#">Add Reference</a>
+    <input type="submit">
+</form>
+
+<% exercises.forEach(exercise => { %> 
+    <div>
+        <p><%= exercise.name %></p>
+        <p><%= exercise.description %></p>
+        <p><%= exercise.muscle %></p>
+        <% exercise.reference.forEach(ref => { %> 
+            <span><%= ref.authors %>.</span>
+            <span><%= ref.year %>.</span>
+            <span><%= ref.title %>.</span>
+            <span><em><%= ref.journal %></em>.</span>
+            <span><%= ref.edition %>:</span>
+            <span><%= ref.pageStart %> - </span>
+            <span><%= ref.pageEnd %>.</span>
+        <% }) %> 
+    </div>
+<% }) %> 
+
+
+
+<script>
+    var newRefButton = document.querySelector('.newRef');
+    var references  = document.querySelector('#references');
+    var ref = document.querySelector('.reference-group');  
+    var list = 0    
+    newRefButton.addEventListener('click', ()=>{
+        var div = document.createElement('div');
+        div.innerHTML = `
+        <div class="form-group">
+                <input type="text" name="authors" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
+            </div>
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Title of Article" class="form-control">
+            </div>
+            <div class="form-group">   
+                <input type="text" name="journal" placeholder="Journal" class="form-control">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="year" placeholder="Year" class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="number" name="edition" placeholder="Edition" class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="number" name="pageStart" placeholder="Start Page" class="form-control"> 
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="number" name="pageEnd" placeholder="End Page" class="form-control">
+                </div>
+            </div>
+        `; 
+        references.appendChild(div);
+        list++ 
+    }); 
+</script>
+
+
 <%- include("../partials/footer") %>
