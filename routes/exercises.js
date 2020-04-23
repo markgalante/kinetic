@@ -55,6 +55,9 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
         req.body.video = result.secure_url; 
         req.body.videoId = result.public_id;  
 
+        req.body.author.id = req.user._id; 
+        req.body.username = req.user.username; 
+
         const exercise = new Exercise({
             name: req.body.name,
             description: req.body.description,
@@ -71,7 +74,19 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
             res.redirect("/exercises"); 
         }); 
     }); 
-    
+}); 
+
+//EXERCISE SHOW ROUTE
+
+router.get('/:slug', (req, res)=>{
+    Exercise.findOne({slug:req.params.slug}).populate('comments').exec((err, foundExercise) =>{
+        if(err || !foundExercise){
+            console.log(err.message)
+            return res.redirect('back');
+        } else{
+            res.render('./exercises/show', {exercise:foundExercise}); 
+        }
+    });
 }); 
 
 module.exports = router; 
