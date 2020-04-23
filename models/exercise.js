@@ -7,8 +7,8 @@ const exerciseSchema = new mongoose.Schema({
         type: String, 
         required: "This field cannot be left blank"
     }, 
-    image: String, 
-    imageId: String, 
+    video: String, 
+    videoId: String, 
     description: String, 
     author: {
         id: {

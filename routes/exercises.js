@@ -1,7 +1,8 @@
 const   express     = require('express'), 
         router      = express.Router(), 
         multer      = require('multer'),
-        cloudinary  = require('cloudinary'), 
+        cloudinary  = require('cloudinary'),
+        cloudinaryStorage = require('multer-storage-cloudinary'),  
         Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment'),
         muscles     = require ('../public/muscles.json'); 
@@ -9,16 +10,16 @@ const   express     = require('express'),
 //CONFIGURE MULTER: 
 const storage = multer.diskStorage({
     filename: (req, file, callback)=>{
-        callback(null, Date.now() + file.originalname); 
+        callback(null, file.originalname + '-' + Date.now()); 
     }
 });
-const imageFilter = (req, file, callback) => {
-    if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)){ //If the file name is NOT the following.
-        return callback(new Error('Only image files are allowed.'), false); 
+const filter = (req, file, callback) => {
+    if(!file.originalname.match(/\.(jpg|jpeg|mp4|webm|3gp|mov|png|gif)$/i)){ //If the file name is NOT the following.
+        return callback(new Error('Only image or video files are allowed.'), false); 
     }  
     callback(null, true); 
 };
-const upload = multer({storage: storage, fileFilter: imageFilter});
+const upload = multer({storage: storage, fileFilter:filter}); //fileFilter - function to control which files are uploaded
 
 //setting up cloudinary
 cloudinary.config({ 
@@ -43,21 +44,33 @@ router.get('/new', (req, res)=>{
 }); 
 
 // NEW EXERCISE POST ROUTE 
-router.post('/', upload.single('image'), (req, res)=>{
-
-    const exercise = new Exercise({
-        name: req.body.name,
-        description: req.body.description,
-        muscle: req.body.muscle
-    }); 
-    Exercise.create(exercise, (err, newlyCreate)=>{
+router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=>{
+    console.log(req.file.path); 
+    cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" },  (err, result)=>{
         if(err){
-           console.log("ERROR ADDING EXERCISE: " + err); 
-            return res.redirect("back");  
+            console.log("ERROR UPLOADING VIDEO: " + err.message); 
+            return res.redirect('back'); 
         }
-        console.log(newlyCreate); 
-        res.redirect("/exercises"); 
+        req.body.video = result.secure_url; 
+        req.body.videoId = result.public_id;  
+
+        const exercise = new Exercise({
+            name: req.body.name,
+            description: req.body.description,
+            muscle: req.body.muscle, 
+            video: req.body.video, 
+            videoId: req.body.videoId
+        }); 
+        Exercise.create(exercise, (err, newlyCreate)=>{
+            if(err){
+               console.log("ERROR ADDING EXERCISE: " + err); 
+                return res.redirect("back");  
+            }
+            console.log(newlyCreate); 
+            res.redirect("/exercises"); 
+        }); 
     }); 
+    
 }); 
 
 module.exports = router; 
