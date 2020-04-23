@@ -1,0 +1,45 @@
+<%- include("../partials/header") %>
+
+<div class="jumbotron mx-auto">
+    <h1 class="card-title text-center pb-2"><strong><%= exercise.name %></strong></h1>
+    <h6 class="card-title h6 text-center text-muted"><em>Submitted by </em><%= exercise.author.username %></h6>
+        <div class="view-overlay my-4">
+            <div class="embed-responsive embed-responsive-21by9">
+                <iframe class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
+              </div>
+        </div>
+    <p class="card-text"><%= exercise.description %></p>
+    <a><i class="far fa-check-circle"></i>Reccommend This</a>
+</div>
+
+<div class="jumbotron text-center mx-auto">
+    <h3 class="card-title pb-2"><strong>References</strong></h3>
+</div>
+<div class="jumbotron text-center mx-auto">
+    <h3 class="card-title pb-2"><strong>Comments</strong></h3>
+    <hr>
+    <% exercise.comments.forEach(comment => { %> 
+
+        <div class="row">
+            <div class="col-md-4">
+                <p><%= comment.author.username %></p>
+            </div>
+            <div class="col-md-8">
+                <p><%= comment.text %></p>
+            </div>
+        </div>
+
+
+    <% }) %> 
+    
+    <hr>
+    <form action="/exercises/<%= exercise.slug %>/comments" method="POST">
+        <div class="form-group">
+            <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control"></textarea>
+        </div>
+        <button class="btn btn-primary btn-sm">Submit</button>
+    </form>
+</div>
+
+
+<%- include("../partials/footer") %>
