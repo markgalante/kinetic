@@ -1,19 +1,18 @@
 <%- include("../partials/header") %>
 
-<p>Exercise show page.</p>
-<button><a href="/exercises/new">New Exercise</a></button>
-
 <div class="row">
     <!-- Exercises the user follows -->
     <div class="col-md-6">
-        <h3>Videos</h3> 
+        <h3 class="text-center">Videos</h3>
+        <% if(currentUser){ %>
+          <button class="btn btn-primary btn-sm mx-auto"><a href="/exercises/new" class="text-light">New Exercise</a></button>
+        <% } %> 
         <% exercises.forEach(exercise => { %> 
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                   <div class="col-md-4">
-                    <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
-                        <iframe class="embed-responsive-item" src="<%= exercise.video %>"
-                          allowfullscreen autoplay="false"></iframe>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
                     </div>
                   </div>
                   <div class="col-md-8">
@@ -30,7 +29,7 @@
 
     <!-- Top exercises -->
     <div class="col-md-6">
-        <h3>Posts</h3>
+        <h3 class="text-center">Posts</h3>
     </div>
 </div>
 
