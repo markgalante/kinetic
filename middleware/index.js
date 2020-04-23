@@ -11,3 +11,5 @@ middlewareObj.isLoggedIn = (req, res, next) => {
         console.log('You need to be logged in to do that.');
     }
 }
+
+module.exports = middlewareObj; 
