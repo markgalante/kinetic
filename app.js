@@ -9,7 +9,8 @@ const   express         = require('express'),
 //REQUIRE ROUTE FILES:
 const   exerciseRoutes  = require('./routes/exercises'), 
         commentRoutes   = require('./routes/comments'),
-        indexRoutes     = require('./routes/index'); 
+        indexRoutes     = require('./routes/index'), 
+        referenceRoutes = require('./routes/references'); 
 
 //CONFIGURATION OF mongoose, bodyParser, ejs and setting the use of public folders for CSS; 
 mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }); 
@@ -43,6 +44,7 @@ app.use((req, res, next)=>{
 app.use('/', indexRoutes); 
 app.use('/exercises', exerciseRoutes); 
 app.use('/exercises/:slug/comments', commentRoutes);
+app.use('/exercises/:slug/references', referenceRoutes); 
 
 //SET UP PORT: 
 app.listen(3000, ()=>{

@@ -1,0 +1,31 @@
+<%- include("../partials/header") %>
+
+<h1 class="text-center">New exercise</h1>
+
+<form action="/exercises/<%=%>/reference" method="POST">
+    <div class="form-group">
+        <input type="text" name="reference[${list}][authors]" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
+    </div>
+    <div class="form-group">
+        <input type="text" name="reference[${list}][title]" placeholder="Title of Article" class="form-control">
+    </div>
+    <div class="form-group">   
+        <input type="text" name="reference[${list}][journal]" placeholder="Journal" class="form-control">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <input type="text" name="reference[${list}][year]" placeholder="Year" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <input type="number" name="reference[${list}][edition]" placeholder="Edition" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <input type="number" name="reference[${list}][pageStart]" placeholder="Start Page" class="form-control"> 
+        </div>
+        <div class="form-group col-md-3">
+            <input type="number" name="reference[${list}][pageEnd]" placeholder="End Page" class="form-control">
+        </div>
+    </div>
+</form>
+
+<%- include("../partials/footer") %>
