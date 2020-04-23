@@ -35,9 +35,10 @@ app.get('/', (req, res)=>{
     res.send("HOME PAGE!")
 }); 
 
+//Allows passing of these objects into all routes. 
 app.use((req, res, next)=>{
     res.locals.currentUser = req.user; 
-    next()
+    next();
 });
 
 //MUST BE BELOW PASSPORT CONFIGURATION! 
