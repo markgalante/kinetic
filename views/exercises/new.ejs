@@ -4,80 +4,33 @@
 
 
 <div class="row">
-    <form class="w-75 m-auto" action="/exercises" method="POST" enctype="multipart/form-data">
+    <form action="/exercises" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label>Name</label>
-            <input class="form-control" type="text" name="exercise[name]">
+            <label>Name of Exercise</label>
+            <input type="text" name="name" class="form-control">
         </div>
         <div class="form-group">
-            <label for="image">Images</label>
-            <input type="file" name="image" id="image" accept="image/*"> 
+            <label>Attach a Video File</label>
+            <input type="file" name="video">
+        </div> 
+        <div class="form-group"> 
+            <label>Describe This Exercise Clearly</label>
+            <textarea class="form-control" name="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
         </div>
         <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="exercise[description]" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
-        </div>
-        <div class="form-group">
-            <label for="muscle">Primary muscle targeted</label>
-            <select class="form-control" name="exercise[muscle]" id="muscle">
-                <option></option>
+            <label>Select primary muscle targeted</label>
+            <select class="form-control" name="muscle" id="muscle" >
                 <%var muscleList = muscles.sort((a,b)=>a.name.localeCompare(b.name))%>
                 <% muscleList.forEach(muscle=>{ %> 
                     <option><%=muscle.name%></option>
-                <% }) %>  
-                
+                <% }) %>      
             </select>
         </div>
-            <div id="references">
-                <!-- References will go here -->
-            </div>
-            <a class="newRef" href="#">Add Reference</a>
-        <div class="form-group">    
-            <input class="btn btn-primary w-100" id="submitExercise" type="submit" value="Submit">
-        </div>
-    </form> 
+        <input type="submit" class="btn btn-primary w-100">
+    </form>
 </div>
-
 
 <a href="/exercises">Go back</a>
 
-
-
-<script>
-    var newRefButton = document.querySelector('.newRef');
-    var references  = document.querySelector('#references');
-    var ref = document.querySelector('.reference-group');  
-    var list = 0    
-    newRefButton.addEventListener('click', ()=>{
-        var div = document.createElement('div');
-        div.innerHTML = `
-            <div class="form-group">
-                <input type="text" name="reference[${list}][authors]" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
-            </div>
-            <div class="form-group">
-                <input type="text" name="reference[${list}][title]" placeholder="Title of Article" class="form-control">
-            </div>
-            <div class="form-group">   
-                <input type="text" name="reference[${list}][journal]" placeholder="Journal" class="form-control">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <input type="text" name="reference[${list}][year]" placeholder="Year" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="number" name="reference[${list}][edition]" placeholder="Edition" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="number" name="reference[${list}][pageStart]" placeholder="Start Page" class="form-control"> 
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="number" name="reference[${list}][pageEnd]" placeholder="End Page" class="form-control">
-                </div>
-            </div>
-        `; 
-        references.appendChild(div);
-        list++ 
-    }); 
-</script>
 
 <%- include("../partials/footer") %>
