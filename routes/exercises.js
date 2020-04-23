@@ -5,7 +5,8 @@ const   express     = require('express'),
         cloudinaryStorage = require('multer-storage-cloudinary'),  
         Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment'),
-        muscles     = require ('../public/muscles.json'); 
+        muscles     = require ('../public/muscles.json'),
+        middleware  = require('../middleware/index');  
 
 //CONFIGURE MULTER: 
 const storage = multer.diskStorage({
@@ -39,7 +40,7 @@ router.get('/', (req, res)=>{
 }); 
 
 // NEW EXERCISE ROUTE
-router.get('/new', (req, res)=>{
+router.get('/new', middleware.isLoggedIn, (req, res)=>{
     res.render('./exercises/new', {muscles: muscles}); 
 }); 
 
