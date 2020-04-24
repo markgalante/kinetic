@@ -77,7 +77,6 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
 }); 
 
 //EXERCISE SHOW ROUTE
-
 router.get('/:slug', (req, res)=>{
     Exercise.findOne({slug:req.params.slug}).populate('comments').exec((err, foundExercise) =>{
         if(err || !foundExercise){
@@ -88,5 +87,32 @@ router.get('/:slug', (req, res)=>{
         }
     });
 }); 
+
+//EXERCISES RECOMMEND/UNRECOMMEND PAGE 
+router.post('/:slug/recommend', middleware.isLoggedIn, (req, res) => {
+    console.log('hello'); 
+    Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
+        if(err){
+            console.log("UNABLE TO FIND EXERCISE TO LIKE: " + err.message)
+        }
+
+        //See if the user has liked the page and return "true" or "false" 
+        const recommended = exercise.recommends.some( recommend => {
+            return recommend.equals(req.user._id); 
+        }); 
+
+        // From above function, either recommend or unrecommend function. 
+        recommended ? exercise.recommends.pull(req.user._id) : exercise.recommends.push(req.user._id);
+        
+        exercise.save(err =>{
+            if(err){
+                console.log("UNABLE TO RECOMMEND/UNRECOMMEND : " + err); 
+                return res.redirect('back'); 
+            }
+        }); 
+
+        return res.redirect('back'); 
+    }); 
+})
 
 module.exports = router; 
