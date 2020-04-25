@@ -3,7 +3,8 @@ const   express         = require('express'),
         mongoose        = require('mongoose'),
         bodyParser      = require('body-parser'),
         passport        = require('passport'),  
-        LocalStrategy   = require('passport-local'),    
+        LocalStrategy   = require('passport-local'), 
+        methodOverride  = require('method-override'),    
         User            = require('./models/user');
 
 //REQUIRE ROUTE FILES:
@@ -17,6 +18,7 @@ mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNe
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
 app.use(express.static(__dirname + '/public')); 
+app.use(methodOverride('_method')); 
 
 //PASSPORT CONFIG 
 app.use(require("express-session")({ 
