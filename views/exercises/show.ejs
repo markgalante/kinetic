@@ -2,7 +2,13 @@
 
 <div class="jumbotron mx-auto">
     <h1 class="card-title text-center pb-2"><strong><%= exercise.name %></strong></h1>
-    <h6 class="card-title h6 text-center text-muted"><em>Submitted by </em><%= exercise.author.username %></h6>
+    <% if(currentUser && exercise.author.id.equals(currentUser._id)){ %> 
+        <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>">you</a></em></h6>
+        <a class="btn btn-rounded" href="/exercises/<%= exercise.slug %>/edit">Edit</a>
+    <% } else{ %> 
+        <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>"> <%= exercise.author.username %> </a></em></h6>
+    <% } %>
+   
         <div class="view-overlay my-4">
             <div class="embed-responsive embed-responsive-21by9">
                 <iframe class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
