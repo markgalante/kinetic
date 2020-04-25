@@ -34,4 +34,25 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
     }); 
 }); 
 
+//GET COMMENT EDIT PAGE
+router.get('/:comment_id/edit', (req, res) =>{
+    Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
+        if(err){
+            console.log("ERROR FINDING EXERCISE FOR COMMENT EDIT: " + err); 
+            return res.redirect('back'); 
+        } else{
+            Comment.findById(req.params.comment_id, (err, comment)=>{
+                if(err){
+                    console.log("ERROR FINDING COMMENT ON " + exercise.name); 
+                    return res.redirect('back'); 
+                } else{
+                    res.render('./comments/edit', {exercise:exercise, comment:comment}); 
+                }
+            }); 
+        }
+    });
+}); 
+
+
+
 module.exports = router; 
