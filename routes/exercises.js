@@ -115,6 +115,7 @@ router.post('/:slug/recommend', middleware.isLoggedIn, (req, res) => {
     }); 
 });
 
+//GET EDIT PAGE
 router.get('/:slug/edit', (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, foundExercise)=>{
         if(err){
@@ -122,6 +123,36 @@ router.get('/:slug/edit', (req, res)=>{
             return res.redirect('back'); 
         } 
         res.render('./exercises/edit', {exercise: foundExercise, muscles:muscles}); 
+    }); 
+}); 
+
+//EDIT EXERCISE: 
+router.put('/:slug', (req, res)=>{
+    Exercise.findOne({slug: req.params.slug}, async (err, exercise)=>{
+        if(err){
+            console.log("ERROR FINDING EXERCISE: " + err); 
+            return res.redirect('back'); 
+        }
+        console.log("NAME " + req.body.name); 
+        console.log("DESCRIPTION: " + req.body.description);
+        console.log("MUSCLE " + req.body.muscle); 
+        exercise.name = req.body.name;
+        exercise.description = req.body.description
+        exercise.muscle = req.body.muscle; 
+        if(req.file){
+            try{
+                await cloudinary.v2.uploader.destroy(exercise.videoId); 
+                let result = await cloudinary.v2.uploader.upload(req.file.path); 
+                exercise.videoId = result.public_id; 
+                exercise.video = result.secure_url; 
+            } catch(err){
+                console.log('ERROR EDITING VIDEO: ' + err); 
+                return res.redirect('back'); 
+            }
+        }
+        exercise.save(); 
+        console.log(exercise); 
+        res.redirect('/exercises/' + exercise.slug); 
     }); 
 }); 
 

@@ -4,21 +4,18 @@
 
 
 <div class="row">
-    <form action="/exercises" method="POST" enctype="multipart/form-data">
+    <form class="mx-auto w-75" action="/exercises/<%= exercise.slug %>?_method=PUT" method="POST">
         <div class="form-group">
-            <label>Name of Exercise</label>
-            <input type="text" name="name" class="form-control" value="<%= exercise.name %>">
+            <input name="name" type="text" value="<%= exercise.name %>" class="form-control">
         </div>
+        <div class="form-group">
+            <textarea name="description" class="form-control" rows="5"><%= exercise.description %></textarea>
+        </div>
+        
         <div class="form-group">
             <label>Attach a Video File</label>
             <input type="file" name="video">
         </div> 
-        <div class="form-group"> 
-            <label>Describe This Exercise Clearly</label>
-            <textarea class="form-control" name="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise...">
-                <%= exercise.description %>
-            </textarea>
-        </div>
         <div class="form-group">
             <label>Select primary muscle targeted</label>
             <select class="form-control" name="muscle" id="muscle">
@@ -29,11 +26,11 @@
                 <% }) %>      
             </select>
         </div>
-        <input type="submit" class="btn btn-primary w-100">
+        <input type="submit" class="btn btn-primary btn-rounded"> 
     </form>
 </div>
 
-<a href="/exercises">Go back</a>
+<a href="/exercises" class="text-center">Go back</a>
 
 
 <%- include("../partials/footer") %>
