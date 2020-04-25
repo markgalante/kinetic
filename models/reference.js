@@ -1,15 +1,21 @@
 const mongoose      = require('mongoose'); 
 
 const referenceSchema = new mongoose.Schema({
-    lastName: String, 
-    firstName: String, 
+    authors: String,  
     year: Date,
     title: String, 
     journal: String, 
     edition: Number, 
     volume: Number, 
     pageStart: Number, 
-    pageEnd: Number 
+    pageEnd: Number, 
+    author: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "User"
+        }, 
+        username: String
+    } 
 });
 
 module.exports = mongoose.model("Reference", referenceSchema); 
