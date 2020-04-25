@@ -55,15 +55,16 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
         req.body.video = result.secure_url; 
         req.body.videoId = result.public_id;  
 
-        req.body.author.id = req.user._id; 
-        req.body.username = req.user.username; 
-
         const exercise = new Exercise({
             name: req.body.name,
             description: req.body.description,
             muscle: req.body.muscle, 
             video: req.body.video, 
-            videoId: req.body.videoId
+            videoId: req.body.videoId, 
+            author: {
+                id: req.user._id, 
+                username: req.user.username
+            }
         }); 
         Exercise.create(exercise, (err, newlyCreate)=>{
             if(err){
@@ -110,9 +111,18 @@ router.post('/:slug/recommend', middleware.isLoggedIn, (req, res) => {
                 return res.redirect('back'); 
             }
         }); 
-
         return res.redirect('back'); 
     }); 
-})
+});
+
+router.get('/:slug/edit', (req, res)=>{
+    Exercise.findOne({slug:req.params.slug}, (err, foundExercise)=>{
+        if(err){
+            console.log('ERROR FINDING EXERCISE: ' + err); 
+            return res.redirect('back'); 
+        } 
+        res.render('./exercises/edit', {exercise: foundExercise, muscles:muscles}); 
+    }); 
+}); 
 
 module.exports = router; 
