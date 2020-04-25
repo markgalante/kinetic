@@ -65,10 +65,10 @@
     <% exercise.comments.forEach(comment => { %> 
         <div class="row my-3">
             <div style="width: 100%; text-align: left;">
-                <p> <strong><%= comment.author.username %></strong></p>
                 <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
                     <a href="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>/edit" class="btn btn-default btn-sm">Edit Comment</a>
                 <% } %>
+                <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5>
             </div>
             <div style="width: 100%; text-align: left;">
                 <p><%= comment.text %></p>  
