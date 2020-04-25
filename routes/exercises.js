@@ -133,9 +133,6 @@ router.put('/:slug', (req, res)=>{
             console.log("ERROR FINDING EXERCISE: " + err); 
             return res.redirect('back'); 
         }
-        console.log("NAME " + req.body.name); 
-        console.log("DESCRIPTION: " + req.body.description);
-        console.log("MUSCLE " + req.body.muscle); 
         exercise.name = req.body.name;
         exercise.description = req.body.description
         exercise.muscle = req.body.muscle; 
