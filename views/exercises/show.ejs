@@ -28,39 +28,55 @@
     
 </div>
 
+<!-- REFERENCES -->
 <div class="jumbotron text-center mx-auto">
-    <h3 class="card-title pb-2"><strong>References</strong></h3>
-    <a class="btn btn-primary btn-rounded" href="/exercises/<%= exercise.slug %>/references/new">Add reference</a>
+    <h3 class="card-title pb-2"><strong>References (<%= exercise.reference.length %>)</strong></h3>
+    <% exercise.reference.map(ref => { %> 
+        <div>
+            <div class="row">
+                <p><%= ref.authors %>. <%= ref.year.getFullYear() %>. <%= ref.title %>. <em><%= ref.journal %></em>. <%= ref.edition %>: <%= ref.pageStart %> - <%= ref.pageEnd %></p>
+                <div>
+                    <p> - <a class="text-dark" href="/profile/<%= ref.author.username %>"> <%= ref.author.username %> </a></p>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+    <% if(currentUser){ %> 
+        <hr>
+        <div>
+            <a class="btn btn-primary btn-rounded" href="/exercises/<%= exercise.slug %>/references/new"><i class="fas fa-plus"></i> Add reference</a>
+        </div>
+        
+    <% } %>
+  
 </div>
+<!-- REFERENCES END -->
 
-
+<!-- COMMENTS -->
 <div class="jumbotron text-center mx-auto">
     <h3 class="card-title pb-2"><strong>Comments</strong></h3>
     <hr>
     <% exercise.comments.forEach(comment => { %> 
-
-        <div class="row">
-            <div class="col-md-4">
-                <p><%= comment.author.username %></p>
+        <div class="row my-3">
+            <div style="width: 100%; text-align: left;">
+                <p> <strong><%= comment.author.username %></strong></p>
             </div>
-            <div class="col-md-8">
-                <p><%= comment.text %></p>
+            <div style="width: 100%; text-align: left;">
+                <p><%= comment.text %></p>  
             </div>
         </div>
-
-
     <% }) %> 
-    
     <hr>
     <% if(currentUser){ %> 
         <form action="/exercises/<%= exercise.slug %>/comments" method="POST">
             <div class="form-group">
                 <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control"></textarea>
             </div>
-            <button class="btn btn-primary btn-sm">Submit</button>
+            <button class="btn btn-primary btn-sm"> <i class="fas fa-feather"></i> Submit</button>
         </form>
     <% } %>
 </div>
+<!-- COMMENTS END -->
 
 
 <%- include("../partials/footer") %>
