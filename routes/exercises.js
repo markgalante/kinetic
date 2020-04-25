@@ -78,12 +78,13 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
 
 //EXERCISE SHOW ROUTE
 router.get('/:slug', (req, res)=>{
-    Exercise.findOne({slug:req.params.slug}).populate('comments').exec((err, foundExercise) =>{
+    Exercise.findOne({slug:req.params.slug}).populate('comments reference').exec((err, foundExercise) =>{
         if(err || !foundExercise){
             console.log(err.message)
             return res.redirect('back');
         } else{
             res.render('./exercises/show', {exercise:foundExercise}); 
+            console.log(foundExercise); 
         }
     });
 }); 
