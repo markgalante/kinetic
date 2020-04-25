@@ -11,13 +11,17 @@
     <p class="card-text"><%= exercise.description %></p>
     
     <form action="/exercises/<%= exercise.slug %>/recommend" method="POST">
-        <% const recommended = exercise.recommends.some(recommend =>{ %> 
-            <% return recommend.equals(currentUser._id) %> 
-        <% }) %> 
-        <% if(recommended){ %> 
-            <button class="btn btn-success btn-rounded"> <i class="fas fa-check-circle"></i> Reccommended (<%= exercise.recommends.length %>) </button>
-        <% } else { %> 
-            <button class="btn btn-primary btn-rounded"> <i class="far fa-check-circle"></i> Recommend (<%= exercise.recommends.length %>) </button>
+        <% if(currentUser){ %> 
+            <% const recommended = exercise.recommends.some(recommend =>{ %> 
+                <% return recommend.equals(currentUser._id) %> 
+            <% }) %> 
+            <% if(recommended){ %> 
+                <button class="btn btn-success btn-rounded"> <i class="fas fa-check-circle"></i> Reccommended (<%= exercise.recommends.length %>) </button>
+            <% } else { %> 
+                <button class="btn btn-primary btn-rounded"> <i class="far fa-check-circle"></i> Recommend (<%= exercise.recommends.length %>) </button>
+            <% } %>
+        <% } else{ %> 
+            <button class="btn btn-primary btn-rounded" disabled> <i class="far fa-check-circle"></i> Recommend (<%= exercise.recommends.length %>) </button>                
         <% } %>
     </form>
 
@@ -26,7 +30,10 @@
 
 <div class="jumbotron text-center mx-auto">
     <h3 class="card-title pb-2"><strong>References</strong></h3>
+    <a class="btn btn-primary btn-rounded" href="/exercises/<%= exercise.slug %>/references/new">Add reference</a>
 </div>
+
+
 <div class="jumbotron text-center mx-auto">
     <h3 class="card-title pb-2"><strong>Comments</strong></h3>
     <hr>
@@ -45,12 +52,14 @@
     <% }) %> 
     
     <hr>
-    <form action="/exercises/<%= exercise.slug %>/comments" method="POST">
-        <div class="form-group">
-            <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control"></textarea>
-        </div>
-        <button class="btn btn-primary btn-sm">Submit</button>
-    </form>
+    <% if(currentUser){ %> 
+        <form action="/exercises/<%= exercise.slug %>/comments" method="POST">
+            <div class="form-group">
+                <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-primary btn-sm">Submit</button>
+        </form>
+    <% } %>
 </div>
 
 
