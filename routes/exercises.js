@@ -90,7 +90,6 @@ router.get('/:slug', (req, res)=>{
 
 //EXERCISES RECOMMEND/UNRECOMMEND PAGE 
 router.post('/:slug/recommend', middleware.isLoggedIn, (req, res) => {
-    console.log('hello'); 
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
             console.log("UNABLE TO FIND EXERCISE TO LIKE: " + err.message)
