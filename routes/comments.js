@@ -53,6 +53,22 @@ router.get('/:comment_id/edit', (req, res) =>{
     });
 }); 
 
+router.put('/:comment_id', (req, res)=>{
+    Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
+        if(err){
+            console.log("ERROR FINDING EXERCISE FOR PUT REQUEST: " + err); 
+            return res.redirect('back'); 
+        } else{
+            Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment,  (err, comment)=>{
+                if(err){
+                    console.log("ERROR EDITING COMMENT ON PUT REQUEST:" + err); 
+                    res.redirect('back'); 
+                }
+                res.redirect('/exercises/' + exercise.slug);
+            }); 
+        }
+    });
+});
 
 
 module.exports = router; 
