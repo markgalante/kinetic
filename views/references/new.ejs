@@ -1,31 +1,32 @@
 <%- include("../partials/header") %>
 
-<h1 class="text-center">New exercise</h1>
+<h1 class="text-center">New reference for <%= exercise.name %></h1>
 
-<form action="/exercises/<%= exercise.slug %>/reference" method="POST">
+<form action="/exercises/<%= exercise.slug %>/references" method="POST">
     <div class="form-group">
-        <input type="text" name="authors" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
+        <input type="text" name="reference[authors]" placeholder="Surname, Initials., Surname, Initials., Surname, Inials." class="form-control authorName">
     </div>
     <div class="form-group">
-        <input type="text" name="title" placeholder="Title of Article" class="form-control">
+        <input type="text" name="reference[title]" placeholder="Title of Article" class="form-control">
     </div>
     <div class="form-group">   
-        <input type="text" name="journal" placeholder="Journal" class="form-control">
+        <input type="text" name="reference[journal]" placeholder="Journal" class="form-control">
     </div>
     <div class="form-row">
         <div class="form-group col-md-3">
-            <input type="text" name="year" placeholder="Year" class="form-control">
+            <input type="text" name="reference[year]" placeholder="Year" class="form-control">
         </div>
         <div class="form-group col-md-3">
-            <input type="number" name="edition" placeholder="Edition" class="form-control">
+            <input type="number" name="reference[edition]" placeholder="Edition" class="form-control">
         </div>
         <div class="form-group col-md-3">
-            <input type="number" name="pageStart" placeholder="Start Page" class="form-control"> 
+            <input type="number" name="reference[pageStart]" placeholder="Start Page" class="form-control"> 
         </div>
         <div class="form-group col-md-3">
-            <input type="number" name="pageEnd" placeholder="End Page" class="form-control">
+            <input type="number" name="reference[pageEnd]" placeholder="End Page" class="form-control">
         </div>
     </div>
+    <button> Submit </button>
 </form>
 
 <%- include("../partials/footer") %>
