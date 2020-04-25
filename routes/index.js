@@ -79,8 +79,8 @@ router.get('/login', (req, res)=>{
 });  
 
 router.post('/login',
-passport.authenticate('local', { successRedirect: '/success',
-                                 failureRedirect: '/fail' }));
+passport.authenticate('local', { successRedirect: '/exercises',
+                                 failureRedirect: '/login' }));
 
 router.get('/profile/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
