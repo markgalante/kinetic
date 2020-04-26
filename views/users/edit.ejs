@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-center">Edit Profile</h1>
+
+<form action="/profile/<%= user.username %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <input type="text" name="profile[username]" value="<%= user.username %>">
+    <input type="text" name="profile[firstName]" value="<%= user.firstName %>">
+    <input type="text" name="profile[lastName]" value="<%= user.lastName %>">
+    <input type="email" name="profile[email]" value="<%= user.email %>">
+    <select name="profile[profession]">
+        <option><%= user.profession %></option>
+        <option>Physiotherapist/Physical Therapist</option>
+        <option>Occupational Therapist</option>
+        <option>Biokineticist</option>
+        <option>None of the above</option>
+    </select>
+    <select name="profile[graduated]">
+        <option><%= user.graduated %></option>
+        <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
+        <% for(year=current; year >= start; year--){ %> 
+            <option><%= year %></option>
+        <% } %>  
+    </select>
+    <textarea rows="5" name="profile[bio]"><%= user.bio %></textarea>
+    <input type="file" name="image" accept="image/*">
+    <input type="submit"> 
+</form>
+
+<%- include('../partials/footer') %>
