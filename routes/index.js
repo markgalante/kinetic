@@ -82,6 +82,7 @@ router.post('/login',
 passport.authenticate('local', { successRedirect: '/exercises',
                                  failureRedirect: '/login' }));
 
+//SHOW PROFILE                                 
 router.get('/profile/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
         if(err){
@@ -93,17 +94,22 @@ router.get('/profile/:username', (req, res)=>{
     })
 }); 
 
-router.get('/fail', (req, res)=>{
-    res.send("Login fails"); 
-});
-router.get('/success', (req, res)=>{
-    res.send("Login success"); 
+// EDIT ROUTE FOR PROFILE: 
+router.get('/profile/:username/edit', (req, res)=>{
+    User.findOne({username: req.params.username}, (err, foundUser)=>{
+        if(err){
+            console.log('ERROR FINDING PROFILE: ' + err);
+            return res.redirect('back'); 
+        } else{
+            res.render('./users/edit', {user: foundUser}); 
+        }
+    });
 });
 
 //LOGOUT
 router.get('/logout', (req, res)=>{
     req.logout(); 
-    res.redirect('/')
+    res.redirect('/exercises')
     console.log("logged out")
 }); 
 
