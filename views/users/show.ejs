@@ -26,6 +26,9 @@
             </div>
         </div>  
     </div>
+    <% if(currentUser && user._id.equals(currentUser._id)){ %> 
+        <a href="/profile/<%= user.username %>/edit" class="btn btn-primary">Edit</a>
+    <% } %>
 </div>
 
 <%- include("../partials/footer") %>
