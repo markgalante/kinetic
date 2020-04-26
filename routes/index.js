@@ -97,13 +97,45 @@ router.get('/profile/:username', (req, res)=>{
 // EDIT ROUTE FOR PROFILE: 
 router.get('/profile/:username/edit', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
-        if(err){
+        if(err || !foundUser){
             console.log('ERROR FINDING PROFILE: ' + err);
             return res.redirect('back'); 
         } else{
             res.render('./users/edit', {user: foundUser}); 
         }
     });
+});
+
+//UPDATE ROUTE FOR PROFILE: 
+router.put('/profile/:username', upload.single('image'), (req, res)=>{
+    User.findOne({username: req.params.username}, async (err, updateUser)=>{
+        if(err || !updateUser){
+            console.log('UNABLE TO FIND USER TO UPDATE: ' + err);
+            return res.redirect('back'); 
+        } else {
+            updateUser.username = req.body.username;
+            updateUser.firstName = req.body.firstName;
+            updateUser.lastName = req.body.lastName;
+            updateUser.email = req.body.email;
+            updateUser.profession = req.body.profession;
+            updateUser.graduated = req.body.graduated;
+            updateUser.bio = req.body.bio; 
+            if(req.file){
+                try{
+                    cloudinary.v2.uploader.destroy(updateUser.imageId); 
+                    let result = await cloudinary.v2.uploader.upload(req.file.path); 
+                    updateUser.imageId    = result.public_id; 
+                    updateUser.image      = result.secure_url; 
+                } catch(err){
+                    console.log('UNABLE TO UPDATE PROFILE PICTURE BECAUSE: ' + err); 
+                    return res.redirect('back'); 
+                }
+            }
+            updateUser.save(); 
+            console.log(updateUser); 
+            res.redirect('/profile/' + updateUser.username); 
+        }
+    }); 
 });
 
 //LOGOUT
