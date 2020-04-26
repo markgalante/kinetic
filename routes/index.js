@@ -149,6 +149,10 @@ crypto - generating unique 20 character code to allow resetting of passoword.
 The crypto code will be set in the userSchema with an expiration time. 
 */
 
+router.get('/forgot', (req, res)=>{
+    res.render('./users/forgot'); 
+}); 
+
 
 //LOGOUT
 router.get('/logout', (req, res)=>{
