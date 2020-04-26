@@ -3,27 +3,54 @@
 <h1 class="text-center">Edit Profile</h1>
 
 <form action="/profile/<%= user.username %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <input type="text" name="profile[username]" value="<%= user.username %>">
-    <input type="text" name="profile[firstName]" value="<%= user.firstName %>">
-    <input type="text" name="profile[lastName]" value="<%= user.lastName %>">
-    <input type="email" name="profile[email]" value="<%= user.email %>">
-    <select name="profile[profession]">
-        <option><%= user.profession %></option>
-        <option>Physiotherapist/Physical Therapist</option>
-        <option>Occupational Therapist</option>
-        <option>Biokineticist</option>
-        <option>None of the above</option>
-    </select>
-    <select name="profile[graduated]">
-        <option><%= user.graduated %></option>
-        <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
-        <% for(year=current; year >= start; year--){ %> 
-            <option><%= year %></option>
-        <% } %>  
-    </select>
-    <textarea rows="5" name="profile[bio]"><%= user.bio %></textarea>
+    <div class="form-group">
+        <label>Username</label>
+        <input class="form-control" type="text" name="username" value="<%= user.username %>">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>First Name</label>
+            <input class="form-control" type="text" name="firstName" value="<%= user.firstName %>">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Last Name</label>
+            <input class="form-control" type="text" name="lastName" value="<%= user.lastName %>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Email address</label>
+        <input class="form-control" type="email" name="email" value="<%= user.email %>">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-8">
+            <label>Profession</label>
+            <select class="form-control" name="profession">
+                <option><%= user.profession %></option>
+                <option>Physiotherapist/Physical Therapist</option>
+                <option>Occupational Therapist</option>
+                <option>Biokineticist</option>
+                <option>None of the above</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Year of Qualification</label>
+            <select class="form-control" name="graduated">
+                <option><%= user.graduated %></option>
+                <option>Student</option>
+                <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
+                <% for(year=current; year >= start; year--){ %> 
+                    <option><%= year %></option>
+                <% } %>  
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="5" name="bio"><%= user.bio %></textarea>
+    </div>
     <input type="file" name="image" accept="image/*">
-    <input type="submit"> 
+    <div class="form-group">
+        <input class="btn btn-primary w-100" type="submit"> 
+    </div>
 </form>
 
 <%- include('../partials/footer') %>
