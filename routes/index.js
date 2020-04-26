@@ -139,6 +139,15 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
     //TO DO: TEST IF OLD PROFILE PICTURE DELETES AND NEW ONE UPLOADS
 });
 
+//HANDLING USER FORGETTING PASSWORD. 
+/*
+DEPENDENDCIES: 
+nodemailer - allowing sending of emails with node. 
+crypto - generating unique 20 character code to allow resetting of passoword. 
+The crypto code will be set in the userSchema with an expiration time. 
+*/
+
+
 //LOGOUT
 router.get('/logout', (req, res)=>{
     req.logout(); 
