@@ -44,6 +44,9 @@
                 <div>
                     <p> - <a class="text-dark" href="/profile/<%= ref.author.username %>"> <%= ref.author.username %> </a></p>
                 </div>
+                <% if(currentUser && ref.author.id.equals(currentUser._id)){ %> 
+                    <a class="btn btn-default" href="/exercises/<%= exercise.slug %>/references/<%= ref.id %>/edit">Edit</a>
+                <% } %>
             </div>
         </div>
     <% }) %>
@@ -52,7 +55,6 @@
         <div>
             <a class="btn btn-primary btn-rounded" href="/exercises/<%= exercise.slug %>/references/new"><i class="fas fa-plus"></i> Add reference</a>
         </div>
-        
     <% } %>
   
 </div>

@@ -1,6 +1,6 @@
 const       express     = require('express'), 
             router      = express.Router({mergeParams: true}),
-            Reference   = require('../models/reference');  
+            Reference   = require('../models/reference'),  
             Exercise    = require('../models/exercise'); 
 
 // GET NEW REFERENCE PAGE: 
@@ -39,5 +39,40 @@ router.post('/', (req, res)=>{
         }); 
     }); 
 }); 
+
+//GET REQUEST FOR EDIT FILE
+router.get('/:ref_id/edit', (req, res)=>{
+    Exercise.findOne({slug: req.params.slug}, (err, exercise)=>{
+        if(err){
+            console.log("ERROR FINDING EXERCISE: " + err); 
+            return res.redirect('back'); 
+        } else{
+            Reference.findById(req.params.ref_id, (err, reference)=>{
+                if(err){
+                    console.log('ERROR FINDING REFERENCE: ' + err); 
+                    return res.redirect('back'); 
+                } else {
+                    res.render('./references/edit', {exercise:exercise, reference:reference}); 
+                }
+            }); 
+        }
+    });
+}); 
+
+router.put('/:ref_id', (req, res)=>{
+    Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
+        if(err){
+            console.log('ERROR FINDING EXERCISE FOR REFERENCE TO EDIT: ' + err); 
+            return res.redirect('back'); 
+        } else {
+            Reference.findByIdAndUpdate(req.params.ref_id, req.body.reference, (err, reference)=>{
+                if(err){
+                    console.log('ERROR UPDATING REFERENCE: ' + ref);
+                }
+                res.redirect('/exercises/' + exercise.slug); 
+            });
+        }
+    }); 
+});
 
 module.exports=router; 
