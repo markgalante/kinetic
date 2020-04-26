@@ -136,6 +136,7 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
             res.redirect('/profile/' + updateUser.username); 
         }
     }); 
+    //TO DO: TEST IF OLD PROFILE PICTURE DELETES AND NEW ONE UPLOADS
 });
 
 //LOGOUT
