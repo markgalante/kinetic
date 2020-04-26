@@ -1,6 +1,8 @@
 const   express     = require('express'), 
         router      = express.Router(), 
         async       = require('async'), 
+        nodemailer  = require('nodemailer'), 
+        crypto      = require('crypto'), 
         cloudinary  = require('cloudinary'), 
         multer      = require('multer'), 
         passport    = require('passport'); 
