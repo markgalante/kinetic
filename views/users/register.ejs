@@ -32,8 +32,9 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label for="qualified">Qualified Since</label>
+                <label for="qualified">Year of Qualification</label>
                 <select class="form-control" id="qualified" name="graduated">
+                    <option>Student</option>
                     <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
                     <% for(year=current; year >= start; year--){ %> 
                         <option><%= year %></option>
