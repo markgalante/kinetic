@@ -220,6 +220,56 @@ router.get('/reset/:token', (req, res)=>{
     });
 }); 
 
+router.post('/reset/:token', (req, res)=>{
+    async.waterfall([
+        (done)=>{
+            User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, (err, user)=>{
+                if(err || !user){
+                    console.log('PASSWORD RESET TOKEN IS INVALID OR HAS EXPIRED' + err.message); 
+                    return res.redirect('back');
+                }
+                if(req.body.password === req.body.confirm){
+                    user.setPassword(req.body.password, (err)=>{
+                        user.resetPasswordToken = undefined; 
+                        user.resetPasswordExpires = undefined; 
+
+                        user.save(err=>{
+                            req.logIn(user, (err)=>{
+                                done(err, user); 
+                            }); 
+                        });
+                    }); 
+                } else{
+                    console.log('Passwords do not match'); 
+                    res.redirect('back'); 
+                }
+            }); 
+        },
+        (user, done)=>{
+            const smtpTransport = nodemailer.createTransport({
+                service: 'Gmail', 
+                auth:{
+                    user:'markphysiopaedic@gmail.com', 
+                    pass: 'physiopaedicg'
+                }
+            });
+            const mailOptions = {
+                to: user.email, 
+                from: 'markphysiopaedic@gmail.com',
+                subject: 'Kinetic: Your email address has changed', 
+                text: 'Hello, ' + user.firstName + '\n\n' + 
+                'This email confirms that you have changed your password'
+            }; 
+            smtpTransport.sendMail(mailOptions, (err)=>{
+                done(err); 
+            });
+        }
+    ], 
+    (err)=>{
+        res.redirect('/exercises'); 
+    }); 
+}); 
+
 
 //LOGOUT
 router.get('/logout', (req, res)=>{
