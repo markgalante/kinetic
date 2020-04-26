@@ -141,17 +141,73 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
     //TO DO: TEST IF OLD PROFILE PICTURE DELETES AND NEW ONE UPLOADS
 });
 
-//HANDLING USER FORGETTING PASSWORD. 
+            //HANDLING USER FORGETTING PASSWORD:
+//Getting the page to enter email address of where to send email address to. 
+router.get('/forgot', (req, res)=>{
+    res.render('./users/forgot'); 
+});
+
 /*
 DEPENDENDCIES: 
 nodemailer - allowing sending of emails with node. 
 crypto - generating unique 20 character code to allow resetting of passoword. 
 The crypto code will be set in the userSchema with an expiration time. 
 */
+router.post('/forgot', (req, res, next)=>{
+    async.waterfall([ //waterfall is an array of functions that gets called one after the other. 
+        (done)=>{ //FUNCTION ONE - generate unique 20 character code. 
+            crypto.randomBytes(20, (err, buf)=>{  //more info: https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback
+                var token = buf.toString('hex'); 
+                done(err, token); 
+            });
+        }, 
+        (token, done)=>{
+            User.findOne({email: req.body.email}, (err, user)=>{
+                if(err || !user){
+                    console.log("Cannot find user with " + req.body.email); 
+                    return res.redirect('/forgot'); 
+                }
+                user.resetPasswordToken = token; 
+                user.resetPasswordExpires = Date.now() + 36000000
 
-router.get('/forgot', (req, res)=>{
-    res.render('./users/forgot'); 
-}); 
+                user.save( err => {
+                    done(err, token, user); 
+                })
+            });    
+        },
+        (token, user, done) =>{
+            const smtpTransport = nodemailer.createTransport({ //createTransport - built in () in nodemailer
+                service: "Gmail", 
+                auth:{
+                    user:'markphysiopaedic@gmail.com', 
+                    pass: 'physiopaedicg'
+                }
+            }); 
+            const mailOptions = {
+                to: user.email, 
+                from: 'noreply@kinetic.com', 
+                subject: 'Kinetic password request',
+                text: 'Hi there \n\n' + 
+                'You are receiving this email because you (or someone else) has requested a link to change your password \n\n' + 
+                'Please click on the following link or paste it in your browser \n\n ' +
+                'http://' + req.headers.host + '/reset/' + token + '\n\n'+
+                'Kind regards, \n\n' + 
+                'The kinetic team'    
+            };
+            smtpTransport.sendMail(mailOptions, (err)=>{
+                console.log('email sent!'); 
+                done(err, 'done'); 
+            }); 
+        }
+    ],
+    (err)=>{
+        if(err){
+            return next("ERROR SENDING EMAIL: " + err.message); 
+        } else{
+            res.redirect('/forgot')
+        }
+    });
+});
 
 
 //LOGOUT
