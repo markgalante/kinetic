@@ -209,6 +209,17 @@ router.post('/forgot', (req, res, next)=>{
     });
 });
 
+//Getting form with reset password token URL to change password. 
+router.get('/reset/:token', (req, res)=>{
+    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, (err, user)=>{
+        if(err || !user){
+            console.log('ERROR - Invalid reset token or reset token has expired'); 
+            return res.redirect('/forgot'); 
+        }
+        res.render('./users/reset', {token: req.params.token}); 
+    });
+}); 
+
 
 //LOGOUT
 router.get('/logout', (req, res)=>{
