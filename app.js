@@ -14,7 +14,7 @@ const   exerciseRoutes  = require('./routes/exercises'),
         referenceRoutes = require('./routes/references'); 
 
 //CONFIGURATION OF mongoose, bodyParser, ejs and setting the use of public folders for CSS; 
-mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }); 
+mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify:false }); 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
 app.use(express.static(__dirname + '/public')); 
