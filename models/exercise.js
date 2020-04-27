@@ -41,7 +41,11 @@ const exerciseSchema = new mongoose.Schema({
         }
     ], 
     muscle: String
-});
+},
+{
+    timestamps: true
+}
+);
 
 exerciseSchema.pre('save', async function(next){
     try{
