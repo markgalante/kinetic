@@ -67,13 +67,14 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
                 username: req.user.username
             }
         }); 
-        Exercise.create(exercise, (err, newlyCreate)=>{
+        Exercise.create(exercise, (err, newlyCreated)=>{
             if(err){
+                req.flash('error', 'Unable to add exercise now. Try again later')
                console.log("ERROR ADDING EXERCISE: " + err); 
                 return res.redirect("back");  
             }
-            console.log(newlyCreate); 
-            res.redirect("/exercises"); 
+            req.flash('success', 'Success: exercise added!')
+            res.redirect("/exercises/" + newlyCreated.slug); 
         }); 
     }); 
 }); 
@@ -132,6 +133,7 @@ router.put('/:slug', (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, async (err, exercise)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE: " + err); 
+            req.flash('error', 'Unable to update exercise now. Please try again later.'); 
             return res.redirect('back'); 
         }
         exercise.name = req.body.name;
@@ -150,6 +152,7 @@ router.put('/:slug', (req, res)=>{
         }
         exercise.save(); 
         console.log(exercise); 
+        req.flash('success', 'Exercise successfully updated.'); 
         res.redirect('/exercises/' + exercise.slug); 
     }); 
 }); 
@@ -159,6 +162,7 @@ router.delete('/:slug', (req, res)=>{
     Exercise.findOneAndRemove({slug: req.params.slug}, async (err, foundExercise)=>{
         if(err){
             console.log('ERROR FINDING CAMPGROUND TO DELETE: ' + err); 
+            req.flash('error', 'Unable to delete exercise now. Please try again later.'); 
             return res.redirect('back'); 
         }
         Comment.deleteMany({'_id': {$in: foundExercise.comments}}, (err)=>{
@@ -177,6 +181,7 @@ router.delete('/:slug', (req, res)=>{
             await cloudinary.v2.uploader.destroy(foundExercise.videoId); 
             foundExercise.remove(); 
             console.log('Successfully deleted exercise!'); 
+            req.flash('success', 'Successfully deleted exercise.'); 
             res.redirect('/exercises'); 
         } catch(err){
             if(err){

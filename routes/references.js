@@ -20,6 +20,7 @@ router.post('/', (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, (err, foundExercise)=>{
         if(err || !foundExercise){
             console.log("ERROR FIND EXERCISE: " + err); 
+            req.flash('error', 'Unable to add reference to ' + foundExercise.name + '.'); 
             return res.redirect('back'); 
         }
         Reference.create(req.body.reference, (err, createdRef)=>{
@@ -35,6 +36,7 @@ router.post('/', (req, res)=>{
             foundExercise.save(); 
 
             console.log('SUCCESSFULLY SAVED REFERENCE' + createdRef); 
+            req.flash('success', 'Reference added!')
             res.redirect('/exercises/' + foundExercise.slug); 
         }); 
     }); 
@@ -63,13 +65,15 @@ router.get('/:ref_id/edit', (req, res)=>{
 router.put('/:ref_id', (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
-            console.log('ERROR FINDING EXERCISE FOR REFERENCE TO EDIT: ' + err); 
+            console.log('ERROR FINDING EXERCISE FOR REFERENCE TO EDIT: ' + err);
+            req.flash('erorr', 'Unable to update reference now. Please try again later.') 
             return res.redirect('back'); 
         } else {
             Reference.findByIdAndUpdate(req.params.ref_id, req.body.reference, (err, reference)=>{
                 if(err){
                     console.log('ERROR UPDATING REFERENCE: ' + ref);
                 }
+                req.flash('success', 'Successfully updated reference.'); 
                 res.redirect('/exercises/' + exercise.slug); 
             });
         }
@@ -81,9 +85,11 @@ router.delete('/:ref_id', (req, res)=>{
     Reference.findByIdAndRemove(req.params.ref_id, (err, ref)=>{
         if(err){
             console.log('ERROR FINDING REFERENCE TO DELETE'); 
+            req.flash('error', 'Unable to delete reference now.'); 
             return res.redirect('back'); 
         } else{
             console.log('Reference deleted'); 
+            req.flash('success', 'Reference successfully deleted.'); 
             res.redirect('/exercises/' + req.params.slug); 
         }
     }); 

@@ -9,6 +9,7 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, (err, foundExercise)=>{
         if(err){
             console.log('CANNOT FIND EXERCISE TO COMMENT ON: ' + err.message);
+            req.flash('error', 'Unable to comment now. Try again later.')
             res.redirect('back');  
         }
         Comment.create(req.body.comment, (err, comment)=>{
@@ -28,7 +29,7 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
             foundExercise.save(); 
 
             //redirect back; 
-            console.log('SAVED COMMENT: ' + comment); 
+            req.flash('success', 'Comment successfully added.'); 
             res.redirect('back'); 
         }); 
     }); 
@@ -63,8 +64,10 @@ router.put('/:comment_id', (req, res)=>{
             Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment,  (err, comment)=>{
                 if(err){
                     console.log("ERROR EDITING COMMENT ON PUT REQUEST:" + err); 
+                    req.flash('error', 'Unable to update comment. Please try again later.'); 
                     res.redirect('back'); 
                 }
+                req.flash('success', 'Successfully edited comment.')
                 res.redirect('/exercises/' + exercise.slug);
             }); 
         }
@@ -76,9 +79,10 @@ router.delete('/:comment_id', (req, res)=>{
     Comment.findByIdAndRemove(req.params.comment_id, (err, foundComment)=>{
         if(err || !foundComment){
             console.log('ERROR FINDING AND DELETING COMMENT: ' + err); 
+            req.flash('error', 'Unable to delete comment. Try again later.'); 
             return res.redirect('back'); 
         } else{
-            console.log('Comment successfully deleted: ' + foundComment); 
+            req.flash('success', 'Comment deleted');
             res.redirect('/exercises/'+req.params.slug); 
         }
     }); 
