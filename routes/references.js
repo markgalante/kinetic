@@ -59,6 +59,7 @@ router.get('/:ref_id/edit', (req, res)=>{
     });
 }); 
 
+// UPDATE REFERENCES ROUTES
 router.put('/:ref_id', (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
@@ -74,5 +75,18 @@ router.put('/:ref_id', (req, res)=>{
         }
     }); 
 });
+
+//DELETE DESTROY ROUTE 
+router.delete('/:ref_id', (req, res)=>{
+    Reference.findByIdAndRemove(req.params.ref_id, (err, ref)=>{
+        if(err){
+            console.log('ERROR FINDING REFERENCE TO DELETE'); 
+            return res.redirect('back'); 
+        } else{
+            console.log('Reference deleted'); 
+            res.redirect('/exercises/' + req.params.slug); 
+        }
+    }); 
+})
 
 module.exports=router; 
