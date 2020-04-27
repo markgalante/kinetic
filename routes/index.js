@@ -137,7 +137,7 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
                 }
             }
             updateUser.save(); 
-            console.log(updateUser); 
+            req.flash('success', 'Profile successfully edited')
             res.redirect('/profile/' + updateUser.username); 
         }
     }); 
@@ -207,7 +207,8 @@ router.post('/forgot', (req, res, next)=>{
         if(err){
             return next("ERROR SENDING EMAIL: " + err.message); 
         } else{
-            res.redirect('/forgot')
+            res.redirect('/forgot'); 
+            req.flash('success', 'Email sent and should be visable shortly'); 
         }
     });
 });
@@ -270,6 +271,7 @@ router.post('/reset/:token', (req, res)=>{
     ], 
     (err)=>{
         res.redirect('/exercises'); 
+        req.flash('success', 'Password successfully changed')
     }); 
 }); 
 
@@ -277,8 +279,8 @@ router.post('/reset/:token', (req, res)=>{
 //LOGOUT
 router.get('/logout', (req, res)=>{
     req.logout(); 
-    res.redirect('/exercises')
-    console.log("logged out")
+    req.flash('success', 'Goodbye! See you soon.');
+    res.redirect('/exercises');
 }); 
 
 module.exports = router; 
