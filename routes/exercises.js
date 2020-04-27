@@ -5,6 +5,7 @@ const   express     = require('express'),
         cloudinaryStorage = require('multer-storage-cloudinary'),  
         Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment'),
+        Reference   = require('../models/reference'), 
         muscles     = require ('../public/muscles.json'),
         middleware  = require('../middleware/index');  
 
@@ -150,6 +151,39 @@ router.put('/:slug', (req, res)=>{
         exercise.save(); 
         console.log(exercise); 
         res.redirect('/exercises/' + exercise.slug); 
+    }); 
+}); 
+
+//DELETE EXERCISE: 
+router.delete('/:slug', (req, res)=>{
+    Exercise.findOneAndRemove({slug: req.params.slug}, async (err, foundExercise)=>{
+        if(err){
+            console.log('ERROR FINDING CAMPGROUND TO DELETE: ' + err); 
+            return res.redirect('back'); 
+        }
+        Comment.deleteMany({'_id': {$in: foundExercise.comments}}, (err)=>{
+            if(err){
+                console.log('ERROR FINDING COMMENTS TO DELETE IN EXERCISE: ' + err);
+                return res.redirect('back'); 
+            }
+        });
+        Reference.deleteMany({'_id': {$in: foundExercise.reference}}, (err)=>{
+            if(err){
+                console.log('ERROR FINDING REFERENCES TO DELETE' + err); 
+                return res.redirect('back'); 
+            }
+        });
+        try{
+            await cloudinary.v2.uploader.destroy(foundExercise.videoId); 
+            foundExercise.remove(); 
+            console.log('Successfully deleted exercise!'); 
+            res.redirect('/exercises'); 
+        } catch(err){
+            if(err){
+                console.log('UNABALE TO DELETE EXERCISES: ' + err.message); 
+                return res.redirect('back'); 
+            }
+        }
     }); 
 }); 
 

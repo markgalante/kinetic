@@ -5,6 +5,9 @@
     <% if(currentUser && exercise.author.id.equals(currentUser._id)){ %> 
         <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>">you</a></em></h6>
         <a class="btn btn-rounded" href="/exercises/<%= exercise.slug %>/edit">Edit</a>
+        <form action="/exercises/<%= exercise.slug %>?_method=DELETE" method="POST">
+            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+        </form>
     <% } else{ %> 
         <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>"> <%= exercise.author.username %> </a></em></h6>
     <% } %>
