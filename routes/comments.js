@@ -53,6 +53,7 @@ router.get('/:comment_id/edit', (req, res) =>{
     });
 }); 
 
+//EDIT/UPDATE COMMENT: 
 router.put('/:comment_id', (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
@@ -70,5 +71,17 @@ router.put('/:comment_id', (req, res)=>{
     });
 });
 
+//DELETE OR DESTROY COMMENT: 
+router.delete('/:comment_id', (req, res)=>{
+    Comment.findByIdAndRemove(req.params.comment_id, (err, foundComment)=>{
+        if(err || !foundComment){
+            console.log('ERROR FINDING AND DELETING COMMENT: ' + err); 
+            return res.redirect('back'); 
+        } else{
+            console.log('Comment successfully deleted: ' + foundComment); 
+            res.redirect('/exercises/'+req.params.slug); 
+        }
+    }); 
+});
 
 module.exports = router; 
