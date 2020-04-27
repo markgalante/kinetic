@@ -21,11 +21,9 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); 
 app.use(methodOverride('_method')); 
 app.use(flash());
-// app.configure(()=>{
-//     app.use(flash());
-//     app.use(express.cookieParser('keyboard-cat')); 
-//     app.use(express.session({cookie:{maxAge: 6000 }})); 
-// }); 
+
+// MOMENT JS = needs to go above passport config
+app.locals.moment = require('moment');
  
 //PASSPORT CONFIG 
 app.use(require("express-session")({ 
