@@ -5,8 +5,9 @@ const   express         = require('express'),
         bodyParser      = require('body-parser'),
         passport        = require('passport'),  
         LocalStrategy   = require('passport-local'), 
-        methodOverride  = require('method-override'),    
-        User            = require('./models/user');
+        methodOverride  = require('method-override'), 
+        FraolaEditor    = require('./node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor');   
+        User            = require('./models/user'); 
 
 //REQUIRE ROUTE FILES:
 const   exerciseRoutes  = require('./routes/exercises'), 
@@ -23,7 +24,7 @@ app.use(methodOverride('_method'));
 app.use(flash());
 
 // MOMENT JS = needs to go above passport config
-app.locals.moment = require('moment');
+app.locals.moment = require('moment'); 
  
 //PASSPORT CONFIG 
 app.use(require("express-session")({ 

@@ -6,6 +6,28 @@
             });
         </script>
 
+                <!-- Include Editor JS files. Allows to see the text area -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+
+        <!-- Initialize the editor. -->
+        <script>
+        var editor = new FroalaEditor('#description', {
+            toolbarButtons:{
+  'moreText': {
+    'buttons': ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'textColor', 'backgroundColor', 'inlineClass', 'inlineStyle', 'clearFormatting']
+  },
+  'moreParagraph': {
+    'buttons': ['alignLeft', 'alignCenter', 'formatOLSimple', 'alignRight', 'alignJustify', 'formatOL', 'formatUL', 'paragraphFormat', 'lineHeight', 'outdent', 'indent']
+  },
+  'moreMisc': {
+    'buttons': ['undo', 'redo', 'fullscreen', 'print', 'getPDF', 'spellChecker', 'selectAll', 'help'],
+    'align': 'right',
+    'buttonsVisible': 2
+  }
+}
+        });
+        </script>
+
         <!-- JQuery -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <!-- Bootstrap tooltips -->
