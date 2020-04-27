@@ -1,6 +1,7 @@
 const   express         = require('express'),
         app             = express(), 
         mongoose        = require('mongoose'),
+        flash           = require('connect-flash'), 
         bodyParser      = require('body-parser'),
         passport        = require('passport'),  
         LocalStrategy   = require('passport-local'), 
@@ -19,7 +20,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
 app.use(express.static(__dirname + '/public')); 
 app.use(methodOverride('_method')); 
-
+app.use(flash());
+// app.configure(()=>{
+//     app.use(flash());
+//     app.use(express.cookieParser('keyboard-cat')); 
+//     app.use(express.session({cookie:{maxAge: 6000 }})); 
+// }); 
+ 
 //PASSPORT CONFIG 
 app.use(require("express-session")({ 
     secret: "Any message can go here apparently",   
@@ -40,6 +47,8 @@ app.get('/', (req, res)=>{
 //Allows passing of these objects into all routes. 
 app.use((req, res, next)=>{
     res.locals.currentUser = req.user; 
+    res.locals.error = req.flash('error'); 
+    res.locals.success = req.flash('success'); 
     next();
 });
 

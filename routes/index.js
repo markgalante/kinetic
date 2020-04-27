@@ -69,7 +69,8 @@ router.post('/register', upload.single('image'), (req, res)=>{
             }
             passport.authenticate('local')(req, res, (err, auth)=>{
                 console.log("TaKE NOTE WITH PASSPORT AUTHENTICATE:" + err, auth)
-                res.redirect('/')
+                res.redirect('/');
+                req.flash('success', 'Welcome to Kinetic, ' + user.firstName + ". Good to have you!");
             });
             console.log(user); 
         });
@@ -82,7 +83,9 @@ router.get('/login', (req, res)=>{
 
 router.post('/login',
 passport.authenticate('local', { successRedirect: '/exercises',
-                                 failureRedirect: '/login' }));
+                                 failureRedirect: '/login',
+                                failureFlash: true, 
+                            successFlash: 'Welome back!' }));
 
 //SHOW PROFILE                                 
 router.get('/profile/:username', (req, res)=>{

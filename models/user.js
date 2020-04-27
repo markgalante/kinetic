@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     bio: String,
-    graduated: Number, 
+    graduated: String, 
     followers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
