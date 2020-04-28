@@ -3,6 +3,11 @@ const   middlewareObj   = {},
         Comment         = require('../models/comment'), 
         User            = require('../models/user'); 
 
+notLoggedIn = (req, res) => {
+    req.flash('error', 'You need to be logged in to do that.'); 
+    res.redirect('/login'); 
+}        
+
 //Checking ownership of an exercise. 
 middlewareObj.exerciseOwnership = (req, res, next) => {
     if(req.isAuthenticated()){
@@ -20,8 +25,28 @@ middlewareObj.exerciseOwnership = (req, res, next) => {
             res.redirect('/exercises'); 
         }); 
     } else {
-        req.flash('error', 'You need to be logged in to do that.'); 
-        res.redirect('/exercises'); 
+        notLoggedIn(req, res);
+    }
+}
+
+// Check comment ownership: 
+middlewareObj.commentOwnership = (req, res, next) => {
+    if(req.isAuthenticated()){
+        Comment.findById(req.params.comment_id, (err, foundComment)=>{
+            if(err){
+                req.flash('error', 'Error finding comment. Please try again later'); 
+                return res.redirect('/exercises'); 
+            } else {
+                if(foundComment._id.equals(req.user._id)){
+                    next(); 
+                } else{
+                    req.flash('error', "You don't have permission to do that"); 
+                    res.redirect('/exercises/'+ req.params.slug); 
+                }
+            }
+        }); 
+    } else{
+        notLoggedIn(req, res); 
     }
 }
 

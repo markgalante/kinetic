@@ -36,7 +36,7 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
 }); 
 
 //GET COMMENT EDIT PAGE
-router.get('/:comment_id/edit', (req, res) =>{
+router.get('/:comment_id/edit', middleware.commentOwnership, (req, res) =>{
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE FOR COMMENT EDIT: " + err); 
@@ -55,7 +55,7 @@ router.get('/:comment_id/edit', (req, res) =>{
 }); 
 
 //EDIT/UPDATE COMMENT: 
-router.put('/:comment_id', (req, res)=>{
+router.put('/:comment_id', middleware.commentOwnership, (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE FOR PUT REQUEST: " + err); 
@@ -75,7 +75,7 @@ router.put('/:comment_id', (req, res)=>{
 });
 
 //DELETE OR DESTROY COMMENT: 
-router.delete('/:comment_id', (req, res)=>{
+router.delete('/:comment_id', middleware.commentOwnership, (req, res)=>{
     Comment.findByIdAndRemove(req.params.comment_id, (err, foundComment)=>{
         if(err || !foundComment){
             console.log('ERROR FINDING AND DELETING COMMENT: ' + err); 
