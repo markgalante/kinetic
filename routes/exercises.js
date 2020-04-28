@@ -118,7 +118,7 @@ router.post('/:slug/recommend', middleware.isLoggedIn, (req, res) => {
 });
 
 //GET EDIT PAGE
-router.get('/:slug/edit', (req, res)=>{
+router.get('/:slug/edit', middleware.exerciseOwnership, (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, foundExercise)=>{
         if(err){
             console.log('ERROR FINDING EXERCISE: ' + err); 
@@ -129,7 +129,7 @@ router.get('/:slug/edit', (req, res)=>{
 }); 
 
 //EDIT EXERCISE: 
-router.put('/:slug', (req, res)=>{
+router.put('/:slug', middleware.exerciseOwnership, (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, async (err, exercise)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE: " + err); 
@@ -158,7 +158,7 @@ router.put('/:slug', (req, res)=>{
 }); 
 
 //DELETE EXERCISE: 
-router.delete('/:slug', (req, res)=>{
+router.delete('/:slug', middleware.exerciseOwnership, (req, res)=>{
     Exercise.findOneAndRemove({slug: req.params.slug}, async (err, foundExercise)=>{
         if(err){
             console.log('ERROR FINDING CAMPGROUND TO DELETE: ' + err); 
