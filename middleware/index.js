@@ -1,6 +1,7 @@
 const   middlewareObj   = {}, 
         Exercise        = require('../models/exercise'), 
         Comment         = require('../models/comment'), 
+        Reference       = require('../models/reference'); 
         User            = require('../models/user'); 
 
 notLoggedIn = (req, res) => {
@@ -37,7 +38,7 @@ middlewareObj.commentOwnership = (req, res, next) => {
                 req.flash('error', 'Error finding comment. Please try again later'); 
                 return res.redirect('/exercises'); 
             } else {
-                if(foundComment._id.equals(req.user._id)){
+                if(foundComment.author.id.equals(req.user._id)){
                     next(); 
                 } else{
                     req.flash('error', "You don't have permission to do that"); 
@@ -50,6 +51,20 @@ middlewareObj.commentOwnership = (req, res, next) => {
     }
 }
 
+middlewareObj.referenceOwnership = (req, res, next) => {
+    if(req.isAuthenticated()){
+        Reference.findById(req.params.ref_id, (err, foundReference) => {
+            if(foundReference.author.id.equals(req.user._id)){
+                next(); 
+            } else{
+                req.flash('error', "You don't have permission to do that"); 
+                res.redirect('/exercises/'+ req.params.slug); 
+            }
+        }); 
+    } else { 
+        notLoggedIn(req, res); 
+    }
+}
 
 // Determining if user is logged in.
 middlewareObj.isLoggedIn = (req, res, next) => {

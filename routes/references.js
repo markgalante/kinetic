@@ -1,10 +1,11 @@
 const       express     = require('express'), 
             router      = express.Router({mergeParams: true}),
+            middleware  = require('../middleware/index'),
             Reference   = require('../models/reference'),  
             Exercise    = require('../models/exercise'); 
 
 // GET NEW REFERENCE PAGE: 
-router.get('/new', (req, res)=>{
+router.get('/new', middleware.isLoggedIn, (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, foundExercise)=>{
         if(err || !foundExercise){
             console.log("ERROR FINDING EXERCISE: " + err);
@@ -16,7 +17,7 @@ router.get('/new', (req, res)=>{
 }); 
 
 //POST NEW REFERENCE: 
-router.post('/', (req, res)=>{
+router.post('/', middleware.isLoggedIn, (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, (err, foundExercise)=>{
         if(err || !foundExercise){
             console.log("ERROR FIND EXERCISE: " + err); 
@@ -43,7 +44,7 @@ router.post('/', (req, res)=>{
 }); 
 
 //GET REQUEST FOR EDIT FILE
-router.get('/:ref_id/edit', (req, res)=>{
+router.get('/:ref_id/edit', middleware.referenceOwnership, (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, (err, exercise)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE: " + err); 
@@ -62,7 +63,7 @@ router.get('/:ref_id/edit', (req, res)=>{
 }); 
 
 // UPDATE REFERENCES ROUTES
-router.put('/:ref_id', (req, res)=>{
+router.put('/:ref_id', middleware.referenceOwnership, (req, res)=>{
     Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
         if(err){
             console.log('ERROR FINDING EXERCISE FOR REFERENCE TO EDIT: ' + err);
@@ -81,7 +82,7 @@ router.put('/:ref_id', (req, res)=>{
 });
 
 //DELETE DESTROY ROUTE 
-router.delete('/:ref_id', (req, res)=>{
+router.delete('/:ref_id', middleware.referenceOwnership, (req, res)=>{
     Reference.findByIdAndRemove(req.params.ref_id, (err, ref)=>{
         if(err){
             console.log('ERROR FINDING REFERENCE TO DELETE'); 
