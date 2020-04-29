@@ -46,27 +46,89 @@ router.get('/new', middleware.isLoggedIn, (req, res)=>{
 }); 
 
 // NEW EXERCISE POST ROUTE 
-router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=>{
-    console.log(req.file.path); 
-    cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" },  (err, result)=>{
-        if(err){
-            console.log("ERROR UPLOADING VIDEO: " + err.message); 
-            return res.redirect('back'); 
-        }
-        req.body.video = result.secure_url; 
-        req.body.videoId = result.public_id;  
+// router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=>{
+//     console.log(req.file.path); 
+//     cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" },  (err, result)=>{
+//         if(err){
+//             console.log("ERROR UPLOADING VIDEO: " + err.message); 
+//             return res.redirect('back'); 
+//         }
+//         req.body.video = result.secure_url; 
+//         req.body.videoId = result.public_id;  
 
+//         const exercise = new Exercise({
+//             name: req.body.name,
+//             description: req.body.description,
+//             muscle: req.body.muscle, 
+//             video: req.body.video, 
+//             videoId: req.body.videoId, 
+//             author: {
+//                 id: req.user._id, 
+//                 username: req.user.username
+//             }
+//         }); 
+//         Exercise.create(exercise, (err, newlyCreated)=>{
+//             if(err){
+//                 req.flash('error', 'Unable to add exercise now. Try again later')
+//                console.log("ERROR ADDING EXERCISE: " + err); 
+//                 return res.redirect("back");  
+//             }
+//             req.flash('success', 'Success: exercise added!')
+//             res.redirect("/exercises/" + newlyCreated.slug); 
+//         }); 
+//     }); 
+// }); 
+
+embedVideo = (vid) => {
+    console.log(vid[1]); 
+    const vidId = vid[1].slice(-11);
+    const mainURL = 'https://www.youtube.com/embed/'; 
+    return (mainURL + vidId);
+}
+
+router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=>{
+    if(req.file){
+        cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" },  (err, result)=>{
+            if(err){
+                console.log("ERROR UPLOADING VIDEO: " + err.message); 
+                return res.redirect('back'); 
+            }
+            req.body.video = result.secure_url; 
+            req.body.videoId = result.public_id;  
+    
+            const exercise = new Exercise({
+                name: req.body.name,
+                description: req.body.description,
+                muscle: req.body.muscle, 
+                video: req.body.video, 
+                videoId: req.body.videoId, 
+                author: {
+                    id: req.user._id, 
+                    username: req.user.username
+                }
+            }); 
+            Exercise.create(exercise, (err, newlyCreated)=>{
+                if(err){
+                    req.flash('error', 'Unable to add exercise now. Try again later')
+                   console.log("ERROR ADDING EXERCISE: " + err); 
+                    return res.redirect("back");  
+                }
+                req.flash('success', 'Success: exercise added!')
+                res.redirect("/exercises/" + newlyCreated.slug); 
+            }); 
+        }); 
+    } else{
+        console.log("req.body.video: " + req.body.video); 
         const exercise = new Exercise({
             name: req.body.name,
-            description: req.body.description,
-            muscle: req.body.muscle, 
-            video: req.body.video, 
-            videoId: req.body.videoId, 
-            author: {
-                id: req.user._id, 
-                username: req.user.username
-            }
-        }); 
+                description: req.body.description,
+                muscle: req.body.muscle, 
+                video: embedVideo(req.body.video), 
+                author: {
+                    id: req.user._id, 
+                    username: req.user.username
+                }
+        });
         Exercise.create(exercise, (err, newlyCreated)=>{
             if(err){
                 req.flash('error', 'Unable to add exercise now. Try again later')
@@ -75,8 +137,8 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
             }
             req.flash('success', 'Success: exercise added!')
             res.redirect("/exercises/" + newlyCreated.slug); 
-        }); 
-    }); 
+        });
+    }
 }); 
 
 //EXERCISE SHOW ROUTE
@@ -178,7 +240,9 @@ router.delete('/:slug', middleware.exerciseOwnership, (req, res)=>{
             }
         });
         try{
-            await cloudinary.v2.uploader.destroy(foundExercise.videoId); 
+            if(foundExercise.videoId){
+                await cloudinary.v2.uploader.destroy(foundExercise.videoId);
+            }
             foundExercise.remove(); 
             console.log('Successfully deleted exercise!'); 
             req.flash('success', 'Successfully deleted exercise.'); 

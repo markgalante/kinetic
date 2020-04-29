@@ -4,15 +4,25 @@
 
 
 <div class="row">
-    <form action="/exercises" method="POST" enctype="multipart/form-data">
+    <form action="/exercises" method="POST" enctype="multipart/form-data" id="newExerciseForm"> 
         <div class="form-group">
             <label>Name of Exercise</label>
             <input type="text" name="name" class="form-control">
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Attach a Video File</label>
             <input type="file" name="video">
-        </div> 
+        </div> -->
+        <div>
+            <input type="radio" id="fileRadio" name="video">
+            <label for="fileUpload"><input type="file" name="video" id="file"></label>
+        </div>
+        <div>
+            <input type="radio" id="youTubeRadio" name="video">
+            <label for="youTubeLink">YouTube<input type="url" name="video" id="youTube"></label>
+        </div>
+
+        
         <div class="form-group"> 
             <label>Describe This Exercise Clearly</label>
             <textarea class="form-control" name="description" id="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
@@ -31,6 +41,24 @@
 </div>
 
 <a href="/exercises">Go back</a>
+
+<script>
+    var form = document.querySelector('#newExerciseForm'); 
+    var fileRadio = document.querySelector('#fileRadio');
+    var file =  document.querySelector('#file'); 
+    var youTubeRadio = document.querySelector('#youTubeRadio'); 
+    var youTube  = document.querySelector('#youTube');
+    form.addEventListener('submit', function(){
+        if(fileRadio.checked){
+            youTube.value='';
+            alert("UPLOAD: " + file.value);  
+        } 
+        else if(youTubeRadio.checked){
+            file.value=''; 
+            alert("YOUTUBE LINK: " + youTube.value);
+        }
+    }); 
+</script>
 
 
 <%- include("../partials/footer") %>
