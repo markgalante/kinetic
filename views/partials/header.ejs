@@ -7,25 +7,50 @@
         <title>kinetic - Online collaboration for rehabilitation professionals</title>
 
         <!-- Include Editor style. -->
-<link href="node_modules/froala-editor/css/froala_editor.pkgd.min.css" rel="stylesheet"/>
+        <!-- <link href="node_modules/froala-editor/css/froala_editor.pkgd.min.css" rel="stylesheet"/>
 
-<link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"/>
-<!-- <link href="../css/froala_style.min.css" rel="stylesheet"/> -->
+        <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"/> -->
+        <!-- <link href="../css/froala_style.min.css" rel="stylesheet"/> -->
 
-        <!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-<!-- Google Fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-<!-- Bootstrap core CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css" rel="stylesheet">
-		
-		<!-- Custom Stylesheet -->
-		<link rel="stylesheet" href="/stylesheets/main.css">
-		
-		<!-- Font Awesome -->
-		<script src="https://use.fontawesome.com/fe397a1a4f.js"></script>
+        <style type="text/css"> 
+          .navbar {
+              font-weight: 300;
+              -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+              box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)
+          }
+
+          .card .card-body .card-text {
+              font-size: .9rem;
+              font-weight: 400;
+              color: #747373
+          }
+
+          .navbar .navbar-toggler {
+              border-width: 0;
+              outline: 0
+          }
+
+          .navbar.navbar-light .navbar-toggler {
+              color: #000
+          }
+        </style>
+
+          <!-- Font Awesome -->
+        <link rel="preload" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" as="style" onload="this.onload=null; this.rel=stylesheet">
+        <noscript><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"></noscript>
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Material Design Bootstrap --> <!--This feature below only loads the important bootstrap features, leaving the rest to load afterwards-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css" rel="preload" as="style" onload="this.onload=null; this.rel=stylesheet">
+        <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css" rel="stylesheet"></noscript>
+    
+        
+	  	<!-- Custom Stylesheet -->
+        <link rel="stylesheet" href="/stylesheets/main.css">
+
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
