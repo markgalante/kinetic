@@ -191,16 +191,16 @@ router.get('/:slug/edit', middleware.exerciseOwnership, (req, res)=>{
 }); 
 
 //EDIT EXERCISE: 
-router.put('/:slug', middleware.exerciseOwnership, (req, res)=>{
+router.put('/:slug', middleware.exerciseOwnership, upload.single('video', { resource_type: "video" }), (req, res)=>{
     Exercise.findOne({slug: req.params.slug}, async (err, exercise)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE: " + err); 
             req.flash('error', 'Unable to update exercise now. Please try again later.'); 
             return res.redirect('back'); 
         }
-        exercise.name = req.body.name;
-        exercise.description = req.body.description
-        exercise.muscle = req.body.muscle; 
+        exercise.name           = req.body.name;
+        exercise.description    = req.body.description
+        exercise.muscle         = req.body.muscle; 
         if(req.file){
             try{
                 await cloudinary.v2.uploader.destroy(exercise.videoId); 
