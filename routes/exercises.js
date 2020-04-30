@@ -85,6 +85,18 @@ embedVideo = (vid) => {
     const mainURL = 'https://www.youtube.com/embed/'; 
     return (mainURL + vidId);
 }
+createExercise = (req, res, exercise) =>{
+    Exercise.create(exercise, (err, newlyCreated)=>{
+        if(err){
+            req.flash('error', 'Unable to add exercise now. Try again later')
+           console.log("ERROR ADDING EXERCISE: " + err); 
+            return res.redirect("back");  
+        }
+        req.flash('success', 'Success: exercise added!')
+        res.redirect("/exercises/" + newlyCreated.slug); 
+    });
+}
+ 
 
 router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=>{
     if(req.file){
@@ -107,15 +119,16 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
                     username: req.user.username
                 }
             }); 
-            Exercise.create(exercise, (err, newlyCreated)=>{
-                if(err){
-                    req.flash('error', 'Unable to add exercise now. Try again later')
-                   console.log("ERROR ADDING EXERCISE: " + err); 
-                    return res.redirect("back");  
-                }
-                req.flash('success', 'Success: exercise added!')
-                res.redirect("/exercises/" + newlyCreated.slug); 
-            }); 
+            // Exercise.create(exercise, (err, newlyCreated)=>{
+            //     if(err){
+            //         req.flash('error', 'Unable to add exercise now. Try again later')
+            //        console.log("ERROR ADDING EXERCISE: " + err); 
+            //         return res.redirect("back");  
+            //     }
+            //     req.flash('success', 'Success: exercise added!')
+            //     res.redirect("/exercises/" + newlyCreated.slug); 
+            // }); 
+            createExercise(req, res, exercise); 
         }); 
     } else{
         console.log("req.body.video: " + req.body.video); 
@@ -129,15 +142,16 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
                     username: req.user.username
                 }
         });
-        Exercise.create(exercise, (err, newlyCreated)=>{
-            if(err){
-                req.flash('error', 'Unable to add exercise now. Try again later')
-               console.log("ERROR ADDING EXERCISE: " + err); 
-                return res.redirect("back");  
-            }
-            req.flash('success', 'Success: exercise added!')
-            res.redirect("/exercises/" + newlyCreated.slug); 
-        });
+        // Exercise.create(exercise, (err, newlyCreated)=>{
+        //     if(err){
+        //         req.flash('error', 'Unable to add exercise now. Try again later')
+        //        console.log("ERROR ADDING EXERCISE: " + err); 
+        //         return res.redirect("back");  
+        //     }
+        //     req.flash('success', 'Success: exercise added!')
+        //     res.redirect("/exercises/" + newlyCreated.slug); 
+        // });
+        createExercise(req, res, exercise); 
     }
 }); 
 
