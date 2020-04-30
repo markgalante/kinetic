@@ -4,7 +4,7 @@
 
 
 <div class="row">
-    <form class="mx-auto w-75" action="/exercises/<%= exercise.slug %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <form class="mx-auto w-75" action="/exercises/<%= exercise.slug %>?_method=PUT" method="POST" enctype="multipart/form-data" id="editExerciseForm">
         <div class="form-group">
             <input name="name" type="text" value="<%= exercise.name %>" class="form-control">
         </div>
@@ -12,10 +12,29 @@
             <textarea name="description" id="description" class="form-control" rows="5"><%= exercise.description %></textarea>
         </div>
         
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Attach a Video File</label>
             <input type="file" name="video">
-        </div> 
+        </div>  -->
+        <% if(exercise.videoId){ %> 
+            <div>
+                <input type="radio" id="fileRadio" name="video" checked>
+                <label for="fileUpload"><input type="file" name="video" id="file"></label>
+            </div>
+            <div>
+                <input type="radio" id="youTubeRadio" name="video">
+                <label for="youTubeLink">YouTube<input type="url" name="video" id="youTube"></label>
+            </div>
+        <% } else{ %>
+            <div>
+                <input type="radio" id="fileRadio" name="video">
+                <label for="fileUpload"><input type="file" name="video" id="file"></label>
+            </div>
+            <div>
+                <input type="radio" id="youTubeRadio" name="video" checked>
+                <label for="youTubeLink">YouTube<input type="url" name="video" id="youTube" value="<%= exercise.video %>"></label>
+            </div>
+        <% } %>
         <div class="form-group">
             <label>Select primary muscle targeted</label>
             <select class="form-control" name="muscle" id="muscle">
@@ -31,6 +50,24 @@
 </div>
 
 <a href="/exercises" class="text-center">Go back</a>
+
+<script>
+    var form = document.querySelector('#editExerciseForm'); 
+    var fileRadio = document.querySelector('#fileRadio');
+    var file =  document.querySelector('#file'); 
+    var youTubeRadio = document.querySelector('#youTubeRadio'); 
+    var youTube  = document.querySelector('#youTube');
+    form.addEventListener('submit', function(){
+        if(fileRadio.checked){
+            youTube.value='';
+            alert("UPLOAD: " + file.value);  
+        } 
+        else if(youTubeRadio.checked){
+            file.value=''; 
+            alert("YOUTUBE LINK: " + youTube.value);
+        }
+    }); 
+</script>
 
 
 <%- include("../partials/footer") %>

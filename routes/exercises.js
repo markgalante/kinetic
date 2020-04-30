@@ -80,8 +80,8 @@ router.get('/new', middleware.isLoggedIn, (req, res)=>{
 // }); 
 
 embedVideo = (vid) => {
-    console.log(vid[1]); 
-    const vidId = vid[1].slice(-11);
+    console.log(vid); 
+    const vidId = vid.slice(-11);
     const mainURL = 'https://www.youtube.com/embed/'; 
     return (mainURL + vidId);
 }
@@ -123,7 +123,7 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
             name: req.body.name,
                 description: req.body.description,
                 muscle: req.body.muscle, 
-                video: embedVideo(req.body.video), 
+                video: embedVideo(req.body.video[1]), 
                 author: {
                     id: req.user._id, 
                     username: req.user.username
@@ -201,7 +201,6 @@ router.put('/:slug', middleware.exerciseOwnership, upload.single('video', { reso
         exercise.name           = req.body.name;
         exercise.description    = req.body.description
         exercise.muscle         = req.body.muscle; 
-        console.log(req.file.path + ". Typeof" + typeof req.file.path); 
         if(req.file){
             try{
                 if(exercise.vidId){
@@ -214,6 +213,13 @@ router.put('/:slug', middleware.exerciseOwnership, upload.single('video', { reso
                 console.log('ERROR EDITING VIDEO: ' + err.message); 
                 return res.redirect('back'); 
             }
+        } else{
+            if(exercise.vidId){
+                await cloudinary.v2.uploader.destroy(exercise.videoId); 
+            }
+            exercise.videoId = ''; 
+            exercise.video = embedVideo(req.body.video[1]); 
+            console.log(req.body.video + ". TypeOf: " + typeof req.body.video); 
         }
         exercise.save(); 
         console.log(exercise); 
