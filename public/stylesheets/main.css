@@ -24,3 +24,7 @@
 #bio{
     font-size: 1.2em;
 }
+
+iframe{
+    touch-action: none;
+}
