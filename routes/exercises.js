@@ -201,14 +201,17 @@ router.put('/:slug', middleware.exerciseOwnership, upload.single('video', { reso
         exercise.name           = req.body.name;
         exercise.description    = req.body.description
         exercise.muscle         = req.body.muscle; 
+        console.log(req.file.path + ". Typeof" + typeof req.file.path); 
         if(req.file){
             try{
-                await cloudinary.v2.uploader.destroy(exercise.videoId); 
-                let result = await cloudinary.v2.uploader.upload(req.file.path); 
+                if(exercise.vidId){
+                    await cloudinary.v2.uploader.destroy(exercise.videoId); 
+                }
+                let result = await cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" }); 
                 exercise.videoId = result.public_id; 
                 exercise.video = result.secure_url; 
             } catch(err){
-                console.log('ERROR EDITING VIDEO: ' + err); 
+                console.log('ERROR EDITING VIDEO: ' + err.message); 
                 return res.redirect('back'); 
             }
         }
