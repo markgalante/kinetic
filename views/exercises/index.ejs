@@ -11,9 +11,14 @@
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                   <div class="col-md-4">
-                    <div class="embed-responsive embed-responsive-16by9">
+                    <% if (exercise.videoId){ %> 
+                      <% var vid = exercise.video.slice(0, -4); %>  
+                      <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" style="width: 160px;" >
+                    <% } else { %> 
+                      <div class="embed-responsive embed-responsive-16by9">
                         <iframe title="<%= exercise.video %>" class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
                     </div>
+                    <% }%>
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
