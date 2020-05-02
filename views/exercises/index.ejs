@@ -1,5 +1,8 @@
 <%- include("../partials/header") %>
-
+<form action="/exercises" method="GET">
+  <input type="text" name="search" title="Search exercises" placeholder="Search exercises...">
+  <input type="submit" value="Search">
+</form>
 <div class="row">
     <!-- Exercises the user follows -->
     <div class="col-md-6">
@@ -13,11 +16,11 @@
                   <div class="col-md-4">
                     <% if (exercise.videoId){ %> 
                       <% var vid = exercise.video.slice(0, -4); %>  
-                      <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" style="width: 160px;" >
+                      <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img">
                     <% } else { %> 
                       <div class="embed-responsive embed-responsive-16by9">
                         <iframe title="<%= exercise.video %>" class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
-                    </div>
+                      </div>
                     <% }%>
                   </div>
                   <div class="col-md-8">

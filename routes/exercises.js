@@ -30,14 +30,47 @@ cloudinary.config({
     api_secret: 'zyBsxCMOAqCEZ-BCVr3Rc2GjBZw' /*process.env.CLOUDINARY_API_SECRET*/ 
 });
 
+escapeRegex = (text) => {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 // EXERCISE INDEX ROUTE 
 router.get('/', (req, res)=>{
-    Exercise.find({}, (err, exercises)=>{
-        if(err){
-            console.log(err); 
-        }
-        res.render('./exercises/index', {exercises:exercises, muscles:muscles}); 
-    }); 
+    const noMatch = null; // Default = no "can't find" message present. 
+    if(req.query.search){ //req.query /exercises?search = (req.body.search); 
+        const regex = new RegExp(escapeRegex(req.query.search), "gi"); 
+        Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]}, (err, exercises)=>{
+            if(err){
+                req.flash('error', 'Error performing this query'); 
+                console.log(err.message); 
+                return res.redirect('back'); 
+            } else{
+                if(exercises.length < 1){
+                    noMatch = "No exercises found..."
+                }
+                res.render('./exercises/index', 
+                {
+                    exercises:exercises, 
+                    muscles:muscles, 
+                    noMatch: noMatch, 
+                    search: req.query.search
+                });
+            }
+        }); 
+    } else{
+        Exercise.find({}, (err, exercises)=>{
+            if(err){
+                console.log(err); 
+            }
+            res.render('./exercises/index', 
+                {
+                    exercises:exercises, 
+                    muscles:muscles, 
+                    noMatch: noMatch, 
+                    search: req.query.search
+                }); 
+        });
+    } 
 }); 
 
 // NEW EXERCISE ROUTE
