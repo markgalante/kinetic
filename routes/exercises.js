@@ -61,14 +61,34 @@ router.get('/', (req, res)=>{
         Exercise.find({}, (err, exercises)=>{
             if(err){
                 console.log(err); 
-            }
-            res.render('./exercises/index', 
-                {
-                    exercises:exercises, 
-                    muscles:muscles, 
-                    noMatch: noMatch, 
-                    search: req.query.search
+            } else{
+                Exercise.aggregate([
+                    {
+                        "$project":{
+                            "name": 1, 
+                            "video": 1, 
+                            "videoId": 1,
+                            "muscle": 1, 
+                            "author": 1,
+                            "recommends": 1, 
+                            "length": {"$size": "$recommends"}
+                        }
+                    }, 
+                    {"$sort": {"length": -1}}
+                ], (err, popular)=>{
+                    if(err){
+                        console.log("ERROR FINDING EXERCISES: " + err);
+                    } 
+                    res.render('./exercises/index', 
+                    {
+                        exercises:exercises,
+                        popular: popular, 
+                        muscles:muscles, 
+                        noMatch: noMatch, 
+                        search: req.query.search
+                    });
                 }); 
+            }
         });
     } 
 }); 

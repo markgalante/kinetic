@@ -1,4 +1,5 @@
 <%- include("../partials/header") %>
+
 <form action="/exercises" method="GET">
   <input type="text" name="search" title="Search exercises" placeholder="Search exercises...">
   <input type="submit" value="Search">
@@ -26,7 +27,8 @@
                   <div class="col-md-8">
                     <div class="card-body">
                       <h5 class="card-title"><p><%= exercise.name %></p></h5>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><%= exercise.author.username %></p>
+                      <p class="card-text"><%= exercise.recommends.length %></p>
                       <p class="card-text"><a href="exercises/<%= exercise.slug %>">More</a></p>
                       <p class="card-text"><small class="text-muted"><%= moment(exercise.createdAt).fromNow() %></small></p>
                     </div>
@@ -41,6 +43,41 @@
         <h3 class="text-center">Posts</h3>
 
         
+        <div class="col-md-6">
+          <h3 class="text-center">Videos</h3>
+          <% if(currentUser){ %>
+            <button class="btn btn-primary btn-sm mx-auto"><a href="/exercises/new" class="text-light">New Exercise</a></button>
+          <% } %> 
+          <% popular.forEach(exercise => { %> 
+              <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <% if (exercise.videoId){ %> 
+                        <% var vid = exercise.video.slice(0, -4); %>  
+                        <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img">
+                      <% } else { %> 
+                        <div class="embed-responsive embed-responsive-16by9">
+                          <iframe title="<%= exercise.video %>" class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
+                        </div>
+                      <% }%>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title"><p><%= exercise.name %></p></h5>
+                        <p class="card-text"><%= exercise.author.username %> and <%= exercise.muscle %></p>
+                        <p class="card-text"><%= exercise.recommends.length %></p>
+                        <p class="card-text"><a href="exercises/<%= exercise.slug %>">More</a></p>
+                        <p class="card-text"><small class="text-muted"><%= moment(exercise.createdAt).fromNow() %></small></p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          <% }) %> 
+      </div>
+
+
+
+
     </div>
 </div>
 
