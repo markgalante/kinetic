@@ -82,7 +82,7 @@ router.get('/', (req, res)=>{
             }
         }); 
     } else{
-        Exercise.find({}, (err, exercises)=>{
+        Exercise.find({}).sort({"createdAt": -1}).exec((err, exercises)=>{
             if(err){
                 console.log(err); 
             } else{
@@ -94,7 +94,9 @@ router.get('/', (req, res)=>{
                             "videoId": 1,
                             "muscle": 1, 
                             "author": 1,
-                            "recommends": 1, 
+                            "recommends": 1,
+                            "createdAt": 1, 
+                            "slug": 1, 
                             "length": {"$size": "$recommends"}
                         }
                     }, 
@@ -218,7 +220,7 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
 router.get('/:slug', (req, res)=>{
     Exercise.findOne({slug:req.params.slug}).populate('comments reference').exec((err, foundExercise) =>{
         if(err || !foundExercise){
-            console.log(err.message)
+            console.log(err)
             return res.redirect('back');
         } else{
             res.render('./exercises/show', {exercise:foundExercise}); 

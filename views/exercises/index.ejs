@@ -29,7 +29,7 @@
                       <h5 class="card-title"><p><%= exercise.name %></p></h5>
                       <p class="card-text"><%= exercise.author.username %></p>
                       <p class="card-text"><%= exercise.recommends.length %></p>
-                      <p class="card-text"><a href="exercises/<%= exercise.slug %>">More</a></p>
+                      <p class="card-text"><a href="/exercises/<%= exercise.slug %>">More</a></p>
                       <p class="card-text"><small class="text-muted"><%= moment(exercise.createdAt).fromNow() %></small></p>
                     </div>
                   </div>
@@ -44,10 +44,6 @@
 
         
         <div class="col-md-6">
-          <h3 class="text-center">Videos</h3>
-          <% if(currentUser){ %>
-            <button class="btn btn-primary btn-sm mx-auto"><a href="/exercises/new" class="text-light">New Exercise</a></button>
-          <% } %> 
           <% popular.forEach(exercise => { %> 
               <div class="card mb-3" style="max-width: 540px;">
                   <div class="row no-gutters">
@@ -66,7 +62,7 @@
                         <h5 class="card-title"><p><%= exercise.name %></p></h5>
                         <p class="card-text"><%= exercise.author.username %> and <%= exercise.muscle %></p>
                         <p class="card-text"><%= exercise.recommends.length %></p>
-                        <p class="card-text"><a href="exercises/<%= exercise.slug %>">More</a></p>
+                        <p class="card-text"><a href="<%= exercise.slug %>">More</a></p>
                         <p class="card-text"><small class="text-muted"><%= moment(exercise.createdAt).fromNow() %></small></p>
                       </div>
                     </div>
