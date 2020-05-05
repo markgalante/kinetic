@@ -39,7 +39,7 @@ router.get('/', (req, res)=>{
     const noMatch = null; // Default = no "can't find" message present. 
     if(req.query.search){ //req.query /exercises?search = (req.body.search); 
         const regex = new RegExp(escapeRegex(req.query.search), "gi"); 
-        Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]}, (err, exercises)=>{
+        Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]}).sort({"createdAt": -1}).exec((err, exercises)=>{
             if(err){
                 req.flash('error', 'Error performing this query'); 
                 console.log(err.message); 
@@ -61,6 +61,7 @@ router.get('/', (req, res)=>{
                             "muscle": 1, 
                             "author": 1,
                             "recommends": 1, 
+                            "slug": 1, 
                             "length": {"$size": "$recommends"}
                         }
                     }, 
