@@ -8,6 +8,7 @@ const   express         = require('express'),
         methodOverride  = require('method-override'), 
         FraolaEditor    = require('./node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor');   
         User            = require('./models/user'), 
+        dotenv          = require('dotenv'), 
         seedDB          = require('./seeds');
 
 //REQUIRE ROUTE FILES:
@@ -16,11 +17,13 @@ const   exerciseRoutes  = require('./routes/exercises'),
         indexRoutes     = require('./routes/index'), 
         referenceRoutes = require('./routes/references'); 
 
+        dotenv.config({path: __dirname + '/.env'});
+
 //CONFIGURATION OF mongoose, bodyParser, ejs and setting the use of public folders for CSS; 
-mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify:false }); 
+mongoose.connect(process.env.DATABASEURL, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify:false }); 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
-app.use(express.static(__dirname + '/public')); 
+app.use(express.static(__dirname + '/public'));  
 app.use(methodOverride('_method'));
 // seedDB();  
 app.use(flash());
