@@ -11,6 +11,7 @@ const   express     = require('express'),
 //SCHEMAS         
 const   Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment'), 
+        Reference   = require('../models/reference'),
         User        = require('../models/user'); 
         
 //CONFIGURE MULTER: 
@@ -92,7 +93,8 @@ passport.authenticate('local', { successRedirect: '/exercises',
 router.get('/profile/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
         if(err){
-            console.log(err.message); 
+            console.log(err.message || !foundUser);
+            req.flash('error', 'User does not exist or cannot be found. Please register to create that user'); 
             res.render('/register'); 
         } else{ 
             res.render('./users/show', {user:foundUser}); 
@@ -146,7 +148,78 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
 });
 
 // DELETE/DESTROY PROFILE: 
-router.delete('/profile/:username', middleware.isLoggedIn)
+router.delete('/profile/:username', middleware.isLoggedIn, (req, res)=>{
+    User.findOneAndRemove({username: req.params.username}, async(err, user)=>{
+        Exercise.deleteMany({'author.id': user.id}, (err)=>{
+            if(err){
+                console.log("UNABLE TO DELETE EXERCISE WHEN DELETING USER: " + err.message); 
+            } else{
+                console.log('SUCCESS: Exercises deleted')
+            }
+        });
+
+        Exercise.find({recommends: user.id}, (err, foundExercise)=>{
+            if(err){
+                console.log('CANT FIND EXERCISES WITH RECOMMENDS: ' + err);
+            } else if(!foundExercise){
+                console.log('NO RECOMMENDS BY THIS USER!'); 
+            } else{
+                foundExercise.forEach(exercise => {
+                    console.log(exercise._id); 
+                    console.log(user._id); 
+                    Exercise.findByIdAndUpdate(exercise._id, {$pull: {recommends: user._id}}, (err, updatedExercises)=>{
+                        if(err){
+                            console.log('UNABLE TO UPDATE EXERCISES BECAUSE OF: ' + err.message); 
+                        } else{
+                            updatedExercises.save(err=>{
+                                if(err){
+                                    console.log('UNABLE TO SAVE EXERCISE: ' + err.message); 
+                                }
+                            }); 
+                        }
+                    })
+                }); 
+            }
+        }); 
+
+        Reference.deleteMany({'author.id': user.id}, (err)=>{
+            if(err){
+                console.log("UNABLE TO DELETE REFERENCES WHEN DELETING USER: " + err.message); 
+            } else{
+                console.log('SUCCESS: References deleted')
+            }
+        });
+
+        Comment.deleteMany({'author.id': user.id}, (err)=>{
+            if(err){
+                console.log("UNABLE TO DELETE COMMENTS WHEN DELETING USER: " + err.message); 
+            } else{
+                console.log('SUCCESS: Comments deleted')
+            }
+        });
+        console.log('IMAGE ID BEFORE DELETE: ' + user.imageId);        
+        try{
+            await cloudinary.v2.uploader.destroy(user.imageId, (err, result)=>{
+                console.log(err, result); 
+            });
+            user.remove((err)=>{
+                if(err){
+                    console.log("ERROR DELETING USER: " + err); 
+                } else{
+                    console.log('SUCCESS')
+                }
+            }); 
+            console.log("IMAGE ID AFTER DELETE: " + user.imageId); 
+            res.redirect('/exercises'); 
+        } catch(err){
+            if(err){
+                console.log('ERROR DELETING USER PROFILE: ' + err.message); 
+                req.flash('error', 'Unable to delete profile because of: ' + err.message); 
+                return res.redirect('back'); 
+            }
+        }
+    }); 
+}); 
 
             //HANDLING USER FORGETTING PASSWORD:
 //Getting the page to enter email address of where to send email address to. 
