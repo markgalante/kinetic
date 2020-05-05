@@ -27,8 +27,32 @@
         </div>  
     </div>
     <% if(currentUser && user._id.equals(currentUser._id)){ %> 
-        <a href="/profile/<%= user.username %>/edit" class="btn btn-primary">Edit</a>
+        <a href="/profile/<%= user.username %>/edit" class="btn btn-primary">Edit Profile</a>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteProfile">
+            Delete Profile
+        </button>
+
+        <!--DELETE PROFILE POP-UP/MODAL: -->
+        <div class="modal fade" id="deleteProfile" tabindex="-1" role="dialog" aria-labelledby="deleteProfile" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteProfile">Are you sure?</h5>
+                    </div>
+                    <div class="modal-body">
+                        When you delete your profile, all of your contributions are also deleted. When this happens, it is irrecoverable.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <form action="/profile/<%= user.username %>?_method=DELETE" method="PUT">
+                            <input type="submit" class="btn btn-danger btn-rounded" value="Delete"> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     <% } %>
 </div>
+
 
 <%- include("../partials/footer") %>
