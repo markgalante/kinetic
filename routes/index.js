@@ -92,10 +92,10 @@ passport.authenticate('local', { successRedirect: '/exercises',
 //SHOW PROFILE                                 
 router.get('/profile/:username', (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
-        if(err){
-            console.log(err.message || !foundUser);
+        if(err || !foundUser){
+            console.log(err);
             req.flash('error', 'User does not exist or cannot be found. Please register to create that user'); 
-            res.render('/register'); 
+            res.redirect('/register'); 
         } else{ 
             res.render('./users/show', {user:foundUser}); 
         }
