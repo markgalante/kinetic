@@ -19,9 +19,8 @@
                       <% var vid = exercise.video.slice(0, -4); %>  
                       <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img">
                     <% } else { %> 
-                      <div class="embed-responsive embed-responsive-16by9">
-                        <iframe title="<%= exercise.video %>" class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
-                      </div>
+                      <% var vidId = exercise.video.slice(-11) %>
+                      <img src="https://img.youtube.com/vi/<%= vidId %>/default.jpg" alt="<%= exercise.name %>" class="card-img">
                     <% }%>
                   </div>
                   <div class="col-md-8">
@@ -52,9 +51,8 @@
                         <% var vid = exercise.video.slice(0, -4); %>  
                         <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img">
                       <% } else { %> 
-                        <div class="embed-responsive embed-responsive-16by9">
-                          <iframe title="<%= exercise.video %>" class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
-                        </div>
+                        <% var vidId = exercise.video.slice(-11) %>
+                        <img src="https://img.youtube.com/vi/<%= vidId %>/default.jpg" alt="<%= exercise.name %>" class="card-img">
                       <% }%>
                     </div>
                     <div class="col-md-8">
