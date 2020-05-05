@@ -5,6 +5,7 @@ const   express     = require('express'),
         crypto      = require('crypto'), 
         cloudinary  = require('cloudinary'), 
         multer      = require('multer'), 
+        middleware  = require('../middleware/index');
         passport    = require('passport'); 
 
 //SCHEMAS         
@@ -143,6 +144,9 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
     }); 
     //TO DO: TEST IF OLD PROFILE PICTURE DELETES AND NEW ONE UPLOADS
 });
+
+// DELETE/DESTROY PROFILE: 
+router.delete('/profile/:username', middleware.isLoggedIn)
 
             //HANDLING USER FORGETTING PASSWORD:
 //Getting the page to enter email address of where to send email address to. 
