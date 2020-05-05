@@ -196,15 +196,6 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
                     username: req.user.username
                 }
             }); 
-            // Exercise.create(exercise, (err, newlyCreated)=>{
-            //     if(err){
-            //         req.flash('error', 'Unable to add exercise now. Try again later')
-            //        console.log("ERROR ADDING EXERCISE: " + err); 
-            //         return res.redirect("back");  
-            //     }
-            //     req.flash('success', 'Success: exercise added!')
-            //     res.redirect("/exercises/" + newlyCreated.slug); 
-            // }); 
             createExercise(req, res, exercise); 
         }); 
     } else{
