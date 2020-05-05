@@ -7,7 +7,8 @@ const   express         = require('express'),
         LocalStrategy   = require('passport-local'), 
         methodOverride  = require('method-override'), 
         FraolaEditor    = require('./node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor');   
-        User            = require('./models/user'); 
+        User            = require('./models/user'), 
+        seedDB          = require('./seeds');
 
 //REQUIRE ROUTE FILES:
 const   exerciseRoutes  = require('./routes/exercises'), 
@@ -20,7 +21,8 @@ mongoose.connect("mongodb://localhost/kinetic", {useUnifiedTopology: true, useNe
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
 app.use(express.static(__dirname + '/public')); 
-app.use(methodOverride('_method')); 
+app.use(methodOverride('_method'));
+// seedDB();  
 app.use(flash());
 
 // MOMENT JS = needs to go above passport config
