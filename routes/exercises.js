@@ -25,9 +25,9 @@ const upload = multer({storage: storage, fileFilter:filter}); //fileFilter - fun
 
 //setting up cloudinary
 cloudinary.config({ 
-    cloud_name: 'dbpkz1rnm', 
-    api_key: 479674634572721 /*process.env.CLOUDINARY_API_KEY*/, 
-    api_secret: 'zyBsxCMOAqCEZ-BCVr3Rc2GjBZw' /*process.env.CLOUDINARY_API_SECRET*/ 
+    cloud_name: process.env.CLOUDNAME, 
+    api_key: process.env.API_KEY, /*process.env.CLOUDINARY_API_KEY*/
+    api_secret: process.env.API_SECRET /*process.env.CLOUDINARY_API_SECRET*/ 
 });
 
 escapeRegex = (text) => {

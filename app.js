@@ -11,13 +11,13 @@ const   express         = require('express'),
         dotenv          = require('dotenv'), 
         seedDB          = require('./seeds');
 
+dotenv.config({path: __dirname + '/.env'});
+
 //REQUIRE ROUTE FILES:
 const   exerciseRoutes  = require('./routes/exercises'), 
         commentRoutes   = require('./routes/comments'),
         indexRoutes     = require('./routes/index'), 
         referenceRoutes = require('./routes/references'); 
-
-        dotenv.config({path: __dirname + '/.env'});
 
 //CONFIGURATION OF mongoose, bodyParser, ejs and setting the use of public folders for CSS; 
 mongoose.connect(process.env.DATABASEURL, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify:false }); 

@@ -8,6 +8,8 @@ const   express     = require('express'),
         middleware  = require('../middleware/index');
         passport    = require('passport'); 
 
+require('dotenv').config({path: __dirname + "./env"}); 
+
 //SCHEMAS         
 const   Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment'), 
@@ -31,10 +33,10 @@ const imageFilter = (req, file, callback)=>{
 
 const upload = multer({ storage:storage, fileFilter: imageFilter }); 
 
-cloudinary.config({
-    cloud_name: 'dbpkz1rnm', 
-	api_key: 479674634572721, 
-	api_secret: 'zyBsxCMOAqCEZ-BCVr3Rc2GjBZw'
+cloudinary.config({ 
+    cloud_name: process.env.CLOUDNAME, 
+    api_key: process.env.API_KEY, /*process.env.CLOUDINARY_API_KEY*/
+    api_secret: process.env.API_SECRET /*process.env.CLOUDINARY_API_SECRET*/ 
 });
 
 //GET: REGISTER PAGE
@@ -46,7 +48,7 @@ router.get('/register', (req, res)=>{
 router.post('/register', upload.single('image'), (req, res)=>{
     cloudinary.v2.uploader.upload(req.file.path, (err, result)=>{
         if(err){
-            console.log(err.message); 
+            console.log("ERROR UPLOADING IMAGE FOR NEW PROFILE: " + err.message); 
             res.redirect('back'); 
         } 
         req.body.image = result.secure_url; 
@@ -259,8 +261,8 @@ router.post('/forgot', (req, res, next)=>{
             const smtpTransport = nodemailer.createTransport({ //createTransport - built in () in nodemailer
                 service: "Gmail", 
                 auth:{
-                    user:'markphysiopaedic@gmail.com', 
-                    pass: 'physiopaedicg'
+                    user: process.env.GMAIL, 
+                    pass: process.env.GM_PW
                 }
             }); 
             const mailOptions = {
@@ -330,13 +332,13 @@ router.post('/reset/:token', (req, res)=>{
             const smtpTransport = nodemailer.createTransport({
                 service: 'Gmail', 
                 auth:{
-                    user:'markphysiopaedic@gmail.com', 
-                    pass: 'physiopaedicg'
+                    user:process.env.GMAIL, 
+                    pass: process.env.GM_PW
                 }
             });
             const mailOptions = {
                 to: user.email, 
-                from: 'markphysiopaedic@gmail.com',
+                from: process.env.GMAIL,
                 subject: 'Kinetic: Your email address has changed', 
                 text: 'Hello, ' + user.firstName + '\n\n' + 
                 'This email confirms that you have changed your password'
