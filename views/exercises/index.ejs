@@ -62,7 +62,7 @@
                         <h5 class="card-title"><p><%= exercise.name %></p></h5>
                         <p class="card-text"><%= exercise.author.username %> and <%= exercise.muscle %></p>
                         <p class="card-text"><%= exercise.recommends.length %></p>
-                        <p class="card-text"><a href="<%= exercise.slug %>">More</a></p>
+                        <p class="card-text"><a href="/exercises/<%= exercise.slug %>">More</a></p>
                         <p class="card-text"><small class="text-muted"><%= moment(exercise.createdAt).fromNow() %></small></p>
                       </div>
                     </div>
