@@ -105,7 +105,7 @@ router.get('/profile/:username', (req, res)=>{
 }); 
 
 // EDIT ROUTE FOR PROFILE: 
-router.get('/profile/:username/edit', (req, res)=>{
+router.get('/profile/:username/edit', middleware.profileOwnership, (req, res)=>{
     User.findOne({username: req.params.username}, (err, foundUser)=>{
         if(err || !foundUser){
             console.log('ERROR FINDING PROFILE: ' + err);
@@ -117,7 +117,7 @@ router.get('/profile/:username/edit', (req, res)=>{
 });
 
 //UPDATE ROUTE FOR PROFILE: 
-router.put('/profile/:username', upload.single('image'), (req, res)=>{
+router.put('/profile/:username', middleware.profileOwnership, upload.single('image'), (req, res)=>{
     User.findOne({username: req.params.username}, async (err, updateUser)=>{
         if(err || !updateUser){
             console.log('UNABLE TO FIND USER TO UPDATE: ' + err);
@@ -150,7 +150,7 @@ router.put('/profile/:username', upload.single('image'), (req, res)=>{
 });
 
 // DELETE/DESTROY PROFILE: 
-router.delete('/profile/:username', middleware.isLoggedIn, (req, res)=>{
+router.delete('/profile/:username', middleware.profileOwnership, (req, res)=>{
     User.findOneAndRemove({username: req.params.username}, async(err, user)=>{
         Exercise.deleteMany({'author.id': user.id}, (err)=>{
             if(err){

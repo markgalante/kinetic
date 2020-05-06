@@ -1,7 +1,7 @@
 const   middlewareObj   = {}, 
         Exercise        = require('../models/exercise'), 
         Comment         = require('../models/comment'), 
-        Reference       = require('../models/reference'); 
+        Reference       = require('../models/reference'),
         User            = require('../models/user'); 
 
 notLoggedIn = (req, res) => {
@@ -62,6 +62,25 @@ middlewareObj.referenceOwnership = (req, res, next) => {
             }
         }); 
     } else { 
+        notLoggedIn(req, res); 
+    }
+}
+
+middlewareObj.profileOwnership = (req, res, next) => {
+    if(req.isAuthenticated()){
+        User.findOne({username: req.params.username}, (err, foundUser)=>{
+            if(err){
+                req.flash('error', 'Error finding user profile. Please try again later'); 
+                return res.redirect('back'); 
+            }  
+            if(foundUser._id.equals(req.user._id)){
+                next(); 
+            } else{
+                req.flash('error', 'You do not have permission to do that.'); 
+                return res.redirect('/exercises'); 
+            }
+        })
+    } else{
         notLoggedIn(req, res); 
     }
 }
