@@ -46,7 +46,7 @@ router.get('/register', (req, res)=>{
 
 //POST: REGISTER USER 
 router.post('/register', upload.single('image'), (req, res)=>{
-    cloudinary.v2.uploader.upload(req.file.path, (err, result)=>{
+    cloudinary.v2.uploader.upload(req.file.path, {quality: 60}, (err, result)=>{
         if(err){
             console.log("ERROR UPLOADING IMAGE FOR NEW PROFILE: " + err.message); 
             res.redirect('back'); 
@@ -133,7 +133,7 @@ router.put('/profile/:username', middleware.profileOwnership, upload.single('ima
             if(req.file){
                 try{
                     cloudinary.v2.uploader.destroy(updateUser.imageId); 
-                    let result = await cloudinary.v2.uploader.upload(req.file.path); 
+                    let result = await cloudinary.v2.uploader.upload(req.file.path, {quality: 60}); 
                     updateUser.imageId    = result.public_id; 
                     updateUser.image      = result.secure_url; 
                 } catch(err){
