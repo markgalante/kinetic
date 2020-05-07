@@ -180,7 +180,7 @@ createExercise = (req, res, exercise) =>{
 
 router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=>{
     if(req.file){
-        cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" },  (err, result)=>{
+        cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video",  q: 70 },  (err, result)=>{
             if(err){
                 console.log("ERROR UPLOADING VIDEO: " + err.message); 
                 return res.redirect('back'); 
@@ -282,7 +282,7 @@ router.put('/:slug', middleware.exerciseOwnership, upload.single('video', { reso
                 if(exercise.vidId){
                     await cloudinary.v2.uploader.destroy(exercise.videoId); 
                 }
-                let result = await cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video" }); 
+                let result = await cloudinary.v2.uploader.upload(req.file.path, { resource_type: "video", q:70 }); 
                 exercise.videoId = result.public_id; 
                 exercise.video = result.secure_url; 
             } catch(err){
