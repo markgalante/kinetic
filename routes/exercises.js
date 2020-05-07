@@ -250,8 +250,12 @@ router.post('/:slug/recommend', middleware.isLoggedIn, (req, res) => {
                 console.log("UNABLE TO RECOMMEND/UNRECOMMEND : " + err); 
                 return res.redirect('back'); 
             }
+            if(req.xhr){
+                res.json(exercise);
+            } else{
+                return res.redirect('back'); 
+            }
         }); 
-        return res.redirect('back'); 
     }); 
 });
 
