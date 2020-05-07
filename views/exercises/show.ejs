@@ -13,9 +13,14 @@
     <% } %>
    
         <div class="view-overlay my-4">
-            <div class="embed-responsive embed-responsive-21by9">
-                <iframe class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
-              </div>
+            <% if(exercise.videoId){ %> 
+                <video controls="controls" src="<%= exercise.video %>" style="width: 75%;margin: auto;">
+                </video>
+            <% } else{ %> 
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
+                </div>
+            <% } %>
         </div>
     <p class="card-text"><%- exercise.description %></p>
     
