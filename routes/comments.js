@@ -30,7 +30,10 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
 
             //redirect back; 
             req.flash('success', 'Comment successfully added.'); 
-            res.redirect('back'); 
+            //res.redirect('back');
+            if(req.xhr){
+                res.json(comment); 
+            } 
         }); 
     }); 
 }); 

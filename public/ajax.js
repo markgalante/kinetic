@@ -35,13 +35,26 @@ $('.recommend').submit(function(e){
     }); 
 }); 
 
-
-
 $('.comments').submit(function(e){
     e.preventDefault(); 
     const formData = $(this).serialize(); 
     const formAction = $(this).attr('action'); 
-    $.post(formAction, formData, function(data){
-        console.log(data)
+    $.post(formAction, formData, function(data){ 
+        $('#commentList').append(      
+         `
+         <div style="width: 100%; text-align: left;">
+                    <a href="${formAction}/${data.id}/edit" class="btn btn-default btn-sm">Edit Comment</a>
+                    <form action="${formAction}/${data.id} method="POST">
+                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                    </form>
+                <h5 class="float-left"> <strong>${data.author.username}</strong></h5><br>
+                <p class="text-muted" class="date">Posted a moment ago</p>
+            </div>
+            <div style="width: 100%; text-align: left;">
+                <p>${data.text}</p>  
+            </div>
+         `   
+        )
+        $('#commentTextArea').val('')
     }); 
 }); 
