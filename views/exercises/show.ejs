@@ -77,28 +77,30 @@
 <div class="jumbotron text-center mx-auto">
     <h3 class="card-title pb-2"><strong>Comments</strong></h3>
     <hr>
-    <% exercise.comments.forEach(comment => { %> 
-        <div class="row my-3">
-            <div style="width: 100%; text-align: left;">
-                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
-                    <a href="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>/edit" class="btn btn-default btn-sm">Edit Comment</a>
-                    <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id%>?_method=DELETE" method="POST">
-                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                    </form>
-                <% } %>
-                <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5><br>
-                <p class="text-muted"><%= moment(comment.updatedAt).fromNow() %></p>
+    <div  id="commentList">
+        <% exercise.comments.forEach(comment => { %> 
+            <div class="row my-3">
+                <div style="width: 100%; text-align: left;">
+                    <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
+                        <a href="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>/edit" class="btn btn-default btn-sm">Edit Comment</a>
+                        <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id%>?_method=DELETE" method="POST">
+                            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                        </form>
+                    <% } %>
+                    <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5><br>
+                    <p class="text-muted"><%= moment(comment.updatedAt).fromNow() %></p>
+                </div>
+                <div style="width: 100%; text-align: left;">
+                    <p><%= comment.text %></p>  
+                </div>
             </div>
-            <div style="width: 100%; text-align: left;">
-                <p><%= comment.text %></p>  
-            </div>
-        </div>
-    <% }) %> 
+        <% }) %>
+    </div> 
     <hr>
     <% if(currentUser){ %> 
         <form action="/exercises/<%= exercise.slug %>/comments" method="POST" class="comments">
             <div class="form-group">
-                <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control"></textarea>
+                <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control" id="commentTextArea"></textarea>
             </div>
             <button class="btn btn-primary btn-sm"> <i class="fas fa-feather"></i> Submit</button>
         </form>
