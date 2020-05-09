@@ -70,8 +70,7 @@ router.put('/:comment_id', middleware.commentOwnership, (req, res)=>{
                     req.flash('error', 'Unable to update comment. Please try again later.'); 
                     res.redirect('back'); 
                 }
-                req.flash('success', 'Successfully edited comment.')
-                res.redirect('/exercises/' + exercise.slug);
+                res.json(comment)
             }); 
         }
     });
@@ -85,8 +84,7 @@ router.delete('/:comment_id', middleware.commentOwnership, (req, res)=>{
             req.flash('error', 'Unable to delete comment. Try again later.'); 
             return res.redirect('back'); 
         } else{
-            req.flash('success', 'Comment deleted');
-            res.redirect('/exercises/'+req.params.slug); 
+            res.json(foundComment); 
         }
     }); 
 });
