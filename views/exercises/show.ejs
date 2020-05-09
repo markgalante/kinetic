@@ -77,34 +77,50 @@
 <div class="jumbotron text-center mx-auto">
     <h3 class="card-title pb-2"><strong>Comments</strong></h3>
     <hr>
-    <div  id="commentList">
-        <% exercise.comments.forEach(comment => { %> 
-            <div class="row my-3">
-                <div style="width: 100%; text-align: left;">
-                    <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
-                        <a href="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>/edit" class="btn btn-default btn-sm">Edit Comment</a>
-                        <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id%>?_method=DELETE" method="POST">
-                            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                        </form>
-                    <% } %>
-                    <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5><br>
-                    <p class="text-muted"><%= moment(comment.updatedAt).fromNow() %></p>
+    <div id="comment-panel">
+        <div  id="commentList">
+            <% exercise.comments.forEach(comment => { %> 
+                <div class="row my-3 list-group-item">
+                    <div style="width: 100%; text-align: left;">
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
+                            <a href="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>/edit" class="btn btn-default btn-sm" class="edit-comment">Edit Comment</a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteComment">Delete</button>
+                            <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteComment">Are you sure?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id%>" method="POST" class="delete-comment">
+                                                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                        <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5><br>
+                        <p class="text-muted"><%= moment(comment.updatedAt).fromNow() %></p>
+                    </div>
+                    <div style="width: 100%; text-align: left;">
+                        <p><%= comment.text %></p>  
+                    </div>
                 </div>
-                <div style="width: 100%; text-align: left;">
-                    <p><%= comment.text %></p>  
+            <% }) %>
+        </div> 
+        <hr>
+        <% if(currentUser){ %> 
+            <form action="/exercises/<%= exercise.slug %>/comments" method="POST" class="comments">
+                <div class="form-group">
+                    <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control" id="commentTextArea"></textarea>
                 </div>
-            </div>
-        <% }) %>
-    </div> 
-    <hr>
-    <% if(currentUser){ %> 
-        <form action="/exercises/<%= exercise.slug %>/comments" method="POST" class="comments">
-            <div class="form-group">
-                <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control" id="commentTextArea"></textarea>
-            </div>
-            <button class="btn btn-primary btn-sm"> <i class="fas fa-feather"></i> Submit</button>
-        </form>
-    <% } %>
+                <button class="btn btn-primary btn-sm"> <i class="fas fa-feather"></i> Submit</button>
+            </form>
+        <% } %>
+    </div>
+    
 </div>
 <!-- COMMENTS END -->
 
