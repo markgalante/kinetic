@@ -37,7 +37,7 @@ $('.comments').submit(function(e){
          `
             <div class="row my-3 list-group-item">
                 <div style="width: 100%; text-align: left;">
-                    <a href="${formAction}/${data._id}/edit" class="btn btn-default btn-sm">Edit Comment</a>
+                    <a href="${formAction}/${data._id}/edit" class="btn btn-default btn-sm edit-button">Edit Comment</a>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteComment">Delete</button>
                     
                     <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
@@ -59,14 +59,25 @@ $('.comments').submit(function(e){
                     <h5 class="float-left"> <strong>${data.author.username}</strong></h5><br>
                     <p class="text-muted" class="date">a few seconds ago</p>
                 </div>
-                <div style="width: 100%; text-align: left;">
+                <div style="width: 100%; text-align: left;" class="current-comment">
                     <p>${data.text}</p>  
                 </div>
+                <form action="${formAction}/${data._id}" method="POST" class="edit-comment">
+                    <div class="form-group">
+                        <textarea rows="1" class="form-control" name="comment[text]">${data.text}</textarea>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm">
+                </form>
             </div>
          `   
         )
         $('#commentTextArea').val('')
     }); 
+}); 
+
+// 2 - Show edit form
+$('#commentList').on('click', '.edit-button', function(){
+    $(this).parent().siblings('.edit-comment, .current-comment').toggle(); 
 }); 
 
 // 4 - Delete comment: 

@@ -83,8 +83,8 @@
                 <div class="row my-3 list-group-item">
                     <div style="width: 100%; text-align: left;">
                         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
-                            <a href="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>/edit" class="btn btn-default btn-sm" class="edit-comment">Edit Comment</a>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteComment">Delete</button>
+                            <button class="btn btn-default btn-sm edit-button">Edit Comment</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteComment">Delete</button>
                             <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
                                     <div class="modal-content">
@@ -104,9 +104,15 @@
                         <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5><br>
                         <p class="text-muted"><%= moment(comment.updatedAt).fromNow() %></p>
                     </div>
-                    <div style="width: 100%; text-align: left;">
+                    <div style="width: 100%; text-align: left;" class="current-comment">
                         <p><%= comment.text %></p>  
                     </div>
+                    <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>" method="POST" class="edit-comment">
+                        <div class="form-group">
+                            <textarea rows="1" class="form-control" name="comment[text]"><%= comment.text %></textarea>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-sm">
+                    </form>
                 </div>
             <% }) %>
         </div> 

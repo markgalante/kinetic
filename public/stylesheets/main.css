@@ -31,3 +31,7 @@
 iframe{
     touch-action: none;
 }
+
+.edit-comment{
+    display: none; 
+}
