@@ -38,7 +38,7 @@ middlewareObj.commentOwnership = (req, res, next) => {
                 req.flash('error', 'Error finding comment. Please try again later'); 
                 return res.redirect('/exercises'); 
             } else {
-                if(foundComment.author.id.equals(req.user._id)){
+                if(foundComment && foundComment.author.id.equals(req.user._id)){
                     next(); 
                 } else{
                     req.flash('error', "You don't have permission to do that"); 
