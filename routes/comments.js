@@ -59,12 +59,12 @@ router.get('/:comment_id/edit', middleware.commentOwnership, (req, res) =>{
 
 //EDIT/UPDATE COMMENT: 
 router.put('/:comment_id', middleware.commentOwnership, (req, res)=>{
-    Exercise.findOne({slug:req.params.slug}, (err, exercise)=>{
+    Exercise.findOne({slug:req.params.slug}, (err)=>{
         if(err){
             console.log("ERROR FINDING EXERCISE FOR PUT REQUEST: " + err); 
             return res.redirect('back'); 
         } else{
-            Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment,  (err, comment)=>{
+            Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, {new:true}, (err, comment)=>{
                 if(err){
                     console.log("ERROR EDITING COMMENT ON PUT REQUEST:" + err); 
                     req.flash('error', 'Unable to update comment. Please try again later.'); 
