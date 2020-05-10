@@ -146,3 +146,9 @@ $('#commentList').on('submit', '.delete-comment', function(e){
         }
     });
 });
+
+//LOADING BUTTONS 
+$('.submit-button').click(function(){
+    $(this).html(`<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...`)
+    .addClass('disabled'); 
+});
