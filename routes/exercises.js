@@ -36,84 +36,118 @@ escapeRegex = (text) => {
 
 // EXERCISE INDEX ROUTE 
 router.get('/', (req, res)=>{
+    const   perPage   = 8, 
+            pageQuery = parseInt(req.query.page), 
+            pageNumber= pageQuery ? pageQuery : 1; 
+
     const noMatch = null; // Default = no "can't find" message present. 
     if(req.query.search){ //req.query /exercises?search = (req.body.search); 
         const regex = new RegExp(escapeRegex(req.query.search), "gi"); 
-        Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]}).sort({"createdAt": -1}).exec((err, exercises)=>{
+        Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]})
+        .skip((perPage * pageNumber)-perPage)
+        .limit(perPage)
+        .sort({"createdAt": -1})
+        .exec((err, exercises)=>{
             if(err){
                 req.flash('error', 'Error performing this query'); 
                 console.log(err.message); 
                 return res.redirect('back'); 
             } else{
-                if(exercises.length < 1){
-                    noMatch = "No exercises found..."
-                }
-                Exercise.aggregate([
-                    {$match:{
-                      $or: [
-                          {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex}
-                      ]  
-                    }}, {
-                        "$project":{
-                            "name": 1, 
-                            "video": 1, 
-                            "videoId": 1,
-                            "muscle": 1, 
-                            "author": 1,
-                            "recommends": 1, 
-                            "slug": 1, 
-                            "length": {"$size": "$recommends"}
-                        }
-                    }, 
-                    {"$sort": {"length": -1}}
-                ], (err, popular)=>{
+                Exercise.countDocuments().exec((err, count)=>{
                     if(err){
                         console.log(err); 
+                        return res.redirect('back'); 
                     } else{
-                        res.render('./exercises/index', 
-                        {
-                            exercises:exercises, 
-                            popular: popular, 
-                            muscles:muscles, 
-                            noMatch: noMatch, 
-                            search: req.query.search
+                        if(exercises.length < 1){
+                            noMatch = "No exercises found..."
+                        }
+                        Exercise.aggregate([
+                            {$match:{
+                              $or: [
+                                  {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex}
+                              ]  
+                            }}, {
+                                "$project":{
+                                    "name": 1, 
+                                    "video": 1, 
+                                    "videoId": 1,
+                                    "muscle": 1, 
+                                    "author": 1,
+                                    "recommends": 1, 
+                                    "slug": 1, 
+                                    "createdAt": 1, 
+                                    "length": {"$size": "$recommends"}
+                                }
+                            }, 
+                            {"$sort": {"length": -1}}
+                        ])
+                        .skip((perPage * pageNumber)-perPage)
+                        .limit(perPage)
+                        .exec((err, popular)=>{
+                            if(err){
+                                console.log(err); 
+                            } else{
+                                res.render('./exercises/index', 
+                                {
+                                    exercises:exercises, 
+                                    popular: popular, 
+                                    muscles:muscles, 
+                                    noMatch: noMatch, 
+                                    search: req.query.search, 
+                                    pages: Math.ceil(count/perPage), 
+                                    page: 'exercises' ,
+                                    current: pageNumber
+                                });
+                            }
                         });
                     }
-                })
+                });
             }
         }); 
     } else{
-        Exercise.find({}).sort({"createdAt": -1}).exec((err, exercises)=>{
+        Exercise.find({})
+        .skip((perPage * pageNumber) - perPage)
+        .limit(perPage)
+        .sort({"createdAt": -1})
+        .exec((err, exercises)=>{
             if(err){
                 console.log(err); 
             } else{
-                Exercise.aggregate([
-                    {
-                        "$project":{
-                            "name": 1, 
-                            "video": 1, 
-                            "videoId": 1,
-                            "muscle": 1, 
-                            "author": 1,
-                            "recommends": 1,
-                            "createdAt": 1, 
-                            "slug": 1, 
-                            "length": {"$size": "$recommends"}
-                        }
-                    }, 
-                    {"$sort": {"length": -1}}
-                ], (err, popular)=>{
-                    if(err){
-                        console.log("ERROR FINDING EXERCISES: " + err);
-                    } 
-                    res.render('./exercises/index', 
-                    {
-                        exercises:exercises,
-                        popular: popular, 
-                        muscles:muscles, 
-                        noMatch: noMatch, 
-                        search: req.query.search
-                    });
+                Exercise.countDocuments().exec((err, count)=>{
+                    Exercise.aggregate([
+                        {
+                            "$project":{
+                                "name": 1, 
+                                "video": 1, 
+                                "videoId": 1,
+                                "muscle": 1, 
+                                "author": 1,
+                                "recommends": 1,
+                                "createdAt": 1, 
+                                "slug": 1, 
+                                "length": {"$size": "$recommends"}
+                            }
+                        }, 
+                        {"$sort": {"length": -1}}
+                    ])
+                    .skip((perPage * pageNumber)-perPage)
+                    .limit(perPage)
+                    .exec((err, popular)=>{
+                        if(err){
+                            console.log("ERROR FINDING EXERCISES: " + err);
+                        } 
+                        res.render('./exercises/index', 
+                        {
+                            exercises:exercises,
+                            popular: popular, 
+                            muscles:muscles, 
+                            noMatch: noMatch, 
+                            search: false,
+                            pages: Math.ceil(count/perPage), 
+                            page: 'exercises' ,
+                            current: pageNumber
+                        });
+                    }); 
                 }); 
             }
         });
