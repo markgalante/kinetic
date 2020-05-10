@@ -1,3 +1,22 @@
+body{
+    background: rgba(141, 196, 221, 0.1)
+}
+
+/* .exercise-card-image{
+  margin: 50% 0;
+} */
+
+.exercise-info::after{
+    content: '\25CF';
+    margin: 0 8px;
+    font-size: 10px;
+    color: #8a92a3;
+}
+
+input .search-bar{
+    background-color: transparent;
+}
+
 .showAlert{
     display: block;
     border: 1px solid darkred ;
