@@ -24,22 +24,24 @@
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="profession">Profession</label>
-                <select class="form-control" name="profession" id="profession">
-                    <option>Physiotherapist/Physical Therapist</option>
-                    <option>Occupational Therapist</option>
-                    <option>Biokineticist</option>
-                    <option>None of the above</option>
-                </select>
+                <input list="select-profession" class="form-control" name="profession" id="profession" placeholder="Click here to select...">
+                    <datalist id="select-profession">
+                        <option>Physiotherapist/Physical Therapist</option>
+                        <option>Occupational Therapist</option>
+                        <option>Biokineticist</option>
+                        <option>None of the above</option>
+                    </datalist>
             </div>
             <div class="form-group col-md-4">
                 <label for="qualified">Year of Qualification</label>
-                <select class="form-control" id="qualified" name="graduated">
-                    <option>Student</option>
-                    <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
-                    <% for(year=current; year >= start; year--){ %> 
-                        <option><%= year %></option>
-                    <% } %>  
-                </select>
+                <input list="year-of-graduation" class="form-control" id="qualified" name="graduated" placeholder="">
+                    <datalist id="year-of-graduation">
+                        <option>Student</option>
+                        <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>  
+                        <% for(year=current; year >= start; year--){ %> 
+                            <option><%= year %></option>
+                        <% } %> 
+                    </datalist>
             </div>
         </div>
         <div class="form-group">
@@ -74,7 +76,7 @@
     const password = document.querySelector("#password"); 
     password2.addEventListener("input", ()=>{ 
         if(password2.value === password.value){ 
-            document.querySelector("#registerButton").className="btn btn-primary w-100"
+            document.querySelector("#registerButton").className="btn btn-success w-100 submit-button"
             document.querySelector("#registerButton").disabled=false;
             document.querySelector(".showAlert").setAttribute("class", "hideAlert");
         } else{

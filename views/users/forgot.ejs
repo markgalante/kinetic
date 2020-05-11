@@ -3,11 +3,11 @@
 <h1 class="text-center">Reset Password</h1>
 <form action="/forgot" class="w-50 mx-auto my-5" method="POST">
     <div class="form-group">
-        <label class="text-center">Enter Your Email Address</label>
-        <input type="email" name="email" class="form-control" required>
+        <label class="text-center" for="userEmail">Enter Your Email Address</label>
+        <input type="email" id="userEmail" name="email" class="form-control" required>
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary">
+        <button class="btn btn-primary submit-button">Submit</button>
     </div>
 </form>
 

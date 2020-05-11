@@ -4,43 +4,44 @@
 
 <form action="/profile/<%= user.username %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div class="form-group">
-        <label>Username</label>
-        <input class="form-control" type="text" name="username" value="<%= user.username %>">
+        <label for="newUsername">Username</label>
+        <input class="form-control" id="newUsername" type="text" name="username" value="<%= user.username %>">
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label>First Name</label>
-            <input class="form-control" type="text" name="firstName" value="<%= user.firstName %>">
+            <label for="first-name">First Name</label>
+            <input class="form-control" id="first-name" type="text" name="firstName" value="<%= user.firstName %>">
         </div>
         <div class="form-group col-md-6">
-            <label>Last Name</label>
-            <input class="form-control" type="text" name="lastName" value="<%= user.lastName %>">
+            <label for="last-name">Last Name</label>
+            <input class="form-control" id="last-name" type="text" name="lastName" value="<%= user.lastName %>">
         </div>
     </div>
     <div class="form-group">
-        <label>Email address</label>
-        <input class="form-control" type="email" name="email" value="<%= user.email %>">
+        <label for="email-address">Email address</label>
+        <input class="form-control" id="email-address" type="email" name="email" value="<%= user.email %>">
     </div>
     <div class="form-row">
         <div class="form-group col-md-8">
-            <label>Profession</label>
-            <select class="form-control" name="profession">
-                <option><%= user.profession %></option>
-                <option>Physiotherapist/Physical Therapist</option>
-                <option>Occupational Therapist</option>
-                <option>Biokineticist</option>
-                <option>None of the above</option>
-            </select>
+            <label for="pro">Profession</label>
+            <input list="select-profession" id="pro" class="form-control" name="profession" value="<%= user.profession %>">
+                <datalist id="select-profession">
+                    <option>Physiotherapist/Physical Therapist</option>
+                    <option>Occupational Therapist</option>
+                    <option>Biokineticist</option>
+                    <option>None of the above</option>
+                </datalist>
         </div>
         <div class="form-group col-md-4">
-            <label>Year of Qualification</label>
-            <select class="form-control" name="graduated">
-                <option><%= user.graduated %></option>
-                <option>Student</option>
-                <% var start = 1950; var current = new Date().getFullYear(); var year; %>  
-                <% for(year=current; year >= start; year--){ %> 
-                    <option><%= year %></option>
-                <% } %>  
+            <label for="year-of-grad">Year of Qualification</label>
+            <input list="grad-year" id="year-of-grad" class="form-control" name="graduated" value="<%= user.graduated %>">
+                <datalist id="grad-year">
+                    <option>Student</option>
+                    <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>  
+                    <% for(year=current; year >= start; year--){ %> 
+                        <option><%= year %></option>
+                    <% } %>  
+                </datalist>
             </select>
         </div>
     </div>
@@ -49,7 +50,7 @@
     </div>
     <input type="file" name="image" accept="image/*">
     <div class="form-group">
-        <input class="btn btn-primary w-100" type="submit"> 
+        <button class="btn btn-primary w-100 submit-button">Submit</button>
     </div>
 </form>
 

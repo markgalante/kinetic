@@ -18,7 +18,7 @@
             <input type="file" name="video">
         </div> -->
         <div>
-            <input type="radio" id="fileRadio" name="video">
+            <input type="radio" id="fileRadio" name="video" checked>
             <label for="fileUpload"><input type="file" name="video" id="file"></label>
         </div>
         <div>
@@ -28,17 +28,19 @@
 
         
         <div class="form-group"> 
-            <label>Describe This Exercise Clearly</label>
+            <label for="description">Describe This Exercise Clearly</label>
             <textarea class="form-control" name="description" id="description" rows=5 placeholder="Provide detail about the type of population, what you're targeting, cues, and the usefullness of this exercise..."></textarea>
         </div>
         <div class="form-group">
-            <label>Select primary muscle targeted</label>
-            <select class="form-control" name="muscle" id="muscle" >
+            <label for="muscle">Select primary muscle targeted</label>
+            <input list="select-muscles" class="form-control" name="muscle" id="muscle" placeholder="Click here to search and select...">
+            <datalist id="select-muscles">
+                <option></option>
                 <%var muscleList = muscles.sort((a,b)=>a.name.localeCompare(b.name))%>
                 <% muscleList.forEach(muscle=>{ %> 
                     <option><%=muscle.name%></option>
-                <% }) %>      
-            </select>
+                <% }) %>
+            </datalist>
         </div>
         <button class="btn btn-primary w-100 submit-button">Submit</button>
     </form>

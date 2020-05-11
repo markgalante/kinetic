@@ -12,14 +12,7 @@
         <div class="form-group">
             <input name="name" type="text" value="<%= exercise.name %>" class="form-control">
         </div>
-        <div class="form-group">
-            <textarea name="description" id="description" class="form-control" rows="5"><%= exercise.description %></textarea>
-        </div>
-        
-        <!-- <div class="form-group">
-            <label>Attach a Video File</label>
-            <input type="file" name="video">
-        </div>  -->
+
         <% if(exercise.videoId){ %> 
             <div>
                 <input type="radio" id="fileRadio" name="video" checked>
@@ -39,15 +32,21 @@
                 <label for="youTubeLink">YouTube<input type="url" name="video" id="youTube" value="<%= exercise.video %>"></label>
             </div>
         <% } %>
+
         <div class="form-group">
-            <label>Select primary muscle targeted</label>
-            <select class="form-control" name="muscle" id="muscle">
-                <option><%= exercise.muscle %></option>
+            <label for="description">Describe This Exercise Clearly</label>
+            <textarea name="description" id="description" class="form-control" rows="5"><%= exercise.description %></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="muscle">Select primary muscle targeted</label>
+            <input list="select-muscles" class="form-control" name="muscle" id="muscle" value="<%= exercise.muscle %>">
+            <datalist id="select-muscles">
                 <%var muscleList = muscles.sort((a,b)=>a.name.localeCompare(b.name))%>
                 <% muscleList.forEach(muscle=>{ %> 
                     <option><%=muscle.name%></option>
-                <% }) %>      
-            </select>
+                <% }) %>
+            </datalist>      
         </div>
         <button class="btn btn-primary w-100 submit-button">Submit</button>
     </form>
