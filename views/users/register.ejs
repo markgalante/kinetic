@@ -64,7 +64,7 @@
             <p class="alertText">Passwords do not match</p>
         </div>
         <div class="form-group">    
-            <button class="btn btn-secondary w-100 disabled" id="registerButton" type="submit" value="Register" disabled>Register</button>
+            <button class="btn btn-secondary w-100 submit-button disabled" id="registerButton" type="submit" value="Register" disabled>Register</button>
         </div>
     </form> 
 </div>
@@ -80,7 +80,7 @@
             document.querySelector("#registerButton").disabled=false;
             document.querySelector(".showAlert").setAttribute("class", "hideAlert");
         } else{
-            document.querySelector("#registerButton").className="btn btn-secondary w-100 disabled"
+            document.querySelector("#registerButton").className="btn btn-secondary w-100 submit-button disabled"
             document.querySelector("#registerButton").disabled=true;
             document.querySelector(".hideAlert").setAttribute("class", "showAlert"); 
         } 
