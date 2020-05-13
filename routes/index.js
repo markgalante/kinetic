@@ -56,11 +56,11 @@ router.post('/register', upload.single('image'), (req, res)=>{
 
         const newUser = new User({
             username: req.body.username, 
-            firstName: req.body.firstName, 
-            lastName: req.body.lastName, 
+            firstName: req.sanitize(req.body.firstName), 
+            lastName: req.sanitize(req.body.lastName), 
             image: req.body.image, 
             imageId: req.body.imageId, 
-            bio: req.body.bio, 
+            bio: req.sanitize(req.body.bio), 
             profession: req.body.profession, 
             graduated: req.body.graduated,
             email: req.body.email,  
@@ -69,6 +69,7 @@ router.post('/register', upload.single('image'), (req, res)=>{
         User.register(newUser, req.body.password, (err, user)=>{
             if(err){
                 console.log(err.message); 
+                req.flash('error', 'Unable to register user due to: ' + err.message); 
                 return res.redirect('back');
             }
             passport.authenticate('local')(req, res, (err, auth)=>{
@@ -124,12 +125,12 @@ router.put('/profile/:username', middleware.profileOwnership, upload.single('ima
             return res.redirect('back'); 
         } else {
             updateUser.username = req.body.username;
-            updateUser.firstName = req.body.firstName;
-            updateUser.lastName = req.body.lastName;
+            updateUser.firstName = req.sanitize(req.body.firstName);
+            updateUser.lastName = req.sanitize(req.body.lastName);
             updateUser.email = req.body.email;
             updateUser.profession = req.body.profession;
             updateUser.graduated = req.body.graduated;
-            updateUser.bio = req.body.bio; 
+            updateUser.bio = req.sanitize(req.body.bio); 
             if(req.file){
                 try{
                     cloudinary.v2.uploader.destroy(updateUser.imageId); 
