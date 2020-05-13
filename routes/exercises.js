@@ -222,8 +222,8 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
             req.body.video = result.secure_url; 
             req.body.videoId = result.public_id;  
     
-            const exercise = new Exercise({
-                name: req.body.name,
+            let exercise = new Exercise({
+                name: req.sanitize(req.body.name),
                 description: req.body.description,
                 muscle: req.body.muscle, 
                 video: req.body.video, 
@@ -237,8 +237,8 @@ router.post('/', upload.single('video', { resource_type: "video" }), (req, res)=
         }); 
     } else{
         console.log("req.body.video: " + req.body.video); 
-        const exercise = new Exercise({
-            name: req.body.name,
+        let exercise = new Exercise({
+            name: req.sanitize(req.body.name),
                 description: req.body.description,
                 muscle: req.body.muscle, 
                 video: embedVideo(req.body.video[1]), 
@@ -312,7 +312,7 @@ router.put('/:slug', middleware.exerciseOwnership, upload.single('video', { reso
             req.flash('error', 'Unable to update exercise now. Please try again later.'); 
             return res.redirect('back'); 
         }
-        exercise.name           = req.body.name;
+        exercise.name           = req.sanitize(req.body.name);
         exercise.description    = req.body.description
         exercise.muscle         = req.body.muscle; 
         if(req.file){
