@@ -9,6 +9,7 @@ const   express         = require('express'),
         FraolaEditor    = require('./node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor');   
         User            = require('./models/user'), 
         dotenv          = require('dotenv'), 
+        expressSanitizer= require('express-sanitizer'),
         seedDB          = require('./seeds');
 
 dotenv.config({path: __dirname + '/.env'});
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
 app.use(express.static(__dirname + '/public'));  
 app.use(methodOverride('_method'));
+app.use(expressSanitizer());
 // seedDB();  
 app.use(flash());
 
