@@ -8,9 +8,6 @@
   <input type="submit" value="Search">
 </form>
 
-<% if(currentUser){ %>
-  <button class="btn btn-primary btn-block btn-sm mx-auto"><a href="/exercises/new" class="text-light"> <i class="fas fa-plus"></i> New Exercise</a></button>
-<% } %> 
 
 <div class="row">
     <!-- MOST RECENT -->
@@ -49,7 +46,7 @@
     </div>
 
     <!-- MOST POPULAR -->
-    <div class="col-md-6">
+    <div class="col-md-6 py-4 py-md-0">
         <h3 class="text-center">Most popular</h3>
 
           <% popular.forEach(exercise => { %> 
