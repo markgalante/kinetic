@@ -12,7 +12,9 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
             req.flash('error', 'Unable to comment now. Try again later.')
             res.redirect('back');  
         }
-        Comment.create(req.body.comment, (err, comment)=>{
+        req.body.comment.text = req.sanitize(req.body.comment.text); 
+        let newComment = req.body.comment; 
+        Comment.create(newComment, (err, comment)=>{
             if(err){
                 console.log('UNABLE TO CREATE COMMENT: ' + err.message); 
                 return res.redirect('back')
