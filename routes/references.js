@@ -24,6 +24,13 @@ router.post('/', middleware.isLoggedIn, (req, res)=>{
             req.flash('error', 'Unable to add reference to ' + foundExercise.name + '.'); 
             return res.redirect('back'); 
         }
+
+        //express-sanitizer 
+        req.body.reference.authors  = req.sanitize(req.body.reference.authors);
+        req.body.reference.title    = req.sanitize(req.body.reference.title);
+        req.body.reference.journal  = req.sanitize(req.body.reference.journal); 
+        req.body.reference.year     = req.sanitize(req.body.reference.year); 
+
         Reference.create(req.body.reference, (err, createdRef)=>{
             if(err){
                 console.log('ERROR CREATING REFERENCE: ' + err); 
@@ -70,6 +77,11 @@ router.put('/:ref_id', middleware.referenceOwnership, (req, res)=>{
             req.flash('erorr', 'Unable to update reference now. Please try again later.') 
             return res.redirect('back'); 
         } else {
+            //express-sanitizer 
+            req.body.reference.authors  = req.sanitize(req.body.reference.authors);
+            req.body.reference.title    = req.sanitize(req.body.reference.title);
+            req.body.reference.journal  = req.sanitize(req.body.reference.journal); 
+            req.body.reference.year     = req.sanitize(req.body.reference.year); 
             Reference.findByIdAndUpdate(req.params.ref_id, req.body.reference, (err, reference)=>{
                 if(err){
                     console.log('ERROR UPDATING REFERENCE: ' + ref);
