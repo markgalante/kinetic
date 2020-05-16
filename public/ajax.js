@@ -83,13 +83,11 @@ $('#commentList').on('click', '.edit-button', function(){
     $(this).parent().siblings('.edit-comment, .current-comment').toggle(); 
 });
 
-// $('.each-comment').on('click', '.each-comment', function(){
-//     $('.each-comment').parent().siblings('.user-owner-buttons').toggle(); 
-// });
-
-$('.each-comment').click(function(){
-    $(this).parent().siblings('.user-owner-buttons').toggle()
-}); 
+// Click on each of your own comments to show the edit and delete buttons. 
+$('#commentList').on('click', '.each-comment', function(){
+    // $('.user-owner-buttons').toggle();
+    $(this).find('.user-owner-buttons').toggle() 
+});
 
 // 3 - Edit comment
 $('#commentList').on('submit', '.edit-comment', function(e){

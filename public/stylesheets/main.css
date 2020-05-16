@@ -74,6 +74,11 @@ iframe{
 .user-owner-buttons, .edit-submit-button{
     margin: 0;
 }
+
+.user-owner-buttons{
+    display: none; 
+}
+
 .btn.btn-sm{
     padding: .5rem 0.6rem;
 }
