@@ -34,42 +34,45 @@ $('.comments').submit(function(e){
     const formAction = $(this).attr('action'); 
     $.post(formAction, formData, function(data){ 
         $('#commentList').append(      
-         `
-            <div class="row my-3 list-group-item">
-                <div style="width: 100%; text-align: left;">
-                    <button class="btn btn-default btn-sm edit-button">Edit Comment</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteComment">Delete</button>
-                    
+        `
+         <div class="row my-3 list-group-item each-comment">
+            <div class="d-block">
+                <p> <strong>${data.author.username}</strong> | <span class="text-muted">a few seconds ago</span></p>
+            </div>
+            <div class="current-comment">
+                <p>${data.text}</p>  
+            </div>
+            <form action="${formAction}/${data._id}" method="POST" class="edit-comment">
+                <div class="form-row">
+                    <div class="form-group col-9 col-sm-10 col-md-11">
+                        <textarea rows="1" class="form-control" name="comment[text]">${data.text}</textarea>
+                    </div>
+                    <div class=" form-group col-3 col-sm-2 col-md-1">
+                        <input type="submit" class="btn btn-primary btn-sm edit-submit-button">
+                    </div>
+                </div>
+            </form>
+            <div>
+                <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
+                <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
                     <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                       <h5 class="modal-title" id="deleteComment">Are you sure?</h5>
+                                    <h5 class="modal-title font-weight-bolder" id="deleteComment">Are you sure?</h5>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
                                     <form action="${formAction}/${data._id}" method="POST" class="delete-comment">
                                         <input type="submit" class="btn btn-danger btn-sm" value="Delete">
                                     </form>
-                               </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <h5 class="float-left"> <strong>${data.author.username}</strong></h5><br>
-                    <p class="text-muted" class="date">a few seconds ago</p>
-                </div>
-                <div style="width: 100%; text-align: left;" class="current-comment">
-                    <p>${data.text}</p>  
-                </div>
-                <form action="${formAction}/${data._id}" method="POST" class="edit-comment">
-                    <div class="form-group">
-                        <textarea rows="1" class="form-control" name="comment[text]">${data.text}</textarea>
-                    </div>
-                    <input type="submit" class="btn btn-primary btn-sm">
-                </form>
             </div>
-         `   
+        </div>
+        `   
         )
         $('#commentTextArea').val('')
     }); 
@@ -80,8 +83,15 @@ $('#commentList').on('click', '.edit-button', function(){
     $(this).parent().siblings('.edit-comment, .current-comment').toggle(); 
 });
 
-// 3 - Edit comment
+// $('.each-comment').on('click', '.each-comment', function(){
+//     $('.each-comment').parent().siblings('.user-owner-buttons').toggle(); 
+// });
 
+$('.each-comment').click(function(){
+    $(this).parent().siblings('.user-owner-buttons').toggle()
+}); 
+
+// 3 - Edit comment
 $('#commentList').on('submit', '.edit-comment', function(e){
     e.preventDefault(); 
     var editComment = $(this).serialize();
@@ -95,17 +105,33 @@ $('#commentList').on('submit', '.edit-comment', function(e){
         success: function(data){
             this.originalComment.html(
                 `
-                <div style="width: 100%; text-align: left;">
-                            <button class="btn btn-default btn-sm edit-button">Edit Comment</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteComment">Delete</button>
+                    <div class="d-block">
+                        <p> <strong>${data.author.username}</strong> | <span class="text-muted">a few seconds ago</span></p>
+                    </div>
+                    <div class="current-comment">
+                        <p>${data.text}</p>  
+                    </div>
+                    <form action="${actionURL}" method="POST" class="edit-comment">
+                        <div class="form-row">
+                            <div class="form-group col-9 col-sm-10 col-md-11">
+                                <textarea rows="1" class="form-control" name="comment[text]">${data.text}</textarea>
+                            </div>
+                            <div class=" form-group col-3 col-sm-2 col-md-1">
+                                <input type="submit" class="btn btn-primary btn-sm edit-submit-button">
+                            </div>
+                        </div>
+                    </form>
+                    <div>
+                        <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
                             <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteComment">Are you sure?</h5>
+                                            <h5 class="modal-title font-weight-bolder" id="deleteComment">Are you sure?</h5>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
                                             <form action="${actionURL}" method="POST" class="delete-comment">
                                                 <input type="submit" class="btn btn-danger btn-sm" value="Delete">
                                             </form>
@@ -113,18 +139,7 @@ $('#commentList').on('submit', '.edit-comment', function(e){
                                     </div>
                                 </div>
                             </div>
-                        <h5 class="float-left"> <strong>${data.author.username}</strong></h5><br>
-                        <p class="text-muted">a few seconds ago</p>
-                    </div>
-                    <div style="width: 100%; text-align: left;" class="current-comment">
-                        <p>${data.text}</p>  
-                    </div>
-                    <form action="${actionURL}" method="POST" class="edit-comment">
-                        <div class="form-group">
-                            <textarea rows="1" class="form-control" name="comment[text]">${data.text}</textarea>
-                        </div>
-                        <input type="submit" class="btn btn-primary btn-sm">
-                    </form>
+                </div>
                 `
             )
         }

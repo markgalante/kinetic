@@ -74,59 +74,64 @@
 <!-- REFERENCES END -->
 
 <!-- COMMENTS -->
-<div class="jumbotron text-center mx-auto">
-    <h3 class="card-title pb-2"><strong>Comments</strong></h3>
-    <hr>
-    <div id="comment-panel">
-        <div  id="commentList">
-            <% exercise.comments.forEach(comment => { %> 
-                <div class="row my-3 list-group-item">
-                    <div style="width: 100%; text-align: left;">
-                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
-                            <button class="btn btn-default btn-sm edit-button">Edit Comment</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteComment">Delete</button>
-                            <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteComment">Are you sure?</h5>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                            <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id%>" method="POST" class="delete-comment">
-                                                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                                            </form>
+<div class="jumbotron">
+    <h3 class="ard-title text-center"><strong>Comments</strong></h3>
+    <div class="list-group">
+        <div id="comment-panel">
+            <div  id="commentList">
+                <% exercise.comments.forEach(comment => { %> 
+                    <div class="row my-3 list-group-item each-comment">
+                        <div class="d-block">
+                            <p> <strong><%= comment.author.username %></strong> | <span class="text-muted"><%= moment(comment.updatedAt).fromNow() %></span></p>
+                        </div>
+                        <div class="current-comment">
+                            <p><%= comment.text %></p>  
+                        </div>
+                        <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>" method="POST" class="edit-comment">
+                            <div class="form-row">
+                                <div class="form-group col-9 col-sm-10 col-md-11">
+                                    <textarea rows="1" class="form-control" name="comment[text]"><%= comment.text %></textarea>
+                                </div>
+                                <div class=" form-group col-3 col-sm-2 col-md-1">
+                                    <input type="submit" class="btn btn-primary btn-sm edit-submit-button">
+                                </div>
+                            </div>
+                        </form>
+                        <div>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
+                                <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
+                                <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-white font-weight-bolder" id="deleteComment">Are you sure?</h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                                                <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id%>" method="POST" class="delete-comment">
+                                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <% } %>
-                        <h5 class="float-left"> <strong><%= comment.author.username %></strong></h5><br>
-                        <p class="text-muted"><%= moment(comment.updatedAt).fromNow() %></p>
-                    </div>
-                    <div style="width: 100%; text-align: left;" class="current-comment">
-                        <p><%= comment.text %></p>  
-                    </div>
-                    <form action="/exercises/<%= exercise.slug %>/comments/<%= comment.id %>" method="POST" class="edit-comment">
-                        <div class="form-group">
-                            <textarea rows="1" class="form-control" name="comment[text]"><%= comment.text %></textarea>
+                            <% } %>
                         </div>
-                        <input type="submit" class="btn btn-primary btn-sm">
-                    </form>
-                </div>
-            <% }) %>
-        </div> 
-        <hr>
-        <% if(currentUser){ %> 
-            <form action="/exercises/<%= exercise.slug %>/comments" method="POST" class="comments">
-                <div class="form-group">
-                    <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control" id="commentTextArea"></textarea>
-                </div>
-                <button class="btn btn-primary btn-sm"> <i class="fas fa-feather"></i> Submit</button>
-            </form>
-        <% } %>
+                    </div>
+                <% }) %>
+            </div> 
+            <% if(currentUser){ %> 
+                <form action="/exercises/<%= exercise.slug %>/comments" method="POST" class="comments">
+                    <div class="form-group">
+                        <textarea rows="2" placeholder="Enter comment here" name="comment[text]" class="form-control" id="commentTextArea"></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-sm"> <i class="fas fa-feather"></i> Submit</button>
+                </form>
+            <% } %>
+        </div>
+        
     </div>
-    
 </div>
 <!-- COMMENTS END -->
 

@@ -66,3 +66,14 @@ iframe{
 .edit-comment{
     display: none; 
 }
+
+.each-comment:hover{
+    background-color: blanchedalmond;
+}
+
+.user-owner-buttons, .edit-submit-button{
+    margin: 0;
+}
+.btn.btn-sm{
+    padding: .5rem 0.6rem;
+}
