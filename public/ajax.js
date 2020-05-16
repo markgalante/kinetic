@@ -37,7 +37,7 @@ $('.comments').submit(function(e){
         `
          <div class="row my-3 list-group-item each-comment">
             <div class="d-block">
-                <p> <strong>${data.author.username}</strong> | <span class="text-muted">a few seconds ago</span></p>
+                <p> <strong>${data.author.username}</strong> | <span class="text-muted">a few seconds ago</span>  <span class="float-right comment-hamburger"><i class="fas fa-bars"></i></span></p>
             </div>
             <div class="current-comment">
                 <p>${data.text}</p>  
@@ -52,7 +52,7 @@ $('.comments').submit(function(e){
                     </div>
                 </div>
             </form>
-            <div>
+            <div class="comment-option-buttons">
                 <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
                 <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
                     <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
@@ -83,11 +83,15 @@ $('#commentList').on('click', '.edit-button', function(){
     $(this).parent().siblings('.edit-comment, .current-comment').toggle(); 
 });
 
-// Click on each of your own comments to show the edit and delete buttons. 
-$('#commentList').on('click', '.each-comment', function(){
-    // $('.user-owner-buttons').toggle();
-    $(this).find('.user-owner-buttons').toggle() 
+// Click on each of your own comments to show the edit and delete buttons.
+$('#commentList').on('click', '.comment-hamburger', function(){
+    $(this).parents('.each-comment').find('.comment-option-buttons').toggle(); 
 });
+
+// $('.comment-hamburger').click(function(){
+//     $(this).parents('.each-comment').find('.comment-option-buttons').toggle();
+// });
+
 
 // 3 - Edit comment
 $('#commentList').on('submit', '.edit-comment', function(e){
@@ -104,7 +108,7 @@ $('#commentList').on('submit', '.edit-comment', function(e){
             this.originalComment.html(
                 `
                     <div class="d-block">
-                        <p> <strong>${data.author.username}</strong> | <span class="text-muted">a few seconds ago</span></p>
+                        <p> <strong>${data.author.username}</strong> | <span class="text-muted">a few seconds ago</span>  <span class="float-right comment-hamburger"><i class="fas fa-bars"></i></span></p>
                     </div>
                     <div class="current-comment">
                         <p>${data.text}</p>  
@@ -119,7 +123,7 @@ $('#commentList').on('submit', '.edit-comment', function(e){
                             </div>
                         </div>
                     </form>
-                    <div>
+                    <div class="comment-option-buttons">
                         <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
                         <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
                             <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">

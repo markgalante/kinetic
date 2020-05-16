@@ -82,7 +82,11 @@
                 <% exercise.comments.forEach(comment => { %> 
                     <div class="row my-3 list-group-item each-comment">
                         <div class="d-block">
-                            <p> <strong><%= comment.author.username %></strong> | <span class="text-muted"><%= moment(comment.updatedAt).fromNow() %></span></p>
+                            <p> <strong><%= comment.author.username %></strong> | <span class="text-muted"><%= moment(comment.updatedAt).fromNow() %></span> 
+                                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                <span class="float-right comment-hamburger"><i class="fas fa-bars"></i></span>
+                                <% } %> 
+                            </p>
                         </div>
                         <div class="current-comment">
                             <p><%= comment.text %></p>  
@@ -97,7 +101,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div>
+                        <div class="comment-option-buttons">
                             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
                                 <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
                                 <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
