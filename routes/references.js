@@ -101,9 +101,7 @@ router.delete('/:ref_id', middleware.referenceOwnership, (req, res)=>{
             req.flash('error', 'Unable to delete reference now.'); 
             return res.redirect('back'); 
         } else{
-            console.log('Reference deleted'); 
-            req.flash('success', 'Reference successfully deleted.'); 
-            res.redirect('/exercises/' + req.params.slug); 
+            res.json(ref);  
         }
     }); 
 })

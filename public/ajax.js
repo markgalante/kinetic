@@ -167,6 +167,22 @@ $('#reference-panel').on('click', '.ref-hamburger', function(){
     $(this).parents('.each-reference').find('.reference-author-buttons').toggle(); 
 });
 
+/*Toggle to delete reference*/
+$('#reference-panel').on('submit', '.reference-delete', function(e){
+    e.preventDefault(); 
+    var actionURL = $(this).attr('action'); 
+    $referenceToDelete = $(this).closest('.list-group-item');
+    $.ajax({
+        url: actionURL,
+        type: 'DELETE',
+        referenceToDelete: $referenceToDelete,
+        success: function(){
+            this.referenceToDelete.remove(); 
+            $('.modal-backdrop').remove();
+        }
+    });
+});
+
 //LOADING BUTTONS 
 $('.submit-button').click(function(){
     $(this).html(`<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...`)
