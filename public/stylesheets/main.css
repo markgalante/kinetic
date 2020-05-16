@@ -67,7 +67,7 @@ iframe{
     display: none; 
 }
 
-.each-comment:hover{
+.each-comment:hover, .each-reference:hover{
     background-color: blanchedalmond;
 }
 
@@ -75,7 +75,7 @@ iframe{
     margin: 0;
 }
 
-.comment-option-buttons{
+.comment-option-buttons, .reference-author-buttons{
     display: none; 
 }
 

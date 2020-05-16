@@ -88,10 +88,6 @@ $('#commentList').on('click', '.comment-hamburger', function(){
     $(this).parents('.each-comment').find('.comment-option-buttons').toggle(); 
 });
 
-// $('.comment-hamburger').click(function(){
-//     $(this).parents('.each-comment').find('.comment-option-buttons').toggle();
-// });
-
 
 // 3 - Edit comment
 $('#commentList').on('submit', '.edit-comment', function(e){
@@ -162,6 +158,13 @@ $('#commentList').on('submit', '.delete-comment', function(e){
             $('.modal-backdrop').remove();
         }
     });
+});
+
+
+//REFERENCES
+/* Toggle between showing the edit and delete buttons */
+$('#reference-panel').on('click', '.ref-hamburger', function(){
+    $(this).parents('.each-reference').find('.reference-author-buttons').toggle(); 
 });
 
 //LOADING BUTTONS 

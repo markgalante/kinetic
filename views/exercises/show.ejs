@@ -34,7 +34,6 @@
                 
             <% } else { %> 
                 <button class="btn btn-primary btn-rounded recommend recommendBtn" id="recommendBtn"> <i class="far fa-check-circle"></i> Recommend (<%= exercise.recommends.length %>) </button>
-                
             <% } %>
         <% } else{ %> 
             <button class="btn btn-primary btn-rounded" disabled> <i class="far fa-check-circle"></i> Recommend (<%= exercise.recommends.length %>) </button>                
@@ -45,37 +44,58 @@
 </div>
 
 <!-- REFERENCES -->
-<div class="jumbotron text-center mx-auto">
-    <h3 class="card-title pb-2"><strong>References (<%= exercise.reference.length %>)</strong></h3>
-    <% exercise.reference.map(ref => { %> 
-        <div>
-            <div class="row">
-                <p><%= ref.authors %>. <%= ref.year.getFullYear() %>. <%= ref.title %>. <em><%= ref.journal %></em>. <%= ref.edition %>: <%= ref.pageStart %> - <%= ref.pageEnd %></p>
-                <div>
-                    <p> - <a class="text-dark" href="/profile/<%= ref.author.username %>"> <%= ref.author.username %>, <%= moment(ref.updatedAt).fromNow() %> </a></p>
+<div class="jumbotron">
+    <h3 class="card-title text-center"><strong>References</strong></h3>
+    <div class="list-group">
+        <div id="reference-panel">
+            <% exercise.reference.map(ref => { %> 
+                <div class="list-group-item each-reference">
+                    <div>
+                        <p> <strong><a class="text-dark" href="/profile/<%= ref.author.username %>"> <%= ref.author.username %> </a> </strong> | <span class="text-muted"><%= moment(ref.updatedAt).fromNow() %></span>
+                            <% if(currentUser && ref.author.id.equals(currentUser._id)){ %>
+                                <span class="float-right ref-hamburger"><i class="fas fa-bars"></i></span>
+                            <% } %> 
+                        </p>
+                    </div>
+                    <div>
+                        <p><%= ref.authors %>. <%= ref.year.getFullYear() %>. <%= ref.title %>. <em><%= ref.journal %></em>. <%= ref.edition %>: <%= ref.pageStart %> - <%= ref.pageEnd %></p>
+                    </div>
+                    <div class="reference-author-buttons">
+                        <% if(currentUser && ref.author.id.equals(currentUser._id)){ %> 
+                            <a class="btn btn-default btn-sm" href="/exercises/<%= exercise.slug %>/references/<%= ref.id %>/edit"><i class="far fa-edit"></i> Edit</a>
+                            <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
+                            <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-white font-weight-bolder" id="deleteComment">Are you sure?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                                            <form action="/exercises/<%= exercise.slug %>/references/<%= ref.id %>?_method=DELETE" method="POST">
+                                                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
-                <% if(currentUser && ref.author.id.equals(currentUser._id)){ %> 
-                    <a class="btn btn-default btn-sm" href="/exercises/<%= exercise.slug %>/references/<%= ref.id %>/edit">Edit</a>
-                    <form action="/exercises/<%= exercise.slug %>/references/<%= ref.id %>?_method=DELETE" method="POST">
-                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                    </form>
-                <% } %>
-            </div>
+            <% }) %>
+            <% if(currentUser){ %> 
+                <div>
+                    <a class="btn btn-primary btn-sm btn-rounded" href="/exercises/<%= exercise.slug %>/references/new"><i class="fas fa-plus"></i> Add reference</a>
+                </div>
+            <% } %>
         </div>
-    <% }) %>
-    <% if(currentUser){ %> 
-        <hr>
-        <div>
-            <a class="btn btn-primary btn-rounded" href="/exercises/<%= exercise.slug %>/references/new"><i class="fas fa-plus"></i> Add reference</a>
-        </div>
-    <% } %>
-  
+    </div>
 </div>
 <!-- REFERENCES END -->
 
 <!-- COMMENTS -->
 <div class="jumbotron">
-    <h3 class="ard-title text-center"><strong>Comments</strong></h3>
+    <h3 class="card-title text-center"><strong>Comments</strong></h3>
     <div class="list-group">
         <div id="comment-panel">
             <div  id="commentList">
