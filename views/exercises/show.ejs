@@ -55,7 +55,7 @@
                     <p> - <a class="text-dark" href="/profile/<%= ref.author.username %>"> <%= ref.author.username %>, <%= moment(ref.updatedAt).fromNow() %> </a></p>
                 </div>
                 <% if(currentUser && ref.author.id.equals(currentUser._id)){ %> 
-                    <a class="btn btn-default" href="/exercises/<%= exercise.slug %>/references/<%= ref.id %>/edit">Edit</a>
+                    <a class="btn btn-default btn-sm" href="/exercises/<%= exercise.slug %>/references/<%= ref.id %>/edit">Edit</a>
                     <form action="/exercises/<%= exercise.slug %>/references/<%= ref.id %>?_method=DELETE" method="POST">
                         <input type="submit" class="btn btn-danger btn-sm" value="Delete">
                     </form>
