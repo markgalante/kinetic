@@ -36,13 +36,13 @@ escapeRegex = (text) => {
 
 // EXERCISE INDEX ROUTE 
 router.get('/', (req, res)=>{
-    const   perPage   = 8, 
+    let     perPage   = 8, 
             pageQuery = parseInt(req.query.page), 
             pageNumber= pageQuery ? pageQuery : 1; 
 
     let noMatch = null; // Default = no "can't find" message present. 
     if(req.query.search){ //req.query /exercises?search = (req.body.search); 
-        const regex = new RegExp(escapeRegex(req.query.search), "gi"); 
+        let regex = new RegExp(escapeRegex(req.query.search), "gi"); 
         Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]})
         .skip((perPage * pageNumber)-perPage)
         .limit(perPage)
