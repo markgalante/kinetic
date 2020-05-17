@@ -50,8 +50,8 @@
         <!-- Include Editor style. -->
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light info-color">
-            <a class="navbar-brand" href="#">kinetic</a>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark primary-color">
+            <span class="navbar-brand">kinetic</span>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -76,18 +76,21 @@
                     <a class="nav-link" href="/register">Register</a>
                   </li>
                 <% } else{ %> 
-                  <li class="nav-item"> 
-                    <a class="nav-link" href="/profile/<%= currentUser.username %>"><%= currentUser.username %></a> 
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-user"></i> Profile </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                      <a class="dropdown-item" href="/profile/<%= currentUser.username %>"><%= currentUser.username %></a>
+                      <a class="dropdown-item" href="/logout">Log out</a>
+                    </div>
                   </li>
                 <% } %>
               </ul>
             </div>
           </nav>
           
-          <div class="container my-4">
+          <div class="container my-4 main-page">
             <% if(error && error.length > 0){ %> 
               <div class="alert alert-danger" role="alert">
                 <%= error %>
@@ -100,4 +103,4 @@
             <% } %> 
           </div>
         
-        <div class="container mt-4">
+        <div class="container mt-6">

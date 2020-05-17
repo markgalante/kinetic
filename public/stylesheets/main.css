@@ -2,6 +2,10 @@ body{
     background: rgba(141, 196, 221, 0.1)
 }
 
+.main-page{
+    margin-top: 4.5rem!important
+}
+
 .exercise-card-image{
   width: 100%;
   height: 100px;
