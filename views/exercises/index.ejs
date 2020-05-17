@@ -8,11 +8,19 @@
   <input type="submit" value="Search">
 </form>
 
+<% if(noMatch){ %> 
+<h1 class="text-center"> <%=noMatch%> </h1>
+<div class="w-50 mx-auto">
+  <p class="text-center">No exercises match the parameters of your search.</p>
+</div>
+<% } %>
 
 <div class="row">
     <!-- MOST RECENT -->
     <div class="col-md-6">
-        <h3 class="text-center">Most recent</h3>
+      <% if(!noMatch){ %> 
+        <h3 class="mx-auto my-3 text-center">Most recent</h3>
+      <% } %>
         <% exercises.forEach(exercise => { %> 
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
@@ -47,8 +55,9 @@
 
     <!-- MOST POPULAR -->
     <div class="col-md-6 py-4 py-md-0">
-        <h3 class="text-center">Most popular</h3>
-
+      <% if(!noMatch){ %> 
+        <h3 class="mx-auto my-3 text-center">Most popular</h3>
+      <% } %>
           <% popular.forEach(exercise => { %> 
               <div class="card mb-3" style="max-width: 540px;">
                   <div class="row no-gutters">
@@ -80,6 +89,8 @@
               </div>
           <% }) %> 
 </div>
+
+<% if(!noMatch){ %> 
 
 <!-- PAGINATION FEATURE -->
 <div class="container">
@@ -158,7 +169,6 @@
   </div>
 </div>
 
-
-
+<% } %> 
 
 <%- include("../partials/footer") %>
