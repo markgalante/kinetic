@@ -40,7 +40,7 @@ router.get('/', (req, res)=>{
             pageQuery = parseInt(req.query.page), 
             pageNumber= pageQuery ? pageQuery : 1; 
 
-    const noMatch = null; // Default = no "can't find" message present. 
+    let noMatch = null; // Default = no "can't find" message present. 
     if(req.query.search){ //req.query /exercises?search = (req.body.search); 
         const regex = new RegExp(escapeRegex(req.query.search), "gi"); 
         Exercise.find({$or: [ {name: regex}, {description: regex}, {muscle: regex}, {'author.username': regex} ]})
