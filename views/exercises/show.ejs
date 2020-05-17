@@ -13,6 +13,7 @@
             <div class="dropdown-menu dropdown-primary">
             <a class="dropdown-item" href="/exercises/<%= exercise.slug %>/edit"><i class="far fa-edit"></i> Edit</a>
             <a href="#deleteExercise" class="dropdown-item" data-toggle="modal" data-target="#deleteExercise"><i class="far fa-trash-alt"></i> Delete</a>
+            </div>
         </div>
     <% } %> 
 
@@ -36,21 +37,17 @@
     <h1 class="card-title text-center pb-2"><strong><%= exercise.name %></strong></h1>
     <% if(currentUser && exercise.author.id.equals(currentUser._id)){ %> 
         <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>">you</a> <%= moment(exercise.createdAt).fromNow() %></em></h6>
-        <a class="btn btn-rounded" href="/exercises/<%= exercise.slug %>/edit">Edit</a>
-        <form action="/exercises/<%= exercise.slug %>?_method=DELETE" method="POST">
-            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-        </form>
     <% } else{ %> 
         <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>"> <%= exercise.author.username %></a> <%= moment(exercise.createdAt).fromNow() %></em></h6>
     <% } %>
    
         <div class="view-overlay my-4">
             <% if(exercise.videoId){ %> 
-                <video controls="controls" src="<%= exercise.video %>" style="width: 75%;margin: auto;">
+                <video class="video mx-auto w-100 w-md-75 d-block" controls="controls" src="<%= exercise.video %>">
                 </video>
             <% } else{ %> 
-                <div class="embed-responsive embed-responsive-21by9">
-                    <iframe class="embed-responsive-item" src="<%= exercise.video %>" allow="autoplay 'none'"></iframe>
+                <div class="embed-responsive embed-responsive-21by9 w-100 w-md-75">
+                    <iframe class="embed-responsive-item" src="<%= exercise.video %>" allowfullscreen allow="autoplay 'none'"></a>></iframe>
                 </div>
             <% } %>
         </div>

@@ -82,3 +82,19 @@ iframe{
 .btn.btn-sm{
     padding: .5rem 0.6rem;
 }
+
+.embed-responsive{
+    height: 360px;
+}
+
+@media screen and (max-width: 576px) {
+    .embed-responsive{
+        height: 160px;
+    }   
+}
+
+@media screen and (max-width: 768px) {
+    .embed-responsive{
+        height: 280px;
+    }   
+}
