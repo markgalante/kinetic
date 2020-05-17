@@ -100,17 +100,22 @@ iframe{
 } */
 
 .exercise-video{
-    height: 360px;
+    height: 420px;
+}
+
+.embed-responsive{
+    height: 100%;
+    width: 100%;
 }
 
 @media screen and (max-width: 576px) {
     .embed-responsive{
         height: 100%;
         width: 100%;
-    }
-    .exercise-video{
-        height: 160px;
     }   
+    /* .exercise-video{
+        height: 160px;
+    }    */
 }
 
 @media screen and (max-width: 768px) {
@@ -118,7 +123,7 @@ iframe{
         height: 100%;
         width: 100%;
     }   
-    .exercise-video{
+    /* .exercise-video{
         height: 165px;
-    }
+    } */
 }
