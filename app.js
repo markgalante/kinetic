@@ -24,7 +24,8 @@ const   exerciseRoutes  = require('./routes/exercises'),
 mongoose.connect(process.env.DATABASEURL, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify:false }); 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs'); 
-app.use(express.static(__dirname + '/public'));  
+app.use(express.static(__dirname + '/public')); 
+app.use('/froala', express.static(__dirname + '/node_modules/froala-editor')); 
 app.use(methodOverride('_method'));
 app.use(expressSanitizer());
 // seedDB();  
