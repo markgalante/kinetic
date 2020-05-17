@@ -1,6 +1,38 @@
 <%- include("../partials/header") %>
 
 <div class="jumbotron mx-auto">
+
+    <% if(currentUser && exercise.author.id.equals(currentUser._id)){ %>
+        <div class="dropdown">
+
+            <!--Trigger-->
+            <button class="btn btn-primary btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i></button>
+        
+            <!--Menu-->
+            <div class="dropdown-menu dropdown-primary">
+            <a class="dropdown-item" href="/exercises/<%= exercise.slug %>/edit"><i class="far fa-edit"></i> Edit</a>
+            <a href="#deleteExercise" class="dropdown-item" data-toggle="modal" data-target="#deleteExercise"><i class="far fa-trash-alt"></i> Delete</a>
+        </div>
+    <% } %> 
+
+    <div class="modal" id="deleteExercise" tabindex="-1" role="dialog" aria-labelledby="deleteExercise" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white font-weight-bolder" id="deleteExercise">Are you sure?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                    <form action="/exercises/<%= exercise.slug %>?_method=DELETE" method="POST">
+                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+
     <h1 class="card-title text-center pb-2"><strong><%= exercise.name %></strong></h1>
     <% if(currentUser && exercise.author.id.equals(currentUser._id)){ %> 
         <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>">you</a> <%= moment(exercise.createdAt).fromNow() %></em></h6>
