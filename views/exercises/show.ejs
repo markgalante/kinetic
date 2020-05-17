@@ -41,9 +41,9 @@
         <h6 class="card-title h6 text-center text-muted"><em>Submitted by <a href="/profile/<%= exercise.author.username %>"> <%= exercise.author.username %></a> <%= moment(exercise.createdAt).fromNow() %></em></h6>
     <% } %>
    
-        <div class="view-overlay my-4">
+        <div class="view-overlay exercise-video my-4">
             <% if(exercise.videoId){ %> 
-                <video class="video mx-auto w-100 w-md-75 d-block" controls="controls" src="<%= exercise.video %>">
+                <video class="video mx-auto w-100 w-md-75 h-100 d-block" controls="controls" src="<%= exercise.video %>">
                 </video>
             <% } else{ %> 
                 <div class="embed-responsive embed-responsive-21by9 w-100 w-md-75">

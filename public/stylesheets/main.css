@@ -82,7 +82,7 @@ iframe{
 .btn.btn-sm{
     padding: .5rem 0.6rem;
 }
-
+/* 
 .embed-responsive{
     height: 360px;
 }
@@ -97,4 +97,28 @@ iframe{
     .embed-responsive{
         height: 280px;
     }   
+} */
+
+.exercise-video{
+    height: 360px;
+}
+
+@media screen and (max-width: 576px) {
+    .embed-responsive{
+        height: 100%;
+        width: 100%;
+    }
+    .exercise-video{
+        height: 160px;
+    }   
+}
+
+@media screen and (max-width: 768px) {
+    .embed-responsive{
+        height: 100%;
+        width: 100%;
+    }   
+    .exercise-video{
+        height: 165px;
+    }
 }
