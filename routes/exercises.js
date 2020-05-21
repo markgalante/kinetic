@@ -1,4 +1,4 @@
-const   express     = require('express'), 
+let   express     = require('express'), 
         router      = express.Router(), 
         multer      = require('multer'),
         cloudinary  = require('cloudinary'),
@@ -10,18 +10,18 @@ const   express     = require('express'),
         middleware  = require('../middleware/index');  
 
 //CONFIGURE MULTER: 
-const storage = multer.diskStorage({
+let storage = multer.diskStorage({
     filename: (req, file, callback)=>{
         callback(null, file.originalname + '-' + Date.now()); 
     }
 });
-const filter = (req, file, callback) => {
+let filter = (req, file, callback) => {
     if(!file.originalname.match(/\.(jpg|jpeg|mp4|webm|3gp|mov|png|gif)$/i)){ //If the file name is NOT the following.
         return callback(new Error('Only image or video files are allowed.'), false); 
     }  
     callback(null, true); 
 };
-const upload = multer({storage: storage, fileFilter:filter}); //fileFilter - function to control which files are uploaded
+let upload = multer({storage: storage, fileFilter:filter}); //fileFilter - function to control which files are uploaded
 
 //setting up cloudinary
 cloudinary.config({ 
@@ -195,8 +195,8 @@ router.get('/new', middleware.isLoggedIn, (req, res)=>{
 
 embedVideo = (vid) => {
     console.log(vid); 
-    const vidId = vid.slice(-11);
-    const mainURL = 'https://www.youtube.com/embed/'; 
+    let vidId = vid.slice(-11);
+    let mainURL = 'https://www.youtube.com/embed/'; 
     return (mainURL + vidId);
 }
 createExercise = (req, res, exercise) =>{
