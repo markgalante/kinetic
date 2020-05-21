@@ -47,10 +47,6 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser()); 
 passport.deserializeUser(User.deserializeUser());
 
-app.get('/', (req, res)=>{
-    res.send("HOME PAGE!")
-}); 
-
 //Allows passing of these objects into all routes. 
 app.use((req, res, next)=>{
     res.locals.currentUser = req.user; 

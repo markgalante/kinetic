@@ -39,6 +39,10 @@ cloudinary.config({
     api_secret: process.env.API_SECRET /*process.env.CLOUDINARY_API_SECRET*/ 
 });
 
+router.get('/', (req, res)=>{
+    res.render('landing')
+}); 
+
 //GET: REGISTER PAGE
 router.get('/register', (req, res)=>{
     res.render('users/register', {page:'register'}); 
