@@ -1,11 +1,11 @@
 <%- include("../partials/header") %>
 
 <!-- SEARCH FORM -->
-<form action="/exercises" method="GET">
-  <div class="md-form search-bar active-cyan active-cyan-2 mb-3">
-    <input class="form-control" type="text" name="search" title="Search exercises" placeholder="Search exercises...">
+<form class="form-inline ml-auto" action="/exercises" method="GET">
+  <div class="md-form search-bar active-cyan active-cyan-2 mb-3 w-75 mx-auto">
+    <input class="form-control w-100" type="text" name="search" title="Search exercises" placeholder="Search exercises...">
   </div>
-  <input type="submit" value="Search">
+  <button class="btn btn-md my-0 ml-sm-2"><i class="fas fa-search"></i></button>
 </form>
 
 <% if(noMatch){ %> 
@@ -14,6 +14,84 @@
   <p class="text-center">No exercises match the parameters of your search.</p>
 </div>
 <% } %>
+
+<ul class="nav nav-tabs my-1" role="tablist">
+  <li class="nav-item w-50" role="presentation">
+    <a class="nav-link active text-center" id="home-tab" data-toggle="tab" href="#recent" role="tab" aria-controls="home" aria-selected="true">
+      <i class="far fa-clock"></i> Most Recent</a>
+  </li>
+  <li class="nav-item w-50" role="presentation">
+    <a class="nav-link text-center" id="profile-tab" data-toggle="tab" href="#recommended" role="tab" aria-controls="profile" aria-selected="false">
+      <i class="fas fa-check-circle"></i> Most Recommended</a>
+  </li>
+</ul>
+
+<div class="tab-content my-1">
+  <div class="tab-pane fade show active" id="recent" role="tabpanel" aria-labelledby="home-tab">
+    <% exercises.forEach(exercise => { %> 
+      <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <% if (exercise.videoId){ %> 
+                <% var vid = exercise.video.slice(0, -4); %>  
+                <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img exercise-card-image">
+              <% } else { %> 
+                <% var vidId = exercise.video.slice(-11) %>
+                <img src="https://img.youtube.com/vi/<%= vidId %>/hqdefault.jpg" alt="<%= exercise.name %>" class="card-img exercise-card-image">
+              <% }%>
+            </div>
+            <div class="col-md-10">
+              <div class="card-body">
+                <h5 class="card-title text-truncate"><a href="/exercises/<%= exercise.slug %>"><%= exercise.name %></a></h5>
+                <p class="card-text">
+                  <% if(exercise.recommends.length >= 1){ %> 
+                    <span class="card-text green-text exercise-info"><i class="fas fa-check-circle"></i> <%= exercise.recommends.length %></span>
+                  <% } else{ %> 
+                    <span class="card-text exercise-info"><i class="fas fa-check-circle"></i> <%= exercise.recommends.length %></span>
+                  <% } %>
+                  <span class="exercise-info"><%= exercise.author.username %></span> 
+                  <span><%= moment(exercise.createdAt).fromNow() %></span>
+                </p>
+                <p class="card-text"><%= exercise.muscle %></p>
+              </div>
+            </div>
+          </div>
+      </div>
+  <% }) %> 
+  </div>
+  <div class="tab-pane fade" id="recommended" role="tabpanel" aria-labelledby="profile-tab">
+    <% popular.forEach(exercise => { %> 
+      <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <% if (exercise.videoId){ %> 
+                <% var vid = exercise.video.slice(0, -4); %>  
+                <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img exercise-card-image">
+              <% } else { %> 
+                <% var vidId = exercise.video.slice(-11) %>
+                <img src="https://img.youtube.com/vi/<%= vidId %>/hqdefault.jpg" alt="<%= exercise.name %>" class="card-img exercise-card-image">
+              <% }%>
+            </div>
+            <div class="col-md-10">
+              <div class="card-body">
+                <h5 class="card-title text-truncate"><a href="/exercises/<%= exercise.slug %>"><%= exercise.name %></a></h5>
+              <p class="card-text">
+                <% if(exercise.recommends.length >= 1){ %> 
+                  <span class="card-text green-text exercise-info"><i class="fas fa-check-circle"></i> <%= exercise.recommends.length %></span>
+                <% } else{ %> 
+                  <span class="card-text exercise-info"><i class="fas fa-check-circle"></i> <%= exercise.recommends.length %></span>
+                <% } %>
+                <span class="exercise-info"><%= exercise.author.username %></span> 
+                <span><%= moment(exercise.createdAt).fromNow() %></span>
+              </p>
+              <p class="card-text"><%= exercise.muscle %></p>
+              </div>
+            </div>
+          </div>
+      </div>
+  <% }) %> 
+  </div>
+</div>
 
 <div class="row">
     <!-- MOST RECENT -->
