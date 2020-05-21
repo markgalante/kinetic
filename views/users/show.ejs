@@ -1,58 +1,97 @@
 <%- include("../partials/header") %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="card mx-auto my-2" style="width: 18rem;">
-                <img src="<%=user.image%>" class="card-img-top" id="profilePic" alt="image of <%= user.name %>">
-                <div class="card-body">
-                    <div class="mx-4">
-                        <h6 style="display: inline;">Profession:</h6>
-                        <p class="text-justify d-inline card-text"><%= user.profession %></p>
-                    </div>
-                    <div class="mx-4">
-                        <h6 style="display: inline;">Graduated:</h6>
-                        <p class="text-justify d-inline card-text"><%= user.graduated %></p>
-                    </div>
+<div class="jumbotron mx-auto">
+        <% if(currentUser && user._id.equals(currentUser._id)){ %> 
+            <div class="dropdown text-center">
+    
+                <!--Trigger-->
+                <button class="btn btn-primary btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i></button>
+    
+                <!--Menu-->
+                <div class="dropdown-menu dropdown-primary">
+                <a class="dropdown-item" href="/profile/<%= user.username %>/edit"><i class="far fa-edit"></i> Edit</a>
+                <a href="#deleteExercise" class="dropdown-item" data-toggle="modal" data-target="#deleteExercise"><i class="far fa-trash-alt"></i> Delete</a>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-7 my-lg-5 my-2">
-            <h1 class="text-center"><%= user.firstName %> <%= user.lastName%></h1>
-            <h3 class="text-center text-muted"><%= user.username %></h3>
-            <div class="mx-4">
-                <h4>About:</h4>
-                <p class="text-justify" id="bio"><%= user.bio %></p>
-            </div>
-        </div>  
-    </div>
-    <% if(currentUser && user._id.equals(currentUser._id)){ %> 
-        <a href="/profile/<%= user.username %>/edit" class="btn btn-primary">Edit Profile</a>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteProfile">
-            Delete Profile
-        </button>
+        <% } %>
 
-        <!--DELETE PROFILE POP-UP/MODAL: -->
-        <div class="modal fade" id="deleteProfile" tabindex="-1" role="dialog" aria-labelledby="deleteProfile" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteProfile">Are you sure?</h5>
-                    </div>
-                    <div class="modal-body">
-                        When you delete your profile, all of your contributions are also deleted. When this happens, it is irrecoverable.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <form action="/profile/<%= user.username %>?_method=DELETE" method="POST">
-                            <input type="submit" class="btn btn-danger btn-rounded submit-button" value="Delete"> 
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h2 class="card-title text-center pb-2"><%= user.firstName %> <%= user.lastName%></h2>
+    <h4 class="text-center text-muted"><%= user.username %></h4>
+    <div class="view overlay my-4">
+        <img src="<%=user.image%>" class="card-img-top text-center" id="profilePic" alt="image of <%= user.name %>">
+    </div>  
+    <% if(user.bio){ %> 
+        <p class="card-text text-center mx-auto w-75"><%= user.bio %></p>
+    <% } %> 
+    <% if(user.profession){ %> 
+        <p class="card-text mx-auto w-75"><strong>Profession:</strong> <%= user.profession %></p>
     <% } %>
+    <% if(user.graduated){ %> 
+        <p class="card-text mx-auto w-75"><strong>Graduated:</strong> <%= user.graduated %></p>
+    <% } %>  
 </div>
 
+<div class="jumbotron mx-auto">
+    <h3 class="card-title text-center">Contributions</h3>
+    <div class="list-group">
+        <div id="user-exercise-contributions">
+            <% if(exercises.length > 0){ %> 
+                <% exercises.forEach(exercise =>{ %> 
+                    <div class="list-group-item">
+                        <div class="row no-gutters">
+                            <div class="col-md-2">
+                                <% if (exercise.videoId){ %> 
+                                <% var vid = exercise.video.slice(0, -4); %>  
+                                    <img src="<%= vid %>.jpg" alt="<%= exercise.name %>" class="card-img exercise-card-image">
+                                <% } else { %> 
+                                <% var vidId = exercise.video.slice(-11) %>
+                                    <img src="https://img.youtube.com/vi/<%= vidId %>/hqdefault.jpg" alt="<%= exercise.name %>" class="card-img exercise-card-image">
+                                <% }%>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate"><a href="/exercises/<%= exercise.slug %>"><%= exercise.name %></a></h5>
+                                    <p class="card-text">
+                                    <% if(exercise.recommends.length >= 1){ %> 
+                                    <span class="card-text green-text exercise-info"><i class="fas fa-check-circle"></i> <%= exercise.recommends.length %></span>
+                                    <% } else{ %> 
+                                    <span class="card-text exercise-info"><i class="fas fa-check-circle"></i> <%= exercise.recommends.length %></span>
+                                    <% } %>
+                                    <span><%= moment(exercise.createdAt).fromNow() %></span>
+                                    </p>
+                                    <p class="card-text"><%= exercise.muscle %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else{ %> 
+                <p class="text-center">No contributions... yet</p>
+            <% } %> 
+        </div>
+    </div>
+</div>
+
+
+ <!--DELETE PROFILE POP-UP/MODAL: -->
+ <div class="modal fade" id="deleteExercise" tabindex="-1" role="dialog" aria-labelledby="deleteProfile" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProfile">Are you sure?</h5>
+            </div>
+            <div class="modal-body">
+                When you delete your profile, all of your contributions are also deleted. When this happens, it is irrecoverable.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <form action="/profile/<%= user.username %>?_method=DELETE" method="POST">
+                    <input type="submit" class="btn btn-danger btn-rounded submit-button" value="Delete"> 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%- include("../partials/footer") %>

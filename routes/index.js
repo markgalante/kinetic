@@ -1,4 +1,4 @@
-const   express     = require('express'), 
+let   express     = require('express'), 
         router      = express.Router(), 
         async       = require('async'), 
         nodemailer  = require('nodemailer'), 
@@ -11,7 +11,7 @@ const   express     = require('express'),
 require('dotenv').config({path: __dirname + "./env"}); 
 
 //SCHEMAS         
-const   Exercise    = require('../models/exercise'),
+let     Exercise    = require('../models/exercise'),
         Comment     = require('../models/comment'), 
         Reference   = require('../models/reference'),
         User        = require('../models/user'); 
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     }
 }); 
 
-const imageFilter = (req, file, callback)=>{
+let imageFilter = (req, file, callback)=>{
     //accept images only 
     if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)){
         return callback(new Error ('Only image files are allowed'), false); 
@@ -31,7 +31,7 @@ const imageFilter = (req, file, callback)=>{
     callback(null, true); 
 };
 
-const upload = multer({ storage:storage, fileFilter: imageFilter }); 
+let upload = multer({ storage:storage, fileFilter: imageFilter }); 
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUDNAME, 
@@ -104,7 +104,14 @@ router.get('/profile/:username', (req, res)=>{
             req.flash('error', 'User does not exist or cannot be found. Please register to create that user'); 
             res.redirect('/register'); 
         } else{ 
-            res.render('./users/show', {user:foundUser}); 
+            Exercise.find({'author.username': req.params.username}).sort({'createdAt': -1})
+            .then(exercises =>{
+                res.render('./users/show', {user:foundUser, exercises:exercises}); 
+            })
+            .catch( err=>{
+                console.log(err.message);
+                req.flash('error', "Error getting user's profile. Please try again later.")
+            });
         }
     })
 }); 

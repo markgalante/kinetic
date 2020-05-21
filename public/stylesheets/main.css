@@ -55,8 +55,8 @@ input .search-bar{
 #profilePic{
     width: 140px; 
     height: 180px;
-    overflow: hidden;
     margin: auto;
+    object-fit: cover;
 }
 
 #bio{
