@@ -1,8 +1,13 @@
 const   mongoose                = require('mongoose'), 
         passportLocalMongoose   = require('passport-local-mongoose'); 
 
+//FUNCTION to ensure that usernames are stored without non-numerical characters
+function removeNonAlphaNumericals(string){
+    return string.replace(/\W/g, '');
+}
+
 const UserSchema = new mongoose.Schema({
-    username: {type: String, unique: true}, 
+    username: {type: String, unique: true, lowercase:true, set: removeNonAlphaNumericals}, 
     password: String, 
     firstName: String, 
     lastName: String,
@@ -28,6 +33,10 @@ UserSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User", UserSchema); 
 
+// UserSchema.pre('save', function(next){
+//     this.username.replace(/\W/g, '').toLowerCase();
+//     next(); 
+// }); 
 
 //WHEN WORKING WITH DATES: var Assignment = mongoose.model('Assignment', { dueDate: Date });
 // Assignment.findOne(function (err, doc) {

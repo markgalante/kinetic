@@ -77,8 +77,8 @@ router.post('/register', upload.single('image'), (req, res)=>{
                 return res.redirect('back');
             }
             passport.authenticate('local')(req, res, (err, auth)=>{
-                console.log("TaKE NOTE WITH PASSPORT AUTHENTICATE:" + err, auth)
-                res.redirect('/');
+                console.log("TaKE NOTE WITH PASSPORT AUTHENTICATE:" + err, auth);
+                res.redirect('/profile/' + user.username);
                 req.flash('success', 'Welcome to Kinetic, ' + user.firstName + ". Good to have you!");
             });
             console.log(user); 
@@ -224,7 +224,7 @@ router.delete('/profile/:username', middleware.profileOwnership, (req, res)=>{
                 }
             }); 
             console.log("IMAGE ID AFTER DELETE: " + user.imageId); 
-            res.redirect('/exercises'); 
+            res.redirect('/'); 
         } catch(err){
             if(err){
                 console.log('ERROR DELETING USER PROFILE: ' + err.message); 
@@ -371,7 +371,7 @@ router.post('/reset/:token', (req, res)=>{
 router.get('/logout', (req, res)=>{
     req.logout(); 
     req.flash('success', 'Goodbye! See you soon.');
-    res.redirect('/exercises');
+    res.redirect('/');
 }); 
 
 module.exports = router; 
