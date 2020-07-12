@@ -10,9 +10,9 @@ The goals of this application are:
 </ul>
 
 ## Table Of Contents
-- [Getting started](#Getting Started)
+- [Getting started](#installation)
 
-## Getting Started: 
+## Installation: 
 > This application contains API keys and passwords that has not been included on this repository. In order to run this application, you'll need to create a .env file with your neccessary details. 
 
 ### Clone this repository: 
