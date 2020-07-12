@@ -11,7 +11,7 @@ The goals of this application are:
 
 ## Table Of Contents
 - [Installation](#installation)
-- [Setup](#set-up-of-project)
+- [Setup](#setup-of-project)
 - [License](#license)
 
 ## Installation: 
@@ -33,7 +33,8 @@ For yarn:
 -- yarn install
 ``` 
 
-### .env set up: 
+### .env set up:
+> Create a separate .env file in your source directory and add to .gitignore to prevent pushing to GitHub 
 ```
 #Database: 
 DATABASE_URL= <String>
