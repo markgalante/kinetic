@@ -11,6 +11,8 @@ The goals of this application are:
 
 ## Table Of Contents
 - [Getting started](#installation)
+- [Setup](#set-up-of-project)
+- [License](#license)
 
 ## Installation: 
 > This application contains API keys and passwords that has not been included on this repository. In order to run this application, you'll need to create a .env file with your neccessary details. 
@@ -46,7 +48,7 @@ GMAIL= <String> e.g.: account@gmail.com
 GM_PW= <String>
 ```
 
-## Set-up of project: 
+## Setup of project: 
 
 ### Authentication and Authorisation: 
 * Username and password authentication with [Passport.js](http://www.passportjs.org/)
