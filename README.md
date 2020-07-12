@@ -10,7 +10,7 @@ The goals of this application are:
 </ul>
 
 ## Table Of Contents
-- [Getting started](#installation)
+- [Installation](#installation)
 - [Setup](#set-up-of-project)
 - [License](#license)
 
