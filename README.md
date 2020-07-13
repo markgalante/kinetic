@@ -5,6 +5,7 @@ kinetic is an open-source exercise-sharing platform for rehabilitation professio
 The goals of this application are: 
 <ul>
     <li>Foster networking among rehabilitation professionals.</li>
+    <li>Idea-sharing between rehabilitation professionals.</li>
     <li>Improve quality of care of patients and clients.</li>
     <li>Allow business owners to get to know potential candidates for their business or practice.</li>
 </ul>
@@ -13,6 +14,9 @@ The goals of this application are:
 - [Installation](#installation)
 - [Setup](#setup-of-project)
 - [License](#license)
+
+![screenshot1](/screenshot1.png)
+![screenshot2](/screenshot2.png)
 
 ## Installation: 
 > This application contains API keys and passwords that has not been included on this repository. In order to run this application, you'll need to create a .env file with your neccessary details. 
