@@ -54,11 +54,11 @@
         </div>
         <div class="form-group">
             <label for="password">Enter Password</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control password-input" id="password" name="password">
         </div>
         <div class="form-group">
             <label for="password2">Re-enter Password</label>
-            <input type="password" class="form-control" id="password2">
+            <input type="password" class="form-control password-input" id="password2">
         </div>
         <div class="hideAlert">
             <p class="alertText">Passwords do not match</p>
@@ -71,18 +71,17 @@
 
 <script src="ejs.min.js"></script>
 <script>
-    console.log("WORKING")
-    const password2 = document.querySelector("#password2");  
-    const password = document.querySelector("#password"); 
+    const password2 = document.getElementById("password2");  
+    const password = document.getElementById("password"); 
     password2.addEventListener("input", ()=>{ 
         if(password2.value === password.value){ 
-            document.querySelector("#registerButton").className="btn btn-success w-100 submit-button"
-            document.querySelector("#registerButton").disabled=false;
-            document.querySelector(".showAlert").setAttribute("class", "hideAlert");
+            document.getElementById("registerButton").className="btn btn-success w-100 submit-button"
+            document.getElementById("registerButton").disabled=false;
+            document.getElementsByClassName("showAlert")[0].setAttribute("class", "hideAlert");
         } else{
-            document.querySelector("#registerButton").className="btn btn-secondary w-100 submit-button disabled"
-            document.querySelector("#registerButton").disabled=true;
-            document.querySelector(".hideAlert").setAttribute("class", "showAlert"); 
+            document.getElementById("registerButton").className="btn btn-secondary w-100 submit-button disabled"
+            document.getElementById("registerButton").disabled=true;
+            document.getElementsByClassName("hideAlert")[0].setAttribute("class", "showAlert"); 
         } 
 }); 
 </script>
