@@ -62,6 +62,6 @@ app.use('/exercises/:slug/comments', commentRoutes);
 app.use('/exercises/:slug/references', referenceRoutes); 
 
 //SET UP PORT: 
-app.listen(3000, ()=>{
+app.listen(process.env.PORT || 3000, ()=>{
     console.log("Connected to kinetic!")
 });
