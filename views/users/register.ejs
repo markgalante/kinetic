@@ -73,10 +73,7 @@
 <script>
     const password2 = document.getElementById("password2");  
     const password = document.getElementById("password"); 
-    document.getElementsByTagName("textarea")[0].addEventListener("keyup", ()=>{
-        alert("Working")
-    });
-    password2.addEventListener("keyup", ()=>{ 
+    password2.addEventListener("change", ()=>{ 
         if(password2.value === password.value){ 
             document.getElementById("registerButton").className="btn btn-success w-100 submit-button"
             document.getElementById("registerButton").disabled=false;
