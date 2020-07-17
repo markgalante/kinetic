@@ -27,24 +27,25 @@
                 <input list="select-profession" class="form-control" name="profession" id="profession"
                     placeholder="Click here to select...">
                 <datalist id="select-profession">
-                    <option>Physiotherapist/Physical Therapist</option>
-                    <option>Occupational Therapist</option>
-                    <option>Biokineticist</option>
-                    <option>None of the above</option>
+                    <select data-datalist="select-profession">
+                        <option>Physiotherapist/Physical Therapist</option>
+                        <option>Occupational Therapist</option>
+                        <option>Biokineticist</option>
+                        <option>None of the above</option>
+                    </select>
                 </datalist>
             </div>
             <div class="form-group col-md-4">
                 <label for="qualified">Year of Qualification</label>
                 <input list="year-of-graduation" class="form-control" id="qualified" name="graduated" placeholder="">
                 <datalist id="year-of-graduation">
-                    <select>
+                    <select data-datalist="year-of-graduation">
                         <option>Student</option>
                         <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>
                         <% for(year=current; year >= start; year--){ %>
                         <option><%= year %></option>
                         <% } %>
                     </select>
-
                 </datalist>
             </div>
         </div>
