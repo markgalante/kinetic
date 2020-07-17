@@ -54,7 +54,7 @@ $('.comments').submit(function(e){
             </form>
             <div class="comment-option-buttons">
                 <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
-                <button type="button" href="#" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
+                <button type="button" href="#deleteComment" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
                     <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
                             <div class="modal-content">
@@ -121,8 +121,8 @@ $('#commentList').on('submit', '.edit-comment', function(e){
                     </form>
                     <div class="comment-option-buttons">
                         <button class="btn btn-default btn-sm edit-button user-owner-buttons"><i class="far fa-edit"></i> Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
-                            <div class="modal" href="#" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
+                        <button type="button" href="#deleteComment" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteComment"><i class="far fa-trash-alt"></i> Delete</button>
+                            <div class="modal" id="deleteComment" tabindex="-1" role="dialog" aria-labelledby="deleteComment" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
