@@ -92,7 +92,7 @@
                     <div class="reference-author-buttons">
                         <% if(currentUser && ref.author.id.equals(currentUser._id)){ %> 
                             <a class="btn btn-default btn-sm" href="/exercises/<%= exercise.slug %>/references/<%= ref.id %>/edit"><i class="far fa-edit"></i> Edit</a>
-                            <button type="button" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteReference"><i class="far fa-trash-alt"></i> Delete</button>
+                            <button type="button" href="#" class="btn btn-danger btn-sm user-owner-buttons" data-toggle="modal" data-target="#deleteReference"><i class="far fa-trash-alt"></i> Delete</button>
                             <div class="modal" id="deleteReference" tabindex="-1" role="dialog" aria-labelledby="deleteReference" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-notify modal-sm modal-danger" role="document">
                                     <div class="modal-content">
