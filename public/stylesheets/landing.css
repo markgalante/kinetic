@@ -33,10 +33,11 @@ body{
 
 .buttons{
     display: block;
-    padding: 0.35em 1.2em;
+    padding: 0.55em 1.2em;
     width: 50%;
+    height: 3.0em;
     border: 0.1em solid #FFFFFF;
-    margin: 0.5em auto;
+    margin: 1.2em auto;
     border-radius: 0.12em;
     box-sizing: border-box;
     text-decoration: none; /*REMOVES UNDERLINING OF LINKS*/
@@ -45,12 +46,18 @@ body{
     text-align: center;
     transition: all 0.5s;
     text-transform: lowercase;
+    min-width: 212px;
 }
 .buttons:hover{
     columns: #000000;
     background-color: #FFFFFF;
     color: black;
     text-decoration: none;
+}
+
+.landing-page-options{
+    font-size: 1.4em;
+    
 }
 
 /* @media screen and (max-width:576px){
