@@ -2,17 +2,17 @@
 
 <h1 class="text-center">Register</h1>
 <div class="row">
-    <form class="w-75 m-auto"action="/register" method="POST" enctype="multipart/form-data">
+    <form class="w-75 m-auto" action="/register" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="username">Username</label>
             <input class="form-control" id="username" type="text" name="username" required>
         </div>
         <div class="form-row">
-           <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
                 <label for="firstName">First Name</label>
                 <input class="form-control" id="firstName" type="text" name="firstName" required>
-           </div>
-           <div class="form-group col-md-6">
+            </div>
+            <div class="form-group col-md-6">
                 <label for="lastName">Surname</label>
                 <input class="form-control" id="lastName" type="text" name="lastName" required>
             </div>
@@ -24,24 +24,25 @@
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="profession">Profession</label>
-                <input list="select-profession" class="form-control" name="profession" id="profession" placeholder="Click here to select...">
-                    <datalist id="select-profession">
-                        <option>Physiotherapist/Physical Therapist</option>
-                        <option>Occupational Therapist</option>
-                        <option>Biokineticist</option>
-                        <option>None of the above</option>
-                    </datalist>
+                <input list="select-profession" class="form-control" name="profession" id="profession"
+                    placeholder="Click here to select...">
+                <datalist id="select-profession">
+                    <option>Physiotherapist/Physical Therapist</option>
+                    <option>Occupational Therapist</option>
+                    <option>Biokineticist</option>
+                    <option>None of the above</option>
+                </datalist>
             </div>
             <div class="form-group col-md-4">
                 <label for="qualified">Year of Qualification</label>
                 <input list="year-of-graduation" class="form-control" id="qualified" name="graduated" placeholder="">
-                    <datalist id="year-of-graduation">
-                        <option>Student</option>
-                        <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>  
-                        <% for(year=current; year >= start; year--){ %> 
-                            <option><%= year %></option>
-                        <% } %> 
-                    </datalist>
+                <datalist id="year-of-graduation">
+                    <option>Student</option>
+                    <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>
+                    <% for(year=current; year >= start; year--){ %>
+                    <option><%= year %></option>
+                    <% } %>
+                </datalist>
             </div>
         </div>
         <div class="form-group">
@@ -50,7 +51,7 @@
         </div>
         <div class="form-group">
             <label for="image">Profile Picture</label>
-            <input type="file" name="image" id="image" accept="image/*"> 
+            <input type="file" name="image" id="image" accept="image/*">
         </div>
         <div class="form-group">
             <label for="password">Enter Password</label>
@@ -63,27 +64,31 @@
         <div class="hideAlert">
             <p class="alertText">Passwords do not match</p>
         </div>
-        <div class="form-group">    
-            <button class="btn btn-secondary w-100 submit-button disabled" id="registerButton" type="submit" value="Register" disabled>Register</button>
+        <div class="form-group">
+            <button class="btn btn-secondary w-100 submit-button disabled" id="registerButton" type="submit"
+                value="Register" disabled>Register</button>
         </div>
-    </form> 
+    </form>
 </div>
 
 <script src="ejs.min.js"></script>
 <script>
-    const password2 = document.getElementById("password2");  
-    const password = document.getElementById("password"); 
-    password2.addEventListener("keyup", ()=>{ 
-        if(password2.value === password.value){ 
-            document.getElementById("registerButton").className="btn btn-success w-100 submit-button"
-            document.getElementById("registerButton").disabled=false;
+    const password2 = document.getElementById("password2");
+    const password = document.getElementById("password");
+    document.getElementsByTagName("textarea")[0].addEventListener("input propertychange paste", () => {
+        alert("typed");
+    });
+    password2.addEventListener("keyup", () => {
+        if (password2.value === password.value) {
+            document.getElementById("registerButton").className = "btn btn-success w-100 submit-button"
+            document.getElementById("registerButton").disabled = false;
             document.getElementsByClassName("showAlert")[0].setAttribute("class", "hideAlert");
-        } else{
-            document.getElementById("registerButton").className="btn btn-secondary w-100 submit-button disabled"
-            document.getElementById("registerButton").disabled=true;
-            document.getElementsByClassName("hideAlert")[0].setAttribute("class", "showAlert"); 
-        } 
-}); 
+        } else {
+            document.getElementById("registerButton").className = "btn btn-secondary w-100 submit-button disabled"
+            document.getElementById("registerButton").disabled = true;
+            document.getElementsByClassName("hideAlert")[0].setAttribute("class", "showAlert");
+        }
+    }); 
 </script>
 
 <%- include("../partials/footer") %>
