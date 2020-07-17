@@ -37,11 +37,14 @@
                 <label for="qualified">Year of Qualification</label>
                 <input list="year-of-graduation" class="form-control" id="qualified" name="graduated" placeholder="">
                 <datalist id="year-of-graduation">
-                    <option>Student</option>
-                    <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>
-                    <% for(year=current; year >= start; year--){ %>
-                    <option><%= year %></option>
-                    <% } %>
+                    <select>
+                        <option>Student</option>
+                        <% var start = 1950; var current = new Date().getFullYear()-1; var year; %>
+                        <% for(year=current; year >= start; year--){ %>
+                        <option><%= year %></option>
+                        <% } %>
+                    </select>
+
                 </datalist>
             </div>
         </div>
@@ -75,9 +78,6 @@
 <script>
     const password2 = document.getElementById("password2");
     const password = document.getElementById("password");
-    document.getElementsByTagName("textarea")[0].addEventListener("input propertychange paste", () => {
-        alert("typed");
-    });
     password2.addEventListener("keyup", () => {
         if (password2.value === password.value) {
             document.getElementById("registerButton").className = "btn btn-success w-100 submit-button"
