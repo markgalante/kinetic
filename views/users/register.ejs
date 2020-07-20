@@ -89,6 +89,18 @@
             document.getElementById("registerButton").disabled = true;
             document.getElementsByClassName("hideAlert")[0].setAttribute("class", "showAlert");
         }
+    }, false);
+
+    password2.addEventListener("keypress", function(){
+        if (password2.value === password.value) {
+            document.getElementById("registerButton").className = "btn btn-success w-100 submit-button"
+            document.getElementById("registerButton").disabled = false;
+            document.getElementsByClassName("showAlert")[0].setAttribute("class", "hideAlert");
+        } else {
+            document.getElementById("registerButton").className = "btn btn-secondary w-100 submit-button disabled"
+            document.getElementById("registerButton").disabled = true;
+            document.getElementsByClassName("hideAlert")[0].setAttribute("class", "showAlert");
+        }
     }, false); 
 </script>
 
