@@ -91,7 +91,7 @@
         }
     }, false);
 
-    password2.addEventListener("keypress", function(){
+    password2.addEventListener("input", function(){
         if (password2.value === password.value) {
             document.getElementById("registerButton").className = "btn btn-success w-100 submit-button"
             document.getElementById("registerButton").disabled = false;
