@@ -2,6 +2,8 @@
 
 kinetic is an open-source exercise-sharing platform for rehabilitation professionals.
 
+[View website](https://kinetic-rehab-app.herokuapp.com/)
+
 The goals of this application are: 
 <ul>
     <li>Foster networking among rehabilitation professionals.</li>
